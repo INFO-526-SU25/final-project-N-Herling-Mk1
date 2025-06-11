@@ -1,11 +1,11 @@
 ---
-title: "Proposal title"
-subtitle: "Proposal"
+title: "Plumbing the Data:<br>Mapping U.S. Water Insecurity"
+subtitle: "Final project proposal - INFO 526"
 author: 
-  - name: "Team Name - test"
+  - name: "Team: Yashi Mi & Nathan Herling"
     affiliations:
       - name: "School of Information, University of Arizona"
-description: "Project description"
+description: "**Project description**<br>This project explores county-level water insecurity in the U.S. for 2022 and 2023, focusing on access to complete indoor plumbing. Using data from the American Community Survey (ACS), we analyze geographic and demographic patterns across over 850 counties each year. The goal is to identify regional disparities and year-over-year trends to better understand the social factors linked to plumbing access."
 format:
   html:
     code-tools: true
@@ -18,27 +18,283 @@ execute:
   warning: false
 ---
 
+## Packages Setup
+
+<details>
+
+<summary>Installed Packages</summary>
+
 ```{r}
 #| label: load-pkgs
 #| message: false
-library(tidyverse)
+
+# - loading package manager
+if (!require(pacman))
+  install.packages(pacman)
+
+# - loading required packages
+pacman::p_load(tidyverse,
+               here,
+               tibble,
+               gt)
 ```
+
+</details>
 
 ## Dataset
 
 ```{r}
-#| label: load-dataset
+#| label: Water Insecurity
 #| message: false
+# Load water insecurity data from the TidyTuesday project (2025-01-28)
+# This dataset explores social vulnerability and access to complete indoor
+# plumbing across U.S. counties,
+# curated by Niha Pereira and featured in the blog post:
+# "Mapping water insecurity in R with tidycensus"
+# Original data sources include the U.S. Census Bureau (ACS) and the USGS Vizlab’s
+# “Unequal Access to Water” visualization.
+# Repo: 
+# https://github.com/rfordatascience/tidytuesday/tree/main/data/2025/2025-01-28
+water_insecurity_2022 <- read_csv(here("water_insecurity",
+                                       "water_insecurity_2022.csv"))
+water_insecurity_2023 <- read_csv(here("water_insecurity",
+                                       "water_insecurity_2023.csv"))
+glimpse(water_insecurity_2022)
+glimpse(water_insecurity_2023)
+
 ```
 
-A brief description of your dataset including its provenance, dimensions, etc. as well as the reason why you chose this dataset.
+## About the ACS Plumbing Data
 
-Make sure to load the data and use inline code for some of this information.
+For the final project, we selected the U.S. Water Insecurity dataset from TidyTuesday (2025-01-28). The 2022 and 2023 datasets were collected by the U.S. Census Bureau's American Community Survey (ACS). Each dataset provides comprehensive county-level information, including geographic boundaries, population size, the number of households lacking plumbing, and the percentage of the population lacking plumbing facilities.
+
+The two datastes includes the following variables:
+
+-   `geoid`: The U.S. Census Bureau ACS county id.
+
+-   `name`: The U.S. Census Bureau ACS county name.
+
+-   `year`: The year of U.S. Census Bureau ACS sample.
+
+-   `geometry`: The county geographic boundaries.
+
+-   `total_pop`: The total population.
+
+-   `plumbing`: The total owner occupied households lacking plumbing facilities.
+
+-   `percent_lacking_plumbing`: The percent of population lacking plumbing facilities.
+
+## water_insecurity_2022_data
+
+<details>
+
+<summary>Code: Water Insecurity 2022 data analysis</summary>
+
+```{r, echo=TRUE, results='hide'}
+
+# Create summary table
+table1 <- tibble(
+  variable = c(
+    "geoid",
+    "name",
+    "geometry",
+    "year",
+    "total_pop",
+    "plumbing",
+    "percent_lacking_plumbing"
+  ),
+  types = c(
+    "character",
+    "character",
+    "character",
+    "numeric",
+    "numeric",
+    "numeric",
+    "numeric"
+  ),
+  missing_count = c(0, 0, 0, 0, 0, 2, 2),
+  missing_percent = c(0, 0, 0, 0, 0, 0.23585, 0.23585)
+)
+# - format the table with the gt library
+gt_table_1 <- table1 |>
+  gt() |>
+  tab_header(
+    #<--- format as markdown
+    title = md("Table 1: Variable Summary `water_insecurity_2022_dat`") #<--- format as markdown
+  ) |>
+  fmt(
+    columns = missing_percent,
+    fns = function(x) paste0(formatC(x, format = "f", digits = 3), " %")
+  ) |>
+  cols_label(
+    variable = "Variable Name",
+    types = "Type",
+    missing_count = "Missing Count",
+    missing_percent = "Missing (%)"
+  ) |>
+  tab_style(
+    style = cell_text(weight = "bold", align = "center"),
+    locations = cells_column_labels(everything())
+  ) |>
+  tab_style(style = cell_text(align = "center"),
+            locations = cells_body(everything())) |> 
+  tab_options(
+    table.font.size = "small",
+    column_labels.font.size = "medium",
+    table.width = pct(100)     # <-- full width of container
+  )
+```
+
+</details>
+
+```{r, echo=FALSE}
+# Now render the table by printing the gt object
+gt_table_1
+```
+
+## water_insecurity_2023_data
+
+<details>
+
+<summary>Code: Water Insecurity 2023 data analysis</summary>
+
+```{r}
+# - manually create a table..
+table2 <- tibble(
+  variable = c(
+    "geoid",
+    "name",
+    "geometry",
+    "year",
+    "total_pop",
+    "plumbing",
+    "percent_lacking_plumbing"
+  ),
+  types = c(
+    "character",
+    "character",
+    "character",
+    "numeric",
+    "numeric",
+    "numeric",
+    "numeric"
+  ),
+  missing_count = c(0, 0, 0, 0, 0, 1, 1),
+  missing_percent = c(0, 0, 0, 0, 0, 0.1171, 0.1171)
+)
+# - format the table with the gt library
+gt_table_2 <- table2 |>
+  gt() |>
+  tab_header(
+    #<--- format as markdown
+    title = md("Table 2: Variable Summary `water_insecurity_2023_dat`") 
+  ) |>
+  fmt(
+    columns = missing_percent,
+    fns = function(x)
+      paste0(formatC(x, format = "f", digits = 3), " %")
+  ) |>
+  cols_label(
+    variable = "Variable Name",
+    types = "Type",
+    missing_count = "Missing Count",
+    missing_percent = "Missing (%)"
+  ) |>
+  tab_style(
+    style = cell_text(weight = "bold", align = "center"),
+    locations = cells_column_labels(everything())
+  ) |>
+  tab_style(style = cell_text(align = "center"),
+            locations = cells_body(everything())) |>
+  tab_options(
+    table.font.size = "small",
+    column_labels.font.size = "medium",
+    table.width = pct(100)     # <-- full width of container
+  )
+```
+
+</details>
+
+```{r, echo=FALSE}
+# Now render the table by printing the gt object
+gt_table_2
+```
+
+## Synopsis of data quality:
+
+These two datasets contain data on the lack of complete indoor plumbing in U.S. counties for the years 2022 and 2023. The 2022 dataset includes information from 848 counties, while the 2023 dataset includes 854 counties. It should be noted that the disparity in the number of counties is entirely due to increased reporting between 2022 and 2023. Each dataset contains seven variables: geoid, name, geometry, year, total_pop, plumbing, percent_lacking_plumbing. The columns plumbing and percent_lacking_plumbing have a small number of missing values—less than 0.3%—which does not significantly impact the overall analysis.
+
+## Why we chose this data-set:
+
+We chose this dataset because water insecurity is a critical public health issue that may be influenced by various social vulnerability indicators. The data, sourced from the American Community Survey (ACS), provides county-level information on indoor plumbing insecurity for both 2022 and 2023. Since it covers multiple counties and spans two years, it is well-suited for analyzing year-over-year trends and regional disparities across the U.S. Improved water security can lead to reduced disease transmission, better hygiene, and overall improvements in quality of life. Additionally, the dataset is clean, complete, well-documented, and ideal for collaborative analysis and visualization.
 
 ## Questions
 
-The two questions you want to answer.
+`Note:` While water insecurity encompasses a range of issues, our analysis specifically focuses on plumbing insecurity, as reported in 2022 and 2023.
+
+<b>The two questions to be answered are:</b><br> <b>Question 1:</b> Top counties had the highest plumbing insecurity in 2022 and 2023.
+
+<b>Question 2:</b> How did the plumbing insecurity change from 2022 to 2023 across U.S. counties, and where do significant spatial clusters (hotspots and coldspots) of worsening or improving plumbing access exist?
 
 ## Analysis plan
 
--   A plan for answering each of the questions including the variables involved, variables to be created (if any), external data to be merged in (if any).
+The following are the approaches we will be using for each question.
+
+## Approach for question 1
+
+We want to visualize which U.S. counties experienced the highest level of plumbing insecurity in 2022 and 2023. To represent the available data best, we will be creating bar graphs showing the top 10 counties with the highest percentages of households lacking complete indoor plumbing for each year. The comparison of the plot will be done for each individual year to highlight the most affected regions in the U.S. Additionally, we will identify the counties that experienced the greatest increase in plumbing insecurity between 2022 and 2023.
+
+We will clean the data using dplyr package by filtering and selecting the required variables for the analysis, including name, percent_lacking_plumbing, and year. We will sort the counties in descending order of percent_lacking_plumbing for each year. These subsets will then be combined into a single dataset for visualization. We will also compute the change in percent_lacking_plumbing for each county between 2023 and 2022 to determine which counties experienced the greatest increases.\
+\
+To visualize the results, we will use geom_col() from ggplot2 package to create bar graphs, showing comparison between 2022 and 2023 using facet separation and the top 10 counties with the greatest increase in plumbing insecurity from 2022 to 2023.These plots will allow us to address our first research question by identifying the top 10 counties with plumbing insecurity in the U.S between 2022 and 2023 and the counties that experienced the greatest increase in plumbing insecurity between these two years.
+
+## Approach for question 2
+
+We aim to identify and visualize spatial clusters of U.S. counties that experienced significant improvement or worsening in plumbing access between 2022 and 2023. Our goal is to reveal where changes in infrastructure equity are concentrated, rather than occurring randomly across the country. To do this, we will create a color-coded choropleth map representing hotspots (regions of worsening) and coldspots (regions of improvement) in the percentage of households lacking complete plumbing facilities.
+
+Before analysis, we will clean and filter the data using the dplyr package to ensure consistency between the two years. Rows with missing percent_lacking_plumbing values will be removed to ensure accurate change calculations. Since the 2023 dataset includes additional counties not present in 2022, we will exclude these newly added counties, as we cannot calculate change for them. Only counties with valid data for both 2022 and 2023 will be retained, and we will compute the difference in percent_lacking_plumbing to measure change.
+
+To detect spatial clusters of change, we will use the Getis-Ord G\* (Local G\*) statistic via the spdep package. This analysis will classify each county based on whether it is part of a statistically significant cluster of improvement or decline. Counties will be labeled as hotspots (worsening), coldspots (improving), or not significant, depending on the spatial pattern of their change values. The results will be visualized using tmap to create a choropleth map, helping us understand where in the U.S. plumbing access is improving or deteriorating in a geographically meaningful way.
+
+## Variables examined per question
+
+```{r, echo=FALSE}
+
+gt_table_3 <- data.frame(
+  Variables = c("geoid", "name", "year", "geometry", 
+                "total_pop", "plumbing", "percent_lacking_plumbing"),
+  Q1 = c("-", "X", "X", "-", "-", "-", "X"), 
+  Q2 = c("X", "X", "X", "X", "-", "-", "X")
+)
+
+gt_table_3 |>
+  gt() |>
+  tab_header(
+    title = "Table 3: Summary of Variables Examined by Research Question"
+  ) |>
+  cols_label(
+    Variables = "Variables",
+    Q1 = "Q1",
+    Q2 = "Q2"
+  ) |>
+  cols_align(
+    align = "left",
+    columns = vars(Variables)
+  ) |>
+  tab_options(
+    table.width = pct(100)
+  )
+```
+
+::: callout-note
+**Note:** Current Proposal 1.0.0. Subject to change.<br> (version.feature.patch notation)
+:::
+
+```{css echo=FALSE}
+.callout-note {
+  background-color: #d4f0dc; /* light emerald green */
+  border-left: 5px solid #2ecc71; /* darker emerald green accent */
+  padding: 1em 1.2em;
+  border-radius: 5px;
+}
+```
