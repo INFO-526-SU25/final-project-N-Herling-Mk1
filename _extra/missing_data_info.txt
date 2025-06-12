@@ -1,0 +1,10 @@
+2022 Data Missing Percentage: 0.0674 %
+  row                      col                        name
+1 427                 plumbing Lafourche Parish, Louisiana
+2 564                 plumbing      Bartow County, Georgia
+3 427 percent_lacking_plumbing Lafourche Parish, Louisiana
+4 564 percent_lacking_plumbing      Bartow County, Georgia
+2023 Data Missing Percentage: 0.0335 %
+  row                      col                   name
+1  52                 plumbing Harrison County, Texas
+2  52 percent_lacking_plumbing Harrison County, Texas

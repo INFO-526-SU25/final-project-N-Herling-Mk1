@@ -1,0 +1,20 @@
+abc638d Nathan Herling 2025-06-10 addressing q1 analysis changes_v2
+4ff9728 Nathan Herling 2025-06-10 addressing q1 analysis changes
+56d678e Nathan Herling 2025-06-09 cleaning up some sh*t
+b03b86f Nathan Herling 2025-06-09 Save changes to __state_count_stats_by_year.xlsx before switching branches
+665143a Nathan Herling 2025-06-09 proposal finished!
+f2b2355 Nathan Herling 2025-06-09 added table, addressed issues
+da2739b Nathan Herling 2025-06-08 Final version to edit_*ToDo_N's problem analysis
+2157930 Nathan Herling 2025-06-07 working on getting addy census data - #ToDo finish problem statement
+5e49c9d Nathan Herling 2025-06-07 formatting complete - #todo problem synopsis
+0f7685f Nathan Herling 2025-06-07 formatting complete - todo proglem synopsis
+be6950c Nathan Herling 2025-06-07 formatting suggestions complete
+9538e4a Nathan Herling 2025-06-07 recording some progress
+c8a9d74 Nathan Herling 2025-06-06 test_with_branch
+cf72578 Yashi Mi 2025-06-05 Update proposal draft
+393fb5f Yashi Mi 2025-06-04 Update proposal draft
+03054c2 Yashi Mi 2025-06-03 Add water insecurity data
+4c38618 Yashi Mi 2025-06-03 Add water insecurity datas
+57cab58 Yashi Mi 2025-06-03 test2
+854bc0b Nathan Herling 2025-06-03 test_1
+d53d99a Greg T. Chism 2025-05-05 Initial commit

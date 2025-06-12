@@ -1,12 +1,17 @@
 project:
   type: website
+  resources:
+    - images
 
 website:
   title: Project Title
+  description: "Project for INFO 526 - Data Visualization and Analysis at The University of Arizona, Summer 2025."
+  #site-url: "https://datavizaz-su24.netlify.app/"
+  favicon: /images/water_drop_4.png
   navbar:
     right:
       - icon: github
-        href: https://github.com/INFO-526-SU24/project-01 # Needs to be changed to your project repo
+        href: https://github.com/N-Herling-Mk1/project-final # Needs to be changed to your project repo
     left:
       - text: Project
         href: index.qmd
@@ -27,3 +32,4 @@ format:
 
 execute:
   freeze: auto
+

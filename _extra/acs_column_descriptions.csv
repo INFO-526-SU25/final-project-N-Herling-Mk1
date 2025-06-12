@@ -1,0 +1,25 @@
+column_name,description
+GEOID,"Geographic identifier (e.g., FIPS code for county)"
+NAME,Name of the county/region
+total_popE,Estimated total population
+total_popM,Margin of error for total population
+median_incomeE,Median household income
+median_incomeM,Margin of error for median income
+whiteE,White alone population
+whiteM,Margin of error for white population
+blackE,Black or African American alone population
+blackM,Margin of error for black population
+native_americanE,American Indian and Alaska Native alone population
+native_americanM,Margin of error for native population
+asianE,Asian alone population
+asianM,Margin of error for asian population
+pacific_islanderE,Native Hawaiian or Pacific Islander alone population
+pacific_islanderM,Margin of error for pacific islander population
+other_raceE,Some other race alone population
+other_raceM,Margin of error for other race
+two_or_moreE,Two or more races population
+two_or_moreM,Margin of error for two or more races
+hispanicE,Hispanic or Latino (any race) population
+hispanicM,Margin of error for Hispanic population
+age_medianE,Median age
+age_medianM,Margin of error for median age
