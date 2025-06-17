@@ -1,0 +1,205 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Project Title",
+    "section": "",
+    "text": "Add project abstract here."
+  },
+  {
+    "objectID": "index.html#abstract",
+    "href": "index.html#abstract",
+    "title": "Project Title",
+    "section": "",
+    "text": "Add project abstract here."
+  },
+  {
+    "objectID": "Water_insecurity/readme.html",
+    "href": "Water_insecurity/readme.html",
+    "title": "Water Insecurity",
+    "section": "",
+    "text": "This week we’re exploring water insecurity data featured in the article Mapping water insecurity in R with tidycensus!\n\nWater insecurity can be influenced by number of social vulnerability indicators—from demographic characteristics to living conditions and socioeconomic status —that vary spatially across the U.S. This blog shows how the tidycensus package for R can be used to access U.S. Census Bureau data, including the American Community Surveys, as featured in the “Unequal Access to Water” data visualization from the USGS Vizlab. It offers reproducible code examples demonstrating use of tidycensus for easy exploration and visualization of social vulnerability indicators in the Western U.S.\n\n\nHow does the lack of complete indoor plumbing compare between the 2023 and 2022 Census data?\nWhat counties have the greatest percent of households lacking plumbing?\nAre there differences in indoor plumbing availability between Western U.S and Eastern U.S counties?\n\nThank you to Niha Pereira for curating this week’s dataset.\n\n\n# Option 1: tidytuesdayR package \n## install.packages(\"tidytuesdayR\")\n\ntuesdata &lt;- tidytuesdayR::tt_load('2025-01-28')\n## OR\ntuesdata &lt;- tidytuesdayR::tt_load(2025, week = 4)\n\nwater_insecurity_2022 &lt;- tuesdata$water_insecurity_2022\nwater_insecurity_2023 &lt;- tuesdata$water_insecurity_2023\n\n# Option 2: Read directly from GitHub\n\nwater_insecurity_2022 &lt;- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2025/2025-01-28/water_insecurity_2022.csv')\nwater_insecurity_2023 &lt;- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2025/2025-01-28/water_insecurity_2023.csv')\n\n# The geometry columns are saved as text with the code to reproduce them.\nwater_insecurity_2022 &lt;- water_insecurity_2022 |&gt; \n  dplyr::mutate(\n    geometry = purrr::map(geometry, \\(geo) {\n      eval(parse(text = geo))\n    } )\n  )\nwater_insecurity_2023 &lt;- water_insecurity_2023 |&gt; \n  dplyr::mutate(\n    geometry = purrr::map(geometry, \\(geo) {\n      eval(parse(text = geo))\n    } )\n  )\n\n\n\n\nExplore the data, watching out for interesting relationships. We would like to emphasize that you should not draw conclusions about causation in the data. There are various moderating variables that affect all data, many of which might not have been captured in these datasets. As such, our suggestion is to use the data provided to practice your data tidying and plotting techniques, and to consider for yourself what nuances might underlie these relationships.\nCreate a visualization, a model, a shiny app, or some other piece of data-science-related output, using R or another programming language.\nShare your output and the code used to generate it on social media with the #TidyTuesday hashtag.\nSubmit your own dataset!"
+  },
+  {
+    "objectID": "Water_insecurity/readme.html#the-data",
+    "href": "Water_insecurity/readme.html#the-data",
+    "title": "Water Insecurity",
+    "section": "",
+    "text": "# Option 1: tidytuesdayR package \n## install.packages(\"tidytuesdayR\")\n\ntuesdata &lt;- tidytuesdayR::tt_load('2025-01-28')\n## OR\ntuesdata &lt;- tidytuesdayR::tt_load(2025, week = 4)\n\nwater_insecurity_2022 &lt;- tuesdata$water_insecurity_2022\nwater_insecurity_2023 &lt;- tuesdata$water_insecurity_2023\n\n# Option 2: Read directly from GitHub\n\nwater_insecurity_2022 &lt;- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2025/2025-01-28/water_insecurity_2022.csv')\nwater_insecurity_2023 &lt;- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2025/2025-01-28/water_insecurity_2023.csv')\n\n# The geometry columns are saved as text with the code to reproduce them.\nwater_insecurity_2022 &lt;- water_insecurity_2022 |&gt; \n  dplyr::mutate(\n    geometry = purrr::map(geometry, \\(geo) {\n      eval(parse(text = geo))\n    } )\n  )\nwater_insecurity_2023 &lt;- water_insecurity_2023 |&gt; \n  dplyr::mutate(\n    geometry = purrr::map(geometry, \\(geo) {\n      eval(parse(text = geo))\n    } )\n  )"
+  },
+  {
+    "objectID": "Water_insecurity/readme.html#how-to-participate",
+    "href": "Water_insecurity/readme.html#how-to-participate",
+    "title": "Water Insecurity",
+    "section": "",
+    "text": "Explore the data, watching out for interesting relationships. We would like to emphasize that you should not draw conclusions about causation in the data. There are various moderating variables that affect all data, many of which might not have been captured in these datasets. As such, our suggestion is to use the data provided to practice your data tidying and plotting techniques, and to consider for yourself what nuances might underlie these relationships.\nCreate a visualization, a model, a shiny app, or some other piece of data-science-related output, using R or another programming language.\nShare your output and the code used to generate it on social media with the #TidyTuesday hashtag.\nSubmit your own dataset!"
+  },
+  {
+    "objectID": "presentation.html",
+    "href": "presentation.html",
+    "title": "Project title",
+    "section": "",
+    "text": "The presentation is created using the Quarto CLI\n## sets the start of a new slide\n\n\n\n\nYou can use plain text\n\n\n\nor bullet points1\n\n\nor in two columns\n\n\n\nlike\nthis\n\n\n\n\n\n\n# A tibble: 2 × 5\n  term        estimate std.error statistic       p.value\n  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;         &lt;dbl&gt;\n1 (Intercept)   25.3      3.08        8.22 0.00000000358\n2 speed         -0.116    0.0642     -1.81 0.0806       \n\n\n# A tibble: 1 × 12\n  r.squared adj.r.squared sigma statistic p.value    df logLik   AIC   BIC\n      &lt;dbl&gt;         &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;\n1    0.0983        0.0682  5.82      3.27  0.0806     1  -101.  207.  212.\n# ℹ 3 more variables: deviance &lt;dbl&gt;, df.residual &lt;int&gt;, nobs &lt;int&gt;\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nSome text\ngoes here"
+  },
+  {
+    "objectID": "presentation.html#quarto",
+    "href": "presentation.html#quarto",
+    "title": "Project title",
+    "section": "",
+    "text": "The presentation is created using the Quarto CLI\n## sets the start of a new slide"
+  },
+  {
+    "objectID": "presentation.html#layouts",
+    "href": "presentation.html#layouts",
+    "title": "Project title",
+    "section": "",
+    "text": "You can use plain text\n\n\n\nor bullet points1\n\n\nor in two columns\n\n\n\nlike\nthis"
+  },
+  {
+    "objectID": "presentation.html#code",
+    "href": "presentation.html#code",
+    "title": "Project title",
+    "section": "",
+    "text": "# A tibble: 2 × 5\n  term        estimate std.error statistic       p.value\n  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;         &lt;dbl&gt;\n1 (Intercept)   25.3      3.08        8.22 0.00000000358\n2 speed         -0.116    0.0642     -1.81 0.0806       \n\n\n# A tibble: 1 × 12\n  r.squared adj.r.squared sigma statistic p.value    df logLik   AIC   BIC\n      &lt;dbl&gt;         &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;\n1    0.0983        0.0682  5.82      3.27  0.0806     1  -101.  207.  212.\n# ℹ 3 more variables: deviance &lt;dbl&gt;, df.residual &lt;int&gt;, nobs &lt;int&gt;"
+  },
+  {
+    "objectID": "presentation.html#plot-and-text",
+    "href": "presentation.html#plot-and-text",
+    "title": "Project title",
+    "section": "",
+    "text": "Some text\ngoes here"
+  },
+  {
+    "objectID": "presentation.html#tables",
+    "href": "presentation.html#tables",
+    "title": "Project title",
+    "section": "Tables",
+    "text": "Tables\nIf you want to generate a table, make sure it is in the HTML format (instead of Markdown or other formats), e.g.,\n\n\n\n\n\nspecies\nisland\nbill_length_mm\nbill_depth_mm\nflipper_length_mm\nbody_mass_g\nsex\n\n\n\n\nAdelie\nTorgersen\n39.1\n18.7\n181\n3750\nmale\n\n\nAdelie\nTorgersen\n39.5\n17.4\n186\n3800\nfemale\n\n\nAdelie\nTorgersen\n40.3\n18.0\n195\n3250\nfemale\n\n\nAdelie\nTorgersen\nNA\nNA\nNA\nNA\nNA\n\n\nAdelie\nTorgersen\n36.7\n19.3\n193\n3450\nfemale\n\n\nAdelie\nTorgersen\n39.3\n20.6\n190\n3650\nmale"
+  },
+  {
+    "objectID": "presentation.html#images",
+    "href": "presentation.html#images",
+    "title": "Project title",
+    "section": "Images",
+    "text": "Images\n\n\n\nImage credit: Danielle Navarro, Percolate."
+  },
+  {
+    "objectID": "presentation.html#math-expressions",
+    "href": "presentation.html#math-expressions",
+    "title": "Project title",
+    "section": "Math Expressions",
+    "text": "Math Expressions\nYou can write LaTeX math expressions inside a pair of dollar signs, e.g. $\\alpha+\\beta$ renders \\(\\alpha + \\beta\\). You can use the display style with double dollar signs:\n$$\\bar{X}=\\frac{1}{n}\\sum_{i=1}^nX_i$$\n\\[\n\\bar{X}=\\frac{1}{n}\\sum_{i=1}^nX_i\n\\]\nLimitations:\n\nThe source code of a LaTeX math expression must be in one line, unless it is inside a pair of double dollar signs, in which case the starting $$ must appear in the very beginning of a line, followed immediately by a non-space character, and the ending $$ must be at the end of a line, led by a non-space character;\nThere should not be spaces after the opening $ or before the closing $."
+  },
+  {
+    "objectID": "presentation.html#feeling-adventurous",
+    "href": "presentation.html#feeling-adventurous",
+    "title": "Project title",
+    "section": "Feeling adventurous?",
+    "text": "Feeling adventurous?\n\nYou are welcomed to use the default styling of the slides. In fact, that’s what I expect majority of you will do. You will differentiate yourself with the content of your presentation.\nBut some of you might want to play around with slide styling. Some solutions for this can be found at https://quarto.org/docs/presentations/revealjs."
+  },
+  {
+    "objectID": "presentation.html#footnotes",
+    "href": "presentation.html#footnotes",
+    "title": "Project title",
+    "section": "Footnotes",
+    "text": "Footnotes\n\n\nAnd add footnotes↩︎"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "This project was developed by [Team Name] For INFO 526 - Data Analysis and Visualization at the University of Arizona, taught by Dr. Greg Chism. The team is comprised of the following team members.\n\nTeam member 1: One sentence description of Team member 1 (e.g., year, major, etc.).\nTeam member 2: One sentence description of Team member 2 (e.g., year, major, etc.).\nTeam member 3: One sentence description of Team member 3 (e.g., year, major, etc.).\nTeam member 4: One sentence description of Team member 4 (e.g., year, major, etc.)."
+  },
+  {
+    "objectID": "proposal.html",
+    "href": "proposal.html",
+    "title": "Plumbing the Data:Mapping U.S. Water Insecurity",
+    "section": "",
+    "text": "Installed Packages\n\n\n# - loading package manager\nif (!require(pacman))\n  install.packages(pacman)\n\n# - loading required packages\npacman::p_load(tidyverse,\n               here,\n               tibble,\n               gt)"
+  },
+  {
+    "objectID": "proposal.html#packages-setup",
+    "href": "proposal.html#packages-setup",
+    "title": "Plumbing the Data:Mapping U.S. Water Insecurity",
+    "section": "",
+    "text": "Installed Packages\n\n\n# - loading package manager\nif (!require(pacman))\n  install.packages(pacman)\n\n# - loading required packages\npacman::p_load(tidyverse,\n               here,\n               tibble,\n               gt)"
+  },
+  {
+    "objectID": "proposal.html#dataset",
+    "href": "proposal.html#dataset",
+    "title": "Plumbing the Data:Mapping U.S. Water Insecurity",
+    "section": "Dataset",
+    "text": "Dataset\n\n# Load water insecurity data from the TidyTuesday project (2025-01-28)\n# This dataset explores social vulnerability and access to complete indoor\n# plumbing across U.S. counties,\n# curated by Niha Pereira and featured in the blog post:\n# \"Mapping water insecurity in R with tidycensus\"\n# Original data sources include the U.S. Census Bureau (ACS) and the USGS Vizlab’s\n# “Unequal Access to Water” visualization.\n# Repo: \n# https://github.com/rfordatascience/tidytuesday/tree/main/data/2025/2025-01-28\nwater_insecurity_2022 &lt;- read_csv(here(\"water_insecurity\",\n                                       \"water_insecurity_2022.csv\"))\nwater_insecurity_2023 &lt;- read_csv(here(\"water_insecurity\",\n                                       \"water_insecurity_2023.csv\"))\nglimpse(water_insecurity_2022)\n\nRows: 848\nColumns: 7\n$ geoid                    &lt;chr&gt; \"01069\", \"04001\", \"06037\", \"06097\", \"06001\", …\n$ name                     &lt;chr&gt; \"Houston County, Alabama\", \"Apache County, Ar…\n$ year                     &lt;dbl&gt; 2022, 2022, 2022, 2022, 2022, 2022, 2022, 202…\n$ geometry                 &lt;chr&gt; \"list(list(c(975267.980555021, 975512.9445474…\n$ total_pop                &lt;dbl&gt; 108079, 65432, 9721138, 482650, 1628997, 8978…\n$ plumbing                 &lt;dbl&gt; 93, 2440, 6195, 148, 808, 18, 128, 0, 123, 13…\n$ percent_lacking_plumbing &lt;dbl&gt; 0.08604817, 3.72906223, 0.06372711, 0.0306640…\n\nglimpse(water_insecurity_2023)\n\nRows: 854\nColumns: 7\n$ geoid                    &lt;chr&gt; \"01003\", \"01069\", \"06037\", \"06087\", \"06097\", …\n$ name                     &lt;chr&gt; \"Baldwin County, Alabama\", \"Houston County, A…\n$ year                     &lt;dbl&gt; 2023, 2023, 2023, 2023, 2023, 2023, 2023, 202…\n$ geometry                 &lt;chr&gt; \"list(list(c(765297.99052762, 765703.76567671…\n$ total_pop                &lt;dbl&gt; 253507, 108462, 9663345, 261547, 481812, 1155…\n$ plumbing                 &lt;dbl&gt; 271, 30, 5248, 187, 308, 517, 4, 198, 1269, 8…\n$ percent_lacking_plumbing &lt;dbl&gt; 0.106900401, 0.027659457, 0.054308317, 0.0714…"
+  },
+  {
+    "objectID": "proposal.html#about-the-acs-plumbing-data",
+    "href": "proposal.html#about-the-acs-plumbing-data",
+    "title": "Plumbing the Data:Mapping U.S. Water Insecurity",
+    "section": "About the ACS Plumbing Data",
+    "text": "About the ACS Plumbing Data\nFor the final project, we selected the U.S. Water Insecurity dataset from TidyTuesday (2025-01-28). The 2022 and 2023 datasets were collected by the U.S. Census Bureau’s American Community Survey (ACS). Each dataset provides comprehensive county-level information, including geographic boundaries, population size, the number of households lacking plumbing, and the percentage of the population lacking plumbing facilities.\nThe two datastes includes the following variables:\n\ngeoid: The U.S. Census Bureau ACS county id.\nname: The U.S. Census Bureau ACS county name.\nyear: The year of U.S. Census Bureau ACS sample.\ngeometry: The county geographic boundaries.\ntotal_pop: The total population.\nplumbing: The total owner occupied households lacking plumbing facilities.\npercent_lacking_plumbing: The percent of population lacking plumbing facilities."
+  },
+  {
+    "objectID": "proposal.html#water_insecurity_2022_data",
+    "href": "proposal.html#water_insecurity_2022_data",
+    "title": "Plumbing the Data:Mapping U.S. Water Insecurity",
+    "section": "water_insecurity_2022_data",
+    "text": "water_insecurity_2022_data\n\n\nCode: Water Insecurity 2022 data analysis\n\n\n# Create summary table\ntable1 &lt;- tibble(\n  variable = c(\n    \"geoid\",\n    \"name\",\n    \"geometry\",\n    \"year\",\n    \"total_pop\",\n    \"plumbing\",\n    \"percent_lacking_plumbing\"\n  ),\n  types = c(\n    \"character\",\n    \"character\",\n    \"character\",\n    \"numeric\",\n    \"numeric\",\n    \"numeric\",\n    \"numeric\"\n  ),\n  missing_count = c(0, 0, 0, 0, 0, 2, 2),\n  missing_percent = c(0, 0, 0, 0, 0, 0.23585, 0.23585)\n)\n# - format the table with the gt library\ngt_table_1 &lt;- table1 |&gt;\n  gt() |&gt;\n  tab_header(\n    #&lt;--- format as markdown\n    title = md(\"Table 1: Variable Summary `water_insecurity_2022_dat`\") #&lt;--- format as markdown\n  ) |&gt;\n  fmt(\n    columns = missing_percent,\n    fns = function(x) paste0(formatC(x, format = \"f\", digits = 3), \" %\")\n  ) |&gt;\n  cols_label(\n    variable = \"Variable Name\",\n    types = \"Type\",\n    missing_count = \"Missing Count\",\n    missing_percent = \"Missing (%)\"\n  ) |&gt;\n  tab_style(\n    style = cell_text(weight = \"bold\", align = \"center\"),\n    locations = cells_column_labels(everything())\n  ) |&gt;\n  tab_style(style = cell_text(align = \"center\"),\n            locations = cells_body(everything())) |&gt; \n  tab_options(\n    table.font.size = \"small\",\n    column_labels.font.size = \"medium\",\n    table.width = pct(100)     # &lt;-- full width of container\n  )\n\n\n\n\n\n\n\n\n\n\nTable 1: Variable Summary water_insecurity_2022_dat\n\n\nVariable Name\nType\nMissing Count\nMissing (%)\n\n\n\n\ngeoid\ncharacter\n0\n0.000 %\n\n\nname\ncharacter\n0\n0.000 %\n\n\ngeometry\ncharacter\n0\n0.000 %\n\n\nyear\nnumeric\n0\n0.000 %\n\n\ntotal_pop\nnumeric\n0\n0.000 %\n\n\nplumbing\nnumeric\n2\n0.236 %\n\n\npercent_lacking_plumbing\nnumeric\n2\n0.236 %"
+  },
+  {
+    "objectID": "proposal.html#water_insecurity_2023_data",
+    "href": "proposal.html#water_insecurity_2023_data",
+    "title": "Plumbing the Data:Mapping U.S. Water Insecurity",
+    "section": "water_insecurity_2023_data",
+    "text": "water_insecurity_2023_data\n\n\nCode: Water Insecurity 2023 data analysis\n\n\n# - manually create a table..\ntable2 &lt;- tibble(\n  variable = c(\n    \"geoid\",\n    \"name\",\n    \"geometry\",\n    \"year\",\n    \"total_pop\",\n    \"plumbing\",\n    \"percent_lacking_plumbing\"\n  ),\n  types = c(\n    \"character\",\n    \"character\",\n    \"character\",\n    \"numeric\",\n    \"numeric\",\n    \"numeric\",\n    \"numeric\"\n  ),\n  missing_count = c(0, 0, 0, 0, 0, 1, 1),\n  missing_percent = c(0, 0, 0, 0, 0, 0.1171, 0.1171)\n)\n# - format the table with the gt library\ngt_table_2 &lt;- table2 |&gt;\n  gt() |&gt;\n  tab_header(\n    #&lt;--- format as markdown\n    title = md(\"Table 2: Variable Summary `water_insecurity_2023_dat`\") \n  ) |&gt;\n  fmt(\n    columns = missing_percent,\n    fns = function(x)\n      paste0(formatC(x, format = \"f\", digits = 3), \" %\")\n  ) |&gt;\n  cols_label(\n    variable = \"Variable Name\",\n    types = \"Type\",\n    missing_count = \"Missing Count\",\n    missing_percent = \"Missing (%)\"\n  ) |&gt;\n  tab_style(\n    style = cell_text(weight = \"bold\", align = \"center\"),\n    locations = cells_column_labels(everything())\n  ) |&gt;\n  tab_style(style = cell_text(align = \"center\"),\n            locations = cells_body(everything())) |&gt;\n  tab_options(\n    table.font.size = \"small\",\n    column_labels.font.size = \"medium\",\n    table.width = pct(100)     # &lt;-- full width of container\n  )\n\n\n\n\n\n\n\n\n\n\nTable 2: Variable Summary water_insecurity_2023_dat\n\n\nVariable Name\nType\nMissing Count\nMissing (%)\n\n\n\n\ngeoid\ncharacter\n0\n0.000 %\n\n\nname\ncharacter\n0\n0.000 %\n\n\ngeometry\ncharacter\n0\n0.000 %\n\n\nyear\nnumeric\n0\n0.000 %\n\n\ntotal_pop\nnumeric\n0\n0.000 %\n\n\nplumbing\nnumeric\n1\n0.117 %\n\n\npercent_lacking_plumbing\nnumeric\n1\n0.117 %"
+  },
+  {
+    "objectID": "proposal.html#synopsis-of-data-quality",
+    "href": "proposal.html#synopsis-of-data-quality",
+    "title": "Plumbing the Data:Mapping U.S. Water Insecurity",
+    "section": "Synopsis of data quality:",
+    "text": "Synopsis of data quality:\nThese two datasets contain data on the lack of complete indoor plumbing in U.S. counties for the years 2022 and 2023. The 2022 dataset includes information from 848 counties, while the 2023 dataset includes 854 counties. It should be noted that the disparity in the number of counties is entirely due to increased reporting between 2022 and 2023. Each dataset contains seven variables: geoid, name, geometry, year, total_pop, plumbing, percent_lacking_plumbing. The columns plumbing and percent_lacking_plumbing have a small number of missing values—less than 0.3%—which does not significantly impact the overall analysis."
+  },
+  {
+    "objectID": "proposal.html#why-we-chose-this-data-set",
+    "href": "proposal.html#why-we-chose-this-data-set",
+    "title": "Plumbing the Data:Mapping U.S. Water Insecurity",
+    "section": "Why we chose this data-set:",
+    "text": "Why we chose this data-set:\nWe chose this dataset because water insecurity is a critical public health issue that may be influenced by various social vulnerability indicators. The data, sourced from the American Community Survey (ACS), provides county-level information on indoor plumbing insecurity for both 2022 and 2023. Since it covers multiple counties and spans two years, it is well-suited for analyzing year-over-year trends and regional disparities across the U.S. Improved water security can lead to reduced disease transmission, better hygiene, and overall improvements in quality of life. Additionally, the dataset is clean, complete, well-documented, and ideal for collaborative analysis and visualization."
+  },
+  {
+    "objectID": "proposal.html#questions",
+    "href": "proposal.html#questions",
+    "title": "Plumbing the Data:Mapping U.S. Water Insecurity",
+    "section": "Questions",
+    "text": "Questions\nNote: While water insecurity encompasses a range of issues, our analysis specifically focuses on plumbing insecurity, as reported in 2022 and 2023.\nThe two questions to be answered are: Question 1: Top counties had the highest plumbing insecurity in 2022 and 2023.\nQuestion 2: How did the plumbing insecurity change from 2022 to 2023 across U.S. counties, and where do significant spatial clusters (hotspots and coldspots) of worsening or improving plumbing access exist?"
+  },
+  {
+    "objectID": "proposal.html#analysis-plan",
+    "href": "proposal.html#analysis-plan",
+    "title": "Plumbing the Data:Mapping U.S. Water Insecurity",
+    "section": "Analysis plan",
+    "text": "Analysis plan\nThe following are the approaches we will be using for each question."
+  },
+  {
+    "objectID": "proposal.html#approach-for-question-1",
+    "href": "proposal.html#approach-for-question-1",
+    "title": "Plumbing the Data:Mapping U.S. Water Insecurity",
+    "section": "Approach for question 1",
+    "text": "Approach for question 1\nWe want to visualize which U.S. counties experienced the highest level of plumbing insecurity in 2022 and 2023. To represent the available data best, we will be creating bar graphs showing the top 10 counties with the highest percentages of households lacking complete indoor plumbing for each year. The comparison of the plot will be done for each individual year to highlight the most affected regions in the U.S. Additionally, we will identify the counties that experienced the greatest increase in plumbing insecurity between 2022 and 2023.\nWe will clean the data using dplyr package by filtering and selecting the required variables for the analysis, including name, percent_lacking_plumbing, and year. We will sort the counties in descending order of percent_lacking_plumbing for each year. These subsets will then be combined into a single dataset for visualization. We will also compute the change in percent_lacking_plumbing for each county between 2023 and 2022 to determine which counties experienced the greatest increases.\n\nTo visualize the results, we will use geom_col() from ggplot2 package to create bar graphs, showing comparison between 2022 and 2023 using facet separation and the top 10 counties with the greatest increase in plumbing insecurity from 2022 to 2023.These plots will allow us to address our first research question by identifying the top 10 counties with plumbing insecurity in the U.S between 2022 and 2023 and the counties that experienced the greatest increase in plumbing insecurity between these two years."
+  },
+  {
+    "objectID": "proposal.html#approach-for-question-2",
+    "href": "proposal.html#approach-for-question-2",
+    "title": "Plumbing the Data:Mapping U.S. Water Insecurity",
+    "section": "Approach for question 2",
+    "text": "Approach for question 2\nWe aim to identify and visualize spatial clusters of U.S. counties that experienced significant improvement or worsening in plumbing access between 2022 and 2023. Our goal is to reveal where changes in infrastructure equity are concentrated, rather than occurring randomly across the country. To do this, we will create a color-coded choropleth map representing hotspots (regions of worsening) and coldspots (regions of improvement) in the percentage of households lacking complete plumbing facilities.\nBefore analysis, we will clean and filter the data using the dplyr package to ensure consistency between the two years. Rows with missing percent_lacking_plumbing values will be removed to ensure accurate change calculations. Since the 2023 dataset includes additional counties not present in 2022, we will exclude these newly added counties, as we cannot calculate change for them. Only counties with valid data for both 2022 and 2023 will be retained, and we will compute the difference in percent_lacking_plumbing to measure change.\nTo detect spatial clusters of change, we will use the Getis-Ord G* (Local G*) statistic via the spdep package. This analysis will classify each county based on whether it is part of a statistically significant cluster of improvement or decline. Counties will be labeled as hotspots (worsening), coldspots (improving), or not significant, depending on the spatial pattern of their change values. The results will be visualized using tmap to create a choropleth map, helping us understand where in the U.S. plumbing access is improving or deteriorating in a geographically meaningful way."
+  },
+  {
+    "objectID": "proposal.html#variables-examined-per-question",
+    "href": "proposal.html#variables-examined-per-question",
+    "title": "Plumbing the Data:Mapping U.S. Water Insecurity",
+    "section": "Variables examined per question",
+    "text": "Variables examined per question\n\n\n\n\n\n\n\n\nTable 3: Summary of Variables Examined by Research Question\n\n\nVariables\nQ1\nQ2\n\n\n\n\ngeoid\n-\nX\n\n\nname\nX\nX\n\n\nyear\nX\nX\n\n\ngeometry\n-\nX\n\n\ntotal_pop\n-\n-\n\n\nplumbing\n-\n-\n\n\npercent_lacking_plumbing\nX\nX\n\n\n\n\n\n\n\n\n\n\n\n\n\nNote\n\n\n\nNote: Current Proposal 1.0.0. Subject to change. (version.feature.patch notation)"
+  }
+]
