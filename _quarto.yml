@@ -1,12 +1,14 @@
 project:
   type: website
+  output-dir: docs  # 👈 ADD THIS LINE
   resources:
     - images
 
 website:
   title: Project Title
   description: "Project for INFO 526 - Data Visualization and Analysis at The University of Arizona, Summer 2025."
-  #site-url: "https://datavizaz-su24.netlify.app/"
+  site-url: "https://n-herling-mk1.github.io/project-final/"
+
   favicon: /images/water_drop_4.png
   navbar:
     right:
