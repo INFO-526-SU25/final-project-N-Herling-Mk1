@@ -244,7 +244,7 @@ The following are the approaches we will be using for each question.
 
 We want to visualize which U.S. counties experienced the highest level of plumbing insecurity in 2022 and 2023. To represent the available data best, we will be creating bar graphs showing the top 10 counties with the highest percentages of households lacking complete indoor plumbing for each year. The comparison of the plot will be done for each individual year to highlight the most affected regions in the U.S.
 
-We will clean the data using dplyr package by filtering and selecting the required variables for the analysis, including name, percent_lacking_plumbing, and year. We will sort the counties in descending order of percent_lacking_plumbing for each year. These subsets will then be combined into a single dataset for visualization. \
+We will clean the data using dplyr package by filtering and selecting the required variables for the analysis, including name, percent_lacking_plumbing, and year. We will sort the counties in descending order of percent_lacking_plumbing for each year. These subsets will then be combined into a single dataset for visualization.\
 \
 To visualize the results, we will create bar graphs and **choropleth map** to show comparison between 2022 and 2023 using facet separation and **explore year-over-year changes in plumbing access.** These plots will allow us to address our first research question by identifying the top 10 counties with plumbing insecurity in the U.S between 2022 and 2023 and the counties that experienced **any** **notable shifts** in plumbing insecurity between these two years.
 
