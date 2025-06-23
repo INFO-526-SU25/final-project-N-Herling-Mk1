@@ -226,13 +226,13 @@ These two datasets contain data on the lack of complete indoor plumbing in U.S. 
 
 ## Why we chose this data-set:
 
-We chose this dataset because water insecurity is a critical public health issue that may be influenced by various social vulnerability indicators. The data, sourced from the American Community Survey (ACS), provides county-level information on indoor plumbing insecurity for both 2022 and 2023. Since it covers multiple counties and spans two years, it is well-suited for analyzing year-over-year trends and regional disparities across the U.S. Improved water security can lead to reduced disease transmission, better hygiene, and overall improvements in quality of life. Additionally, the dataset is clean, complete, well-documented, and ideal for collaborative analysis and visualization.
+We chose this dataset because water insecurity is a critical public health issue that may be influenced by various social vulnerability indicators. **Water insecurity is a multifaceted issue that encompasses not only access to water but also its quality, affordability, reliability, and infrastructure support. In this project, we focus specifically on plumbing insecurity, which remains a critical and measurable dimension of basic water access.** The data, sourced from the American Community Survey (ACS), provides county-level information on indoor plumbing insecurity for both 2022 and 2023. Since it covers multiple counties and spans two years, it is well-suited for analyzing year-over-year trends and regional disparities across the U.S. Improved water security can lead to reduced disease transmission, better hygiene, and overall improvements in quality of life. Additionally, the dataset is clean, complete, well-documented, and ideal for collaborative analysis and visualization.
 
 ## Questions
 
 `Note:` While water insecurity encompasses a range of issues, our analysis specifically focuses on plumbing insecurity, as reported in 2022 and 2023.
 
-<b>The two questions to be answered are:</b><br> <b>Question 1:</b> Top counties had the highest plumbing insecurity in 2022 and 2023.
+<b>The two questions to be answered are:</b><br> <b>Question 1:</b> Top counties had the highest plumbing insecurityin 2022 and 2023.
 
 <b>Question 2:</b> How did the plumbing insecurity change from 2022 to 2023 across U.S. counties, and where do significant spatial clusters (hotspots and coldspots) of worsening or improving plumbing access exist?
 
@@ -242,11 +242,11 @@ The following are the approaches we will be using for each question.
 
 ## Approach for question 1
 
-We want to visualize which U.S. counties experienced the highest level of plumbing insecurity in 2022 and 2023. To represent the available data best, we will be creating bar graphs showing the top 10 counties with the highest percentages of households lacking complete indoor plumbing for each year. The comparison of the plot will be done for each individual year to highlight the most affected regions in the U.S. Additionally, we will identify the counties that experienced the greatest increase in plumbing insecurity between 2022 and 2023.
+We want to visualize which U.S. counties experienced the highest level of plumbing insecurity in 2022 and 2023. To represent the available data best, we will be creating bar graphs showing the top 10 counties with the highest percentages of households lacking complete indoor plumbing for each year. The comparison of the plot will be done for each individual year to highlight the most affected regions in the U.S.
 
-We will clean the data using dplyr package by filtering and selecting the required variables for the analysis, including name, percent_lacking_plumbing, and year. We will sort the counties in descending order of percent_lacking_plumbing for each year. These subsets will then be combined into a single dataset for visualization. We will also compute the change in percent_lacking_plumbing for each county between 2023 and 2022 to determine which counties experienced the greatest increases.\
+We will clean the data using dplyr package by filtering and selecting the required variables for the analysis, including name, percent_lacking_plumbing, and year. We will sort the counties in descending order of percent_lacking_plumbing for each year. These subsets will then be combined into a single dataset for visualization. \
 \
-To visualize the results, we will use geom_col() from ggplot2 package to create bar graphs, showing comparison between 2022 and 2023 using facet separation and the top 10 counties with the greatest increase in plumbing insecurity from 2022 to 2023.These plots will allow us to address our first research question by identifying the top 10 counties with plumbing insecurity in the U.S between 2022 and 2023 and the counties that experienced the greatest increase in plumbing insecurity between these two years.
+To visualize the results, we will create bar graphs and **choropleth map** to show comparison between 2022 and 2023 using facet separation and **explore year-over-year changes in plumbing access.** These plots will allow us to address our first research question by identifying the top 10 counties with plumbing insecurity in the U.S between 2022 and 2023 and the counties that experienced **any** **notable shifts** in plumbing insecurity between these two years.
 
 ## Approach for question 2
 
