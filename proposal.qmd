@@ -282,8 +282,7 @@ gt_table_3 |>
     columns = vars(Variables)
   ) |>
   tab_options(
-    table.width = pct(100)
-  )
+    table.width = pct(100))
 ```
 
 ::: callout-note
