@@ -201,5 +201,12 @@
     "title": "Plumbing the Data:Mapping U.S. Water Insecurity",
     "section": "Variables examined per question",
     "text": "Variables examined per question\n\n\n\n\n\n\n\n\nTable 3: Summary of Variables Examined by Research Question\n\n\nVariables\nQ1\nQ2\n\n\n\n\ngeoid\n-\nX\n\n\nname\nX\nX\n\n\nyear\nX\nX\n\n\ngeometry\n-\nX\n\n\ntotal_pop\n-\n-\n\n\nplumbing\n-\n-\n\n\npercent_lacking_plumbing\nX\nX\n\n\n\n\n\n\n\n\n\n\n\n\n\nNote\n\n\n\nNote: Current Proposal 1.0.0. Subject to change. (version.feature.patch notation)"
+  },
+  {
+    "objectID": "presentation.html#a-slide-with-custom-styling",
+    "href": "presentation.html#a-slide-with-custom-styling",
+    "title": "Project title",
+    "section": "A Slide with Custom Styling",
+    "text": "A Slide with Custom Styling\nThis slide uses a red triangle for the slide number and shows the date.\n\n\n\n\nMonday-June-23-2025"
   }
 ]
