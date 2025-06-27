@@ -1,9 +1,11 @@
 {
-  "hash": "ec4e1cf028c7cf6e22d846a6c614d9be",
+  "hash": "c1fbeffb4f59cf9846fe85031691f65c",
   "result": {
     "engine": "knitr",
-    "markdown": "---\ntitle: \"Project title\"\nsubtitle: \"INFO 526 - Summer 2025 - Final Project\"\nauthor: \"Yashi Mi & Nathan Herling\"\ntitle-slide-attributes:\n  data-background-image: images/watercolour_sys02_img34_teacup-ocean.jpg\n  data-background-size: stretch\n  data-background-opacity: \"0.7\"\n  data-slide-number: none\nformat:\n  revealjs:\n    theme:  ['data/customtheming.scss']\n    css: slide_styles.css\n    slide-number: true\neditor: visual\nexecute:\n  echo: false\n---\n\n\n\n\n\n\n\n\n\n\n# Using Quarto for presentations\n## A Slide with Custom Styling\n\nThis slide uses a red triangle for the slide number and shows the date.\n\n<div class=\"triangle-slide-number\">\n  <span class=\"slide-number\"></span>\n</div>\n\n<div class=\"slide-date\">\n  Monday-June-23-2025\n</div>\n",
-    "supporting": [],
+    "markdown": "---\ntitle: \"Project title\"\nsubtitle: \"INFO 526 - Summer 2025 - Final Project\"\nauthor: \"Yashi Mi & Nathan Herling\"\ntitle-slide-attributes:\n  data-background-image: images/watercolour_sys02_img34_teacup-ocean.jpg\n  data-background-size: stretch\n  data-background-opacity: \"0.7\"\n  data-slide-number: none\nformat:\n  revealjs:\n    theme:  ['data/customtheming.scss']\n    css: slide_styles.css\n    slide-number: true\neditor: visual\nexecute:\n  echo: false\n---\n\n\n\n\n\n\n\n\n\n\n# Using Quarto for presentations\n\n## A Slide with Custom Styling\n\nThis slide uses a red triangle for the slide number and shows the date.\n\n::: triangle-slide-number\n1\n:::\n\n::: slide-date\nMonday-June-23-2025\n:::\n",
+    "supporting": [
+      "presentation_files"
+    ],
     "filters": [
       "rmarkdown/pagebreak.lua"
     ],

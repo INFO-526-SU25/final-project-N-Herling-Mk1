@@ -20,3 +20,39 @@
   font-size: 0.9em;
   color: #444;
 }
+
+
+.scientific-box {
+  width: 100%;
+  max-width: 100%;
+  background-color: #f0f0f0; /* light grey background */
+  border: 1px solid #007BFF; /* thin blue border */
+  border-radius: 8px;        /* curved corners */
+  
+  /* Enough height for vertical centering */
+  min-height: 50px;          /* or fixed height: height: 50px; */
+  
+  padding: 15px 5px 0 20px;     /* left padding increased, no top/bottom padding */
+  box-sizing: border-box;    /* includes padding and border in total width */
+  
+  display: flex;             /* use flexbox */
+  align-items: center;       /* vertically center content */
+}
+
+
+.salmon-box {
+  background-color: salmon;      /* salmon background */
+  border: 1px solid black;       /* thin black border */
+  border-radius: 8px;             /* curved corners */
+  padding: 10px -5px -5px -5px;            /* inner spacing */
+  box-sizing: border-box;        /* include padding and border in size */
+  max-width: 10%;               /* full width allowed */
+}
+
+.table-wrapper {
+  background-color: #f5f7fa;   /* light grey background */
+  border: 1px solid #007BFF;   /* thin blue border */
+  border-radius: 6px;           /* slightly rounded corners */
+  padding: 12px;                /* space inside the div */
+  margin: 16px 0;               /* vertical spacing around the wrapper */
+}

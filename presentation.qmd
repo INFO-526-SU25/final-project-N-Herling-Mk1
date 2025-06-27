@@ -54,14 +54,15 @@ data("penguins")
 ```
 
 # Using Quarto for presentations
+
 ## A Slide with Custom Styling
 
 This slide uses a red triangle for the slide number and shows the date.
 
-<div class="triangle-slide-number">
-  <span class="slide-number"></span>
-</div>
+::: triangle-slide-number
+1
+:::
 
-<div class="slide-date">
-  Monday-June-23-2025
-</div>
+::: slide-date
+Monday-June-23-2025
+:::
