@@ -261,7 +261,11 @@ We aim to identify and visualize spatial clusters of U.S. counties that experien
 
 Before analysis, we will clean and filter the data using the dplyr package to ensure consistency between the two years. Rows with missing percent_lacking_plumbing values will be removed to ensure accurate change calculations. Since the 2023 dataset includes additional counties not present in 2022, we will exclude these newly added counties, as we cannot calculate change for them. Only counties with valid data for both 2022 and 2023 will be retained, and we will compute the difference in percent_lacking_plumbing to measure change.
 
-To detect spatial clusters of change, we will use the Getis-Ord G\* (Local G\*) statistic via the spdep package. This analysis will classify each county based on whether it is part of a statistically significant cluster of improvement or decline. Counties will be labeled as hotspots (worsening), coldspots (improving), or not significant, depending on the spatial pattern of their change values. The results will be visualized using tmap to create a choropleth map, helping us understand where in the U.S. plumbing access is improving or deteriorating in a geographically meaningful way.
+
+To detect spatial clusters of change, we will use the Getis-Ord <em>G*</em> (Local <em>G*</em>) statistic via the <code>spdep</code> package. This analysis will classify each county based on whether it is part of a statistically significant cluster of improvement or decline. Counties will be labeled as hotspots (worsening), coldspots (improving), or not significant, depending on the spatial pattern of their change values.
+
+  In this context, a “significant” spatial cluster refers to a geographic pattern where counties with similar levels of plumbing access (measured by the percentage of people lacking complete plumbing) are more spatially concentrated than would be expected by random chance (Significant hotspots: z ≥ 1.96 → p ≤ 0.05 in the upper tail, Significant coldspots: z ≤ -1.96 → p ≤ 0.05 in the lower tail. The results will be visualized using <code>tmap</code> to create a choropleth map, allowing us to identify where in the U.S. plumbing access is improving or deteriorating in a geographically meaningful way.
+
 
 ## Variables examined per question
 
