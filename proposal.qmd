@@ -2,7 +2,7 @@
 title: "Plumbing the Data:<br>Mapping U.S. Water Insecurity"
 subtitle: "Final project proposal - INFO 526"
 author: 
-  - name: "Team: Yashi Mi & Nathan Herling"
+  - name: "Team: Yashi Mi & Nathan Herling (the data plumbers)"
     affiliations:
       - name: "School of Information, University of Arizona"
 description: "**Project description**<br>This project explores county-level water insecurity in the U.S. for 2022 and 2023, focusing on access to complete indoor plumbing. Using data from the American Community Survey (ACS), we analyze geographic and demographic patterns across over 850 counties each year. The goal is to identify regional disparities and year-over-year trends to better understand the social factors linked to plumbing access."
@@ -228,6 +228,13 @@ These two datasets contain data on the lack of complete indoor plumbing in U.S. 
 
 We chose this dataset because water insecurity is a critical public health issue that may be influenced by various social vulnerability indicators. **Water insecurity is a multifaceted issue that encompasses not only access to water but also its quality, affordability, reliability, and infrastructure support. In this project, we focus specifically on plumbing insecurity, which remains a critical and measurable dimension of basic water access.** The data, sourced from the American Community Survey (ACS), provides county-level information on indoor plumbing insecurity for both 2022 and 2023. Since it covers multiple counties and spans two years, it is well-suited for analyzing year-over-year trends and regional disparities across the U.S. Improved water security can lead to reduced disease transmission, better hygiene, and overall improvements in quality of life. Additionally, the dataset is clean, complete, well-documented, and ideal for collaborative analysis and visualization.
 
+## Team roles
+Each team member will be assigned one specific question to focus on (Yashi – Question 1, Nathan – Question 2). They will be responsible for independently cleaning, preparing, and analyzing the data related to their assigned question to ensure accuracy and reliability. Throughout the process, team members will collaborate closely during the problem analysis phase, sharing insights and providing constructive feedback to improve problem-solving strategies and ensure their approaches align with the overall objectives of the project.
+
+In addition to their individual tasks, both team members will actively contribute to the collective development of the project by co-authoring the proposal, designing and delivering the presentation, and building and maintaining the project website.
+	
+	
+	
 ## Questions
 
 `Note:` While water insecurity encompasses a range of issues, our analysis specifically focuses on plumbing insecurity, as reported in 2022 and 2023.
