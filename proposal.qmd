@@ -8,6 +8,7 @@ author:
 description: "**Project description**<br>This project explores county-level water insecurity in the U.S. for 2022 and 2023, focusing on access to complete indoor plumbing. Using data from the American Community Survey (ACS), we analyze geographic and demographic patterns across over 850 counties each year. The goal is to identify regional disparities and year-over-year trends to better understand the social factors linked to plumbing access."
 format:
   html:
+    css: slide_styles.css
     code-tools: true
     code-overflow: wrap
     code-line-numbers: true
@@ -266,6 +267,29 @@ To detect spatial clusters of change, we will use the Getis-Ord <em>G*</em> (Loc
 
   In this context, a “significant” spatial cluster refers to a geographic pattern where counties with similar levels of plumbing access (measured by the percentage of people lacking complete plumbing) are more spatially concentrated than would be expected by random chance (Significant hotspots: z ≥ 1.96 → p ≤ 0.05 in the upper tail, Significant coldspots: z ≤ -1.96 → p ≤ 0.05 in the lower tail. The results will be visualized using <code>tmap</code> to create a choropleth map, allowing us to identify where in the U.S. plumbing access is improving or deteriorating in a geographically meaningful way.
 
+::: {.scientific-box}
+<style>
+.scientific-box {
+  width: 100%;
+  max-width: 100%;
+  background-color: #f0f0f0;     /* light grey background */
+  border: 1px solid #007BFF;     /* thin blue border */
+  border-radius: 8px;            /* curved corners */
+  
+  min-height: 50px;              /* minimum height for visual spacing */
+  
+  padding: 15px 5px 0 20px;      /* spacing: top, right, bottom, left */
+  box-sizing: border-box;        /* includes padding and border in total width */
+  
+  display: flex;                 /* flexbox layout */
+  align-items: center;           /* vertically center text */
+  font-size: 1rem;
+  line-height: 1.5;
+}
+</style>
+<b>Note:</b><br>
+If the analysis of statistically significant changes over the 1-year timeframe for question two does not reveal clear spatial patterns or meaningful differences, the team will consider an alternative approach. This would involve examining the data based on relative percent changes—for example, identifying counties with at least a 10% or 25% increase or decrease in plumbing access. This method may highlight meaningful shifts that are not captured by strict significance testing, providing additional insights into spatial trends.
+:::
 
 ## Variables examined per question
 
@@ -297,7 +321,7 @@ gt_table_3 |>
 ```
 
 ::: callout-note
-**Note:** Current Proposal 1.0.0. Subject to change.<br> (version.feature.patch notation)
+**Note:** Current Proposal 2.0.0. Subject to change.<br> (version.feature.patch notation)
 :::
 
 ```{css echo=FALSE}
