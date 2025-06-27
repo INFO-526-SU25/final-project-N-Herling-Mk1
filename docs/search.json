@@ -4,14 +4,14 @@
     "href": "index.html",
     "title": "Project Title",
     "section": "",
-    "text": "Add project abstract here."
+    "text": "Aspect\nSentence Length (1-2 sentences)\nAddressed\n\n\n\n\nWhat / Why importance\n1-2 sentences\nYes\n\n\nHow / Who it affects\n1-2 sentences\nYes\n\n\nWhy important\n1-2 sentences\nYes\n\n\nThis work does\n1-2 sentences\nYes\n\n\nSummary of results\n1-2 sentences\nNo\n\n\n\n\nPlumbing insecurity—a key dimension of water insecurity—refers to households lacking complete indoor plumbing, which has direct implications for public health, hygiene, and infrastructure equity. While those who live in the developed world often take it for granted, Inadequate access to safe, indoor plumbing increases the risk of waterborne diseases, hampers hygiene practices, and disproportionately affects vulnerable populations in both high- and low-income countries. . Monitoring changes in plumbing insecurity can help identify emerging public health risks, guide resource allocation, and inform equitable infrastructure development at local, national, and global levels. It also enables policymakers and researchers to track progress toward universal access to basic services, ensuring that no communities are left behind in efforts to improve health and living conditions . This project examines plumbing insecurity across U.S. counties using 2022 and 2023 data from the American Community Survey (ACS). We identify counties with the highest levels of plumbing insecurity each year and assess spatial changes over time to highlight areas of significant improvement or decline. Using bar plots, choropleth maps, and spatial clustering techniques (Getis-Ord G), we visualize affected regions and detect geographic “hotspots” and “coldspots” of change. Our findings reveal persistent regional disparities and statistically significant patterns in plumbing access, emphasizing the need for spatially targeted policy interventions. .  #ToDo –&gt; discuss results. #ToDo –&gt; probably cut some categories down to 1 sentence (it’s pretty lengthy)"
   },
   {
     "objectID": "index.html#abstract",
     "href": "index.html#abstract",
     "title": "Project Title",
     "section": "",
-    "text": "Add project abstract here."
+    "text": "Aspect\nSentence Length (1-2 sentences)\nAddressed\n\n\n\n\nWhat / Why importance\n1-2 sentences\nYes\n\n\nHow / Who it affects\n1-2 sentences\nYes\n\n\nWhy important\n1-2 sentences\nYes\n\n\nThis work does\n1-2 sentences\nYes\n\n\nSummary of results\n1-2 sentences\nNo\n\n\n\n\nPlumbing insecurity—a key dimension of water insecurity—refers to households lacking complete indoor plumbing, which has direct implications for public health, hygiene, and infrastructure equity. While those who live in the developed world often take it for granted, Inadequate access to safe, indoor plumbing increases the risk of waterborne diseases, hampers hygiene practices, and disproportionately affects vulnerable populations in both high- and low-income countries. . Monitoring changes in plumbing insecurity can help identify emerging public health risks, guide resource allocation, and inform equitable infrastructure development at local, national, and global levels. It also enables policymakers and researchers to track progress toward universal access to basic services, ensuring that no communities are left behind in efforts to improve health and living conditions . This project examines plumbing insecurity across U.S. counties using 2022 and 2023 data from the American Community Survey (ACS). We identify counties with the highest levels of plumbing insecurity each year and assess spatial changes over time to highlight areas of significant improvement or decline. Using bar plots, choropleth maps, and spatial clustering techniques (Getis-Ord G), we visualize affected regions and detect geographic “hotspots” and “coldspots” of change. Our findings reveal persistent regional disparities and statistically significant patterns in plumbing access, emphasizing the need for spatially targeted policy interventions. .  #ToDo –&gt; discuss results. #ToDo –&gt; probably cut some categories down to 1 sentence (it’s pretty lengthy)"
   },
   {
     "objectID": "Water_insecurity/readme.html",
@@ -39,7 +39,7 @@
     "href": "presentation.html",
     "title": "Project title",
     "section": "",
-    "text": "The presentation is created using the Quarto CLI\n## sets the start of a new slide\n\n\n\n\nYou can use plain text\n\n\n\nor bullet points1\n\n\nor in two columns\n\n\n\nlike\nthis\n\n\n\n\n\n\n# A tibble: 2 × 5\n  term        estimate std.error statistic       p.value\n  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;         &lt;dbl&gt;\n1 (Intercept)   25.3      3.08        8.22 0.00000000358\n2 speed         -0.116    0.0642     -1.81 0.0806       \n\n\n# A tibble: 1 × 12\n  r.squared adj.r.squared sigma statistic p.value    df logLik   AIC   BIC\n      &lt;dbl&gt;         &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;\n1    0.0983        0.0682  5.82      3.27  0.0806     1  -101.  207.  212.\n# ℹ 3 more variables: deviance &lt;dbl&gt;, df.residual &lt;int&gt;, nobs &lt;int&gt;\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nSome text\ngoes here"
+    "text": "This slide uses a red triangle for the slide number and shows the date.\n\n\n\n\nMonday-June-23-2025"
   },
   {
     "objectID": "presentation.html#quarto",
@@ -172,7 +172,7 @@
     "href": "proposal.html#questions",
     "title": "Plumbing the Data:Mapping U.S. Water Insecurity",
     "section": "Questions",
-    "text": "Questions\nNote: While water insecurity encompasses a range of issues, our analysis specifically focuses on plumbing insecurity, as reported in 2022 and 2023.\nThe two questions to be answered are: Question 1: Top counties had the highest plumbing insecurityin 2022 and 2023.\nQuestion 2: How did the plumbing insecurity change from 2022 to 2023 across U.S. counties, and where do significant spatial clusters (hotspots and coldspots) of worsening or improving plumbing access exist?"
+    "text": "Questions\nNote: While water insecurity encompasses a range of issues, our analysis specifically focuses on plumbing insecurity, as reported in 2022 and 2023.\nThe two questions to be answered are: Question 1: Top counties had the highest plumbing insecurity in 2022 and 2023.\nQuestion 2: How did the plumbing insecurity change from 2022 to 2023 across U.S. counties, and where do significant spatial clusters (hotspots and coldspots) of worsening or improving plumbing access exist?"
   },
   {
     "objectID": "proposal.html#analysis-plan",
@@ -206,7 +206,105 @@
     "objectID": "presentation.html#a-slide-with-custom-styling",
     "href": "presentation.html#a-slide-with-custom-styling",
     "title": "Project title",
-    "section": "A Slide with Custom Styling",
-    "text": "A Slide with Custom Styling\nThis slide uses a red triangle for the slide number and shows the date.\n\n\n\n\nMonday-June-23-2025"
+    "section": "",
+    "text": "This slide uses a red triangle for the slide number and shows the date.\n\n\n\n\nMonday-June-23-2025"
+  },
+  {
+    "objectID": "presentation_ex.html",
+    "href": "presentation_ex.html",
+    "title": "Project title",
+    "section": "",
+    "text": "The presentation is created using the Quarto CLI\n## sets the start of a new slide\n\n\n\n\nYou can use plain text\n\n\n\nor bullet points1\n\n\nor in two columns\n\n\n\nlike\nthis\n\n\n\n\n\n\n# A tibble: 2 × 5\n  term        estimate std.error statistic       p.value\n  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;         &lt;dbl&gt;\n1 (Intercept)   25.3      3.08        8.22 0.00000000358\n2 speed         -0.116    0.0642     -1.81 0.0806       \n\n\n# A tibble: 1 × 12\n  r.squared adj.r.squared sigma statistic p.value    df logLik   AIC   BIC\n      &lt;dbl&gt;         &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;\n1    0.0983        0.0682  5.82      3.27  0.0806     1  -101.  207.  212.\n# ℹ 3 more variables: deviance &lt;dbl&gt;, df.residual &lt;int&gt;, nobs &lt;int&gt;\n\n\n\n\n\n\n\nWarning: Removed 2 rows containing missing values or values outside the scale range\n(`geom_point()`).\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nSome text\ngoes here"
+  },
+  {
+    "objectID": "presentation_ex.html#quarto",
+    "href": "presentation_ex.html#quarto",
+    "title": "Project title",
+    "section": "",
+    "text": "The presentation is created using the Quarto CLI\n## sets the start of a new slide"
+  },
+  {
+    "objectID": "presentation_ex.html#layouts",
+    "href": "presentation_ex.html#layouts",
+    "title": "Project title",
+    "section": "",
+    "text": "You can use plain text\n\n\n\nor bullet points1\n\n\nor in two columns\n\n\n\nlike\nthis"
+  },
+  {
+    "objectID": "presentation_ex.html#code",
+    "href": "presentation_ex.html#code",
+    "title": "Project title",
+    "section": "",
+    "text": "# A tibble: 2 × 5\n  term        estimate std.error statistic       p.value\n  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;         &lt;dbl&gt;\n1 (Intercept)   25.3      3.08        8.22 0.00000000358\n2 speed         -0.116    0.0642     -1.81 0.0806       \n\n\n# A tibble: 1 × 12\n  r.squared adj.r.squared sigma statistic p.value    df logLik   AIC   BIC\n      &lt;dbl&gt;         &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;\n1    0.0983        0.0682  5.82      3.27  0.0806     1  -101.  207.  212.\n# ℹ 3 more variables: deviance &lt;dbl&gt;, df.residual &lt;int&gt;, nobs &lt;int&gt;"
+  },
+  {
+    "objectID": "presentation_ex.html#plots",
+    "href": "presentation_ex.html#plots",
+    "title": "Project title",
+    "section": "",
+    "text": "Warning: Removed 2 rows containing missing values or values outside the scale range\n(`geom_point()`)."
+  },
+  {
+    "objectID": "presentation_ex.html#plot-and-text",
+    "href": "presentation_ex.html#plot-and-text",
+    "title": "Project title",
+    "section": "",
+    "text": "Some text\ngoes here"
+  },
+  {
+    "objectID": "presentation_ex.html#tables",
+    "href": "presentation_ex.html#tables",
+    "title": "Project title",
+    "section": "Tables",
+    "text": "Tables\nIf you want to generate a table, make sure it is in the HTML format (instead of Markdown or other formats), e.g.,\n\n\n\n\n\nspecies\nisland\nbill_length_mm\nbill_depth_mm\nflipper_length_mm\nbody_mass_g\nsex\n\n\n\n\nAdelie\nTorgersen\n39.1\n18.7\n181\n3750\nmale\n\n\nAdelie\nTorgersen\n39.5\n17.4\n186\n3800\nfemale\n\n\nAdelie\nTorgersen\n40.3\n18.0\n195\n3250\nfemale\n\n\nAdelie\nTorgersen\nNA\nNA\nNA\nNA\nNA\n\n\nAdelie\nTorgersen\n36.7\n19.3\n193\n3450\nfemale\n\n\nAdelie\nTorgersen\n39.3\n20.6\n190\n3650\nmale"
+  },
+  {
+    "objectID": "presentation_ex.html#images",
+    "href": "presentation_ex.html#images",
+    "title": "Project title",
+    "section": "Images",
+    "text": "Images\n\n\n\nImage credit: Danielle Navarro, Percolate."
+  },
+  {
+    "objectID": "presentation_ex.html#math-expressions",
+    "href": "presentation_ex.html#math-expressions",
+    "title": "Project title",
+    "section": "Math Expressions",
+    "text": "Math Expressions\nYou can write LaTeX math expressions inside a pair of dollar signs, e.g. $\\alpha+\\beta$ renders \\(\\alpha + \\beta\\). You can use the display style with double dollar signs:\n$$\\bar{X}=\\frac{1}{n}\\sum_{i=1}^nX_i$$\n\\[\n\\bar{X}=\\frac{1}{n}\\sum_{i=1}^nX_i\n\\]\nLimitations:\n\nThe source code of a LaTeX math expression must be in one line, unless it is inside a pair of double dollar signs, in which case the starting $$ must appear in the very beginning of a line, followed immediately by a non-space character, and the ending $$ must be at the end of a line, led by a non-space character;\nThere should not be spaces after the opening $ or before the closing $."
+  },
+  {
+    "objectID": "presentation_ex.html#feeling-adventurous",
+    "href": "presentation_ex.html#feeling-adventurous",
+    "title": "Project title",
+    "section": "Feeling adventurous?",
+    "text": "Feeling adventurous?\n\nYou are welcomed to use the default styling of the slides. In fact, that’s what I expect majority of you will do. You will differentiate yourself with the content of your presentation.\nBut some of you might want to play around with slide styling. Some solutions for this can be found at https://quarto.org/docs/presentations/revealjs."
+  },
+  {
+    "objectID": "presentation_ex.html#footnotes",
+    "href": "presentation_ex.html#footnotes",
+    "title": "Project title",
+    "section": "Footnotes",
+    "text": "Footnotes\n\n\nAnd add footnotes↩︎"
+  },
+  {
+    "objectID": "index.html#question-1-where-were-the-top-counties-with-the-highest-plumbing-insecurity-in-2022-and-2023",
+    "href": "index.html#question-1-where-were-the-top-counties-with-the-highest-plumbing-insecurity-in-2022-and-2023",
+    "title": "Project Title",
+    "section": "Question 1: Where Were the Top Counties with the Highest Plumbing Insecurity in 2022 and 2023?",
+    "text": "Question 1: Where Were the Top Counties with the Highest Plumbing Insecurity in 2022 and 2023?\n\nIntroduction\nWe seek to identify which U.S. counties had the highest levels of plumbing insecurity in 2022 and 2023. By focusing on the percentage of the population without complete indoor plumbing, we can isolate areas of concentrated infrastructure need. This can help prioritize locations for public health and policy intervention.\nThis question is compelling because access to complete plumbing is a foundational public health necessity. Highlighting counties with the worst access can also bring attention to overlooked rural or low-income regions where investment in infrastructure may be lagging.\n\n\nApproach\nTo answer this question, we analyze and compare the top 10 counties with the highest percentages of residents lacking plumbing facilities for each year. We’ll use two complementary visualizations:\n\nBar plots showing the top 10 counties with the highest plumbing insecurity in 2022 and 2023.\nFaceted choropleth maps to visualize the spatial distribution of plumbing insecurity for these top counties across both years.\n\nThe bar plot is ideal for ranking and clear comparison, while the choropleth map provides valuable geographic context. Faceting by year will highlight changes or consistencies across the two years. At least one plot will incorporate color mapping to distinguish degrees of insecurity.\n\n\nAnalysis"
+  },
+  {
+    "objectID": "index.html#question-1",
+    "href": "index.html#question-1",
+    "title": "Project Title",
+    "section": "Question 1:",
+    "text": "Question 1:\n\nTop counties had the highest plumbing insecurity in 2022 and 2023?\n\n\nIntroduction\n\n#ToDo\n\n\n\nApproach\n\n#ToDo\n\n\n\nAnalysis\n\n#ToDo\n\n\n\nDiscussion\n\n#ToDo"
+  },
+  {
+    "objectID": "index.html#question-2",
+    "href": "index.html#question-2",
+    "title": "Project Title",
+    "section": "Question 2:",
+    "text": "Question 2:\n\nHow did the plumbing insecurity change from 2022 to 2023 across U.S. counties, and where do significant spatial clusters (hotspots and coldspots) of worsening or improving plumbing access exist?\n\n\nIntroduction\n\n#ToDo\n\n\n\nApproach\n\n#ToDo\n\n\n\nAnalysis\n\n#ToDo\n\n\n\nDiscussion\n\n#ToDo"
   }
 ]

@@ -10,7 +10,9 @@ format:
    html:
     code-tools: true
     code-overflow: wrap
+    code-line-numbers: true
     embed-resources: true
+    css: slide_styles.css
 editor: visual
 execute:
   warning: false
@@ -18,5 +20,70 @@ execute:
 ---
 
 ## Abstract
+::: {.table-wrapper style="background:#f5f7fa; border:1px solid #007BFF; padding:10px;"}
+| Aspect                        | Sentence Length (1-2 sentences)                       | Addressed |
+|-------------------------------|-----------------------------------------------------|-----------|
+| What / Why importance          | 1-2 sentences                                       | Yes       |
+| How / Who it affects           | 1-2 sentences                                       | Yes       |
+| Why important                 | 1-2 sentences                                       | Yes       |
+| This work does                | 1-2 sentences                                       | Yes       |
+| Summary of results            | 1-2 sentences                                       | No       |
+:::
 
-Add project abstract here.
+
+Plumbing insecurity—a key dimension of water insecurity—refers to households lacking complete indoor plumbing, which has direct implications for public health, hygiene, and infrastructure equity.
+While those who live in the developed world often take it for granted, Inadequate access to safe, indoor plumbing increases the risk of waterborne diseases, hampers hygiene practices, and disproportionately affects vulnerable populations in both high- and low-income countries.
+.
+Monitoring changes in plumbing insecurity can help identify emerging public health risks, guide resource allocation, and inform equitable infrastructure development at local, national, and global levels. It also enables policymakers and researchers to track progress toward universal access to basic services, ensuring that no communities are left behind in efforts to improve health and living conditions
+.
+This project examines plumbing insecurity across U.S. counties using 2022 and 2023 data from the American Community Survey (ACS). We identify counties with the highest levels of plumbing insecurity each year and assess spatial changes over time to highlight areas of significant improvement or decline. Using bar plots, choropleth maps, and spatial clustering techniques (Getis-Ord G), we visualize affected regions and detect geographic “hotspots” and “coldspots” of change. Our findings reveal persistent regional disparities and statistically significant patterns in plumbing access, emphasizing the need for spatially targeted policy interventions.
+.
+<br>
+<b>#ToDo --> discuss results.</b><br>
+<b>#ToDo --> probably cut some categories down to 1 sentence (it's pretty lengthy)</b>
+
+## Question 1: 
+<div class="scientific-box">
+Top counties had the highest plumbing insecurity in 2022 and 2023?
+</div>
+### Introduction
+<div class="salmon-box">
+  <br><b>#ToDo</b><br>
+</div>
+
+### Approach
+<div class="salmon-box">
+  <br><b>#ToDo</b><br>
+</div>
+### Analysis
+<div class="salmon-box">
+  <br><b>#ToDo</b><br>
+</div>
+### Discussion
+<div class="salmon-box">
+  <br><b>#ToDo</b><br>
+</div>
+
+## Question 2: 
+<div class="scientific-box">
+How did the plumbing insecurity change from 2022 to 2023 across U.S. counties, and where do significant spatial clusters (hotspots and coldspots) of worsening or improving plumbing access exist?
+</div>
+
+### Introduction
+<div class="salmon-box">
+  <br><b>#ToDo</b><br>
+</div>
+
+### Approach
+<div class="salmon-box">
+  <br><b>#ToDo</b><br>
+</div>
+### Analysis
+<div class="salmon-box">
+  <br><b>#ToDo</b><br>
+</div>
+### Discussion
+<div class="salmon-box">
+  <br><b>#ToDo</b><br>
+</div>
+

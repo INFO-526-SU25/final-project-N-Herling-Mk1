@@ -232,7 +232,7 @@ We chose this dataset because water insecurity is a critical public health issue
 
 `Note:` While water insecurity encompasses a range of issues, our analysis specifically focuses on plumbing insecurity, as reported in 2022 and 2023.
 
-<b>The two questions to be answered are:</b><br> <b>Question 1:</b> Top counties had the highest plumbing insecurityin 2022 and 2023.
+<b>The two questions to be answered are:</b><br> <b>Question 1:</b> Top counties had the highest plumbing insecurity in 2022 and 2023.
 
 <b>Question 2:</b> How did the plumbing insecurity change from 2022 to 2023 across U.S. counties, and where do significant spatial clusters (hotspots and coldspots) of worsening or improving plumbing access exist?
 
