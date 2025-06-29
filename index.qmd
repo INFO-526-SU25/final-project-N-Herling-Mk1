@@ -13,6 +13,7 @@ format:
     code-line-numbers: true
     embed-resources: true
     css: slide_styles.css
+    code-fold: true        # <-- add this line
 editor: visual
 execute:
   warning: false
@@ -41,21 +42,18 @@ Top counties had the highest plumbing insecurity in 2022 and 2023?
 
 ### Introduction
 
-::: salmon-box
+
 <br><b>These two datasets provide information on the lack of complete indoor plumbing across U.S. counties in 2022 and 2023. The 2022 dataset includes data from 848 counties, while the 2023 dataset covers 854 counties, reflecting increased reporting in 2023. Each dataset contains seven variables: county ID (geoid), county name, geographic boundaries (geometry), year, total population, number of households lacking plumbing, and the percent lacking plumbing. This analysis focuses on identifying the top counties with the highest plumbing insecurity in each year and examining the geographic distribution of these counties to understand regional patterns of indoor plumbing leakage in the United States.</b><br>
-:::
+
 
 ### Approach
 
-::: salmon-box
+
 <br><b>We will identify and visualize the U.S. counties with the highest levels of plumbing insecurity in 2022 and 2023. We first cleaned the data using the dplyr package by sorting counties in descending order of percent lacking plumbing and selecting the top 10 counties. We then created a new variable to classify counties as having greater than 1% or less than 1% plumbing insecurity for color coding in plots. For visualization, we used ggplot2 to create bar graphs displaying the top 10 counties with the highest plumbing insecurity percentages in 2022 and 2023, colored by insecurity level. To visualize the geographic distribution, we loaded a U.S. county shapefile using the tigris package (the geometry information in the datasets were stored as character class strings rather than usable spatial geometry objects), merged it with our top 10 data by county geoid, and created a choropleth map.</b><br>
-:::
+
 
 ### Analysis
 
-::: salmon-box
-<br><b>#ToDo</b><br>
-:::
 
 ```{r}
 # - loading package manager
@@ -70,11 +68,21 @@ pacman::p_load(tidyverse,
                sf,
                tidycensus,
                tigris)
+
+options(readr.show_progress = FALSE)
+options(readr.show_progress = FALSE)
+options(tigris_progress = FALSE)
+sf::sf_use_s2(FALSE)      # optional, disables spherical geometry engine, may help
+options(sf.show_progress = FALSE)  # this is the key
 ```
 
 ```{r}
 #| label: Water Insecurity
-#| message: false
+#| message: FALSE
+#| echo: FALSE
+#| warning: FALSE
+
+
 # Load water insecurity data from the TidyTuesday project (2025-01-28)
 # This dataset explores social vulnerability and access to complete indoor
 # plumbing across U.S. counties,
@@ -84,15 +92,20 @@ pacman::p_load(tidyverse,
 # “Unequal Access to Water” visualization.
 # Repo: 
 # https://github.com/rfordatascience/tidytuesday/tree/main/data/2025/2025-01-28
-water_insecurity_2022 <- read_csv(here("water_insecurity",
-                                       "water_insecurity_2022.csv"))
-water_insecurity_2023 <- read_csv(here("water_insecurity",
-                                       "water_insecurity_2023.csv"))
+suppressMessages(water_insecurity_2022 <- read_csv(here("water_insecurity",
+                                       "water_insecurity_2022.csv"),progress = FALSE))
+suppressMessages(water_insecurity_2023 <- read_csv(here("water_insecurity",
+                                       "water_insecurity_2023.csv"),progress = FALSE))
 glimpse(water_insecurity_2022)
 glimpse(water_insecurity_2023)
 ```
 
 ```{r}
+#| lable: code-block-1
+#| message: FALSE
+#| echo: FALSE
+#| warning: FALSE
+
 Top10_2022<-water_insecurity_2022 |>
   arrange(desc(percent_lacking_plumbing))|>
   slice_head(n = 10)|>
@@ -103,6 +116,12 @@ glimpse(Top10_2022)
 ```
 
 ```{r}
+#| lable: graph-q1-1
+#| message: FALSE
+#| echo: FALSE
+#| warning: FALSE
+
+
 ggplot(Top10_2022, aes(y=name, x=percent_lacking_plumbing, fill = percentage))+
   geom_col()+
   scale_fill_manual(
@@ -118,6 +137,11 @@ ggplot(Top10_2022, aes(y=name, x=percent_lacking_plumbing, fill = percentage))+
 ```
 
 ```{r}
+#| lable: code-block-2
+#| message: FALSE
+#| echo: FALSE
+#| warning: FALSE
+
 Top10_2023<-water_insecurity_2023 |>
   arrange(desc(percent_lacking_plumbing))|>
   slice_head(n = 10)|>
@@ -128,6 +152,9 @@ glimpse(Top10_2023)
 ```
 
 ```{r}
+#| lable: graph-q1-2
+#| message: false
+
 ggplot(Top10_2023, aes(y=name, x=percent_lacking_plumbing, fill = percentage))+
   geom_col()+
   scale_fill_manual(
@@ -142,14 +169,29 @@ ggplot(Top10_2023, aes(y=name, x=percent_lacking_plumbing, fill = percentage))+
    theme(panel.grid = element_blank())
 ```
 
+
+<details>
+
+<summary>Code: Load Library county Data</summary>
 ```{r}
+#| lable: code-block-3
+#| message: FALSE
+#| warning: FALSE
+
 counties_sf <- counties(cb = TRUE, year = 2022, class = "sf")
+
 counties_top10_2022 <- counties_sf |>
   left_join(Top10_2022, by = c("GEOID" = "geoid"))
+
 glimpse(counties_top10_2022)
 ```
+</details>
+
 
 ```{r}
+#| lable: graph-q1-3
+#| message: false
+
 ggplot() +
   geom_sf(data = counties_sf, fill = "grey90", color = "white") +   
   geom_sf(data = counties_top10_2022, aes(fill = percentage), color = NA) + 
@@ -162,6 +204,9 @@ ggplot() +
 ```
 
 ```{r}
+#| lable: code-block-4
+#| message: false
+
 counties_sf <- counties(cb = TRUE, year = 2022, class = "sf")
 counties_top10_2023 <- counties_sf |>
   left_join(Top10_2023, by = c("GEOID" = "geoid"))
@@ -169,6 +214,9 @@ glimpse(counties_top10_2023)
 ```
 
 ```{r}
+#| lable: graph-q1-4
+#| message: false
+
 ggplot() +
   geom_sf(data = counties_sf, fill = "grey90", color = "white") +   
   geom_sf(data = counties_top10_2023, aes(fill = percentage), color = NA) + 
@@ -182,9 +230,9 @@ ggplot() +
 
 ### Discussion
 
-::: salmon-box
+
 <br><b>Both the 2022 and 2023 maps show that Arizona and New Mexico counties dominate the highest plumbing insecurity group (\>1%), suggesting persistent disparities in plumbing access across the Southwest. Among these two states, Apache County (Arizona), McKinley County (New Mexico), and Navajo County (Arizona) consistently ranked among the top four counties with the highest plumbing insecurity in both years, indicating enduring infrastructure and access challenges in these regions. Additionally, Alaska counties, including Fairbanks North Star Borough and Matanuska-Susitna Borough, consistently appeared with notable insecurity levels, highlighting infrastructure limitations in remote areas. Overall, plumbing insecurity in the U.S. remains concentrated in specific Southwestern and Alaskan counties, reflecting long-standing infrastructural inequities in these regions.</b><br>
-:::
+
 
 ## Question 2:
 
