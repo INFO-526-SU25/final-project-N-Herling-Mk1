@@ -39,7 +39,7 @@
     "href": "presentation.html",
     "title": "Project title",
     "section": "",
-    "text": "This slide uses a red triangle for the slide number and shows the date.\n\n\n\n\nMonday-June-23-2025"
+    "text": "This slide uses a red triangle for the slide number and shows the date.\n\n1\n\n\nMonday-June-23-2025"
   },
   {
     "objectID": "presentation.html#quarto",
@@ -206,8 +206,8 @@
     "objectID": "presentation.html#a-slide-with-custom-styling",
     "href": "presentation.html#a-slide-with-custom-styling",
     "title": "Project title",
-    "section": "A Slide with Custom Styling",
-    "text": "A Slide with Custom Styling\nThis slide uses a red triangle for the slide number and shows the date.\n\n1\n\n\nMonday-June-23-2025"
+    "section": "",
+    "text": "This slide uses a red triangle for the slide number and shows the date.\n\n1\n\n\nMonday-June-23-2025"
   },
   {
     "objectID": "presentation_ex.html",
