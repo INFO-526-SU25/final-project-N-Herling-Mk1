@@ -56,3 +56,28 @@
   padding: 12px;                /* space inside the div */
   margin: 16px 0;               /* vertical spacing around the wrapper */
 }
+
+.banner-container {
+  width: 180%; /* More consistent within Reveal.js scaling */
+  margin-top: -50px !important;
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
+  /* Remove any vertical flex alignment gaps */
+  align-items: flex-start !important;
+  margin-left: -10%;  /* Push left by 25% of its container */
+  margin-right: -30%;  /* Push left by 25% of its container */
+}
+
+.banner-image {
+  display: block;    /* remove any inline spacing */
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
+  height: 120px;     /* fixed height as you want */
+  object-fit: cover;
+}
+
+.cell_text_block {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+

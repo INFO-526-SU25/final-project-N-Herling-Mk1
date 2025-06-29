@@ -72,181 +72,562 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 
 
+  <meta name="author" content="">
+  <title>Project Title – presentation</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="site_libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="site_libs/revealjs/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="site_libs/revealjs/dist/theme/quarto-db28581e62606a00efa0e30e8c2a042b.css">
+  <link rel="stylesheet" href="slide_styles.css">
+  <link href="site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="site_libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
 </head>
 
-<body class="nav-fixed">
 
-<div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
-      <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
-    <span class="navbar-title">Project Title</span>
-    </a>
-  </div>
-            <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-  <span class="navbar-toggler-icon"></span>
-</button>
-          <div class="collapse navbar-collapse" id="navbarCollapse">
-            <ul class="navbar-nav navbar-nav-scroll me-auto">
-  <li class="nav-item">
-    <a class="nav-link" href="./index.html"> 
-<span class="menu-text">Project</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="./proposal.html"> 
-<span class="menu-text">Proposal</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link active" href="./presentation.html" aria-current="page"> 
-<span class="menu-text">Presentation</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="./about.html"> 
-<span class="menu-text">About</span></a>
-  </li>  
-</ul>
-            <ul class="navbar-nav navbar-nav-scroll ms-auto">
-  <li class="nav-item compact">
-    <a class="nav-link" href="https://github.com/N-Herling-Mk1/project-final"> <i class="bi bi-github" role="img">
-</i> 
-<span class="menu-text"></span></a>
-  </li>  
-</ul>
-          </div> <!-- /navcollapse -->
-            <div class="quarto-navbar-tools">
-  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+<section class="slide level2">
+
+<!-- slide 0 -->
+<div class="banner-container" style="margin-bottom: 30px;">
+<p><img data-src="images/banner_2.png" class="banner-image" style="max-width: 100%; height: auto;"></p>
 </div>
-      </div> <!-- /container-fluid -->
-    </nav>
-</header>
-<!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
-<!-- sidebar -->
-<!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#using-quarto-for-presentations" id="toc-using-quarto-for-presentations" class="nav-link active" data-scroll-target="#using-quarto-for-presentations">Using Quarto for presentations</a>
-  <ul class="collapse">
-  <li><a href="#a-slide-with-custom-styling" id="toc-a-slide-with-custom-styling" class="nav-link" data-scroll-target="#a-slide-with-custom-styling">A Slide with Custom Styling</a></li>
-  </ul></li>
-  </ul>
-<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="presentation.html"><i class="bi bi-file-slides"></i>RevealJS</a></li></ul></div></nav>
+<div style="position: relative; display: flex; align-items: flex-start; margin-top: 30px; min-height: 300px;">
+  
+  <!-- Left image -->
+  <div style="flex-shrink: 0; margin-right: 40px;">
+    <img src="images/blue_water_2.png" alt="Water Drop" style="height: 300px;">
+  </div>
+
+  <!-- Right column: Text + Logo block -->
+  <div style="display: flex; flex-direction: column; justify-content: space-between; height: 300px;">
+    
+    <!-- Text block -->
+    <div style="
+      font-size: 70px;
+      font-weight: bold;
+      font-family: Arial, sans-serif;
+      text-align: left;
+      line-height: 1.4;
+      color: #1B9FAB;
+    ">
+      Plumbing the Data:<br>
+      Mapping U.S. Water Insecurity
+
+      <div style="font-size: 30px; margin-top: 20px; color: #AB0520;">
+        INFO 526 — Summer 2025 — Final Project
+      </div>
     </div>
-<!-- main -->
-<main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">Project title</h1>
-<p class="subtitle lead">INFO 526 - Summer 2025 - Final Project</p>
-</div>
-
-
-
-<div class="quarto-title-meta">
-
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>Yashi Mi &amp; Nathan Herling </p>
-          </div>
+    <!-- Logo block with fixed width -->
+    <div style="
+      display: flex;
+      align-items: center;
+      border: 1px solid black;
+      border-radius: 12px;
+      padding: 10px 16px;
+      background-color: #fff;
+      margin-top: 20px;
+      width: 420px;
+    ">
+      <img src="images/data_plumbers.png" alt="Logo" style="height: 60px; margin-right: 16px;">
+      <span style="
+        font-size: 18px;
+        font-family: Arial, sans-serif;
+        color: #333;
+      ">
+        <strong>The Data Plumbers:</strong> <br>Yashi Mi &amp; Nathan Herling
+      </span>
+    </div>
   </div>
-    
+</div>
+<!--Slide 1 -->
+</section>
+<section id="section" class="slide level2">
+<h2></h2>
+<div class="banner-container" style="margin-bottom: 30px;">
+<p><img data-src="images/banner_2.png" class="banner-image" style="max-width: 100%; height: auto;"></p>
+</div>
+<h3 id="our-dataset">Our Dataset</h3>
+<div class="cell_text_block">
+<ul>
+<li><p><strong>Title</strong>: “Water Insecurity in the U.S.” (TidyTuesday, 2025-01-28)<br>
+</p></li>
+<li><p><strong>Source</strong>: American Community Survey (ACS), USGS Vizlab<br>
+</p></li>
+<li><p><strong>Curated by</strong>: Niha Pereira</p></li>
+<li><p><strong>Focus</strong>: Plumbing insecurity at the U.S. county level<br>
+</p></li>
+<li><p><strong>Years covered</strong>: 2022 and 2023<br>
+</p></li>
+<li><p><strong>Geographic scope</strong>: 850+ counties per year</p></li>
+</ul>
+</div>
+<!--Slide 2 -->
+</section>
+<section id="section-1" class="slide level2">
+<h2></h2>
+<div class="banner-container" style="margin-bottom: 30px;">
+<p><img data-src="images/banner_2.png" class="banner-image" style="max-width: 100%; height: auto;"></p>
+</div>
+<div style="width: 100%; display: flex; justify-content: flex-start;">
   
-    
+<table class="caption-top" data-quarto-postprocess="true" style="width: 80%;">
+<colgroup>
+<col style="width: 100%">
+</colgroup>
+<tbody>
+<tr class="odd">
+<td style="vertical-align: top"><h3 id="data-files">Data files</h3>
+<ul>
+<li><code>water_insecurity_2022.csv</code></li>
+<li><code>water_insecurity_2023.csv</code></li>
+</ul>
+<h3 id="repository" style="margin-top: 20px;">Repository</h3>
+<p><code>tidytuesday/data/2025/2025-01-28</code></p></td>
+</tr>
+</tbody>
+</table>
+
+</div>
+<!-- slide 3 -->
+</section>
+<section id="section-2" class="slide level2">
+<h2></h2>
+<div class="banner-container" style="margin-bottom: 30px;">
+<p><img data-src="images/banner_2.png" class="banner-image" style="max-width: 100%; height: auto;"></p>
+</div>
+<h3 id="variables-examined">Variables Examined</h3>
+<div style="
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 60px;
+  width: 95%;
+  font-size: 110%;
+  margin: 0;
+  padding: 0;
+">
+
+  <div style="line-height: 1.3;">
+    <ul style="margin: 0; padding-left: 0;">
+      <li><code>geoid</code> – County FIPS code</li>
+      <li><code>name</code> – County name</li>
+      <li><code>year</code> – Survey year</li>
+      <li><code>geometry</code> – County boundaries</li>
+    </ul>
   </div>
-  
 
+  <div style="line-height: 1.3; padding-left: 20px;">
+    <ul style="margin: 0; padding-left: 20px;">
+      <li><code>total_pop</code> – Total population</li>
+      <li><code>plumbing</code> – Households lacking plumbing</li>
+      <li><code>percent_lacking_plumbing</code> – % without plumbing</li>
+    </ul>
+  </div>
 
-</header>
-
-
-<section id="using-quarto-for-presentations" class="level1">
-<h1>Using Quarto for presentations</h1>
-<section id="a-slide-with-custom-styling" class="level2">
-<h2 class="anchored" data-anchor-id="a-slide-with-custom-styling">A Slide with Custom Styling</h2>
-<p>This slide uses a red triangle for the slide number and shows the date.</p>
-<div class="triangle-slide-number">
-<p>1</p>
 </div>
-<div class="slide-date">
-<p>Monday-June-23-2025</p>
+
+<!--Slide 4 -->
+</section>
+<section id="section-3" class="slide level2">
+<h2></h2>
+<div class="banner-container" style="margin-bottom: 30px;">
+<p><img data-src="images/banner_2.png" class="banner-image" style="max-width: 100%; height: auto;"></p>
 </div>
+<h3 id="project-goal">project goal:</h3>
+<div style="
+  border: 2px solid black;
+  border-radius: 12px;
+  padding: 15px 20px;
+  max-width: 800px;
+  font-family: Arial, sans-serif;
+  font-size: 2rem;
+  line-height: 1.5;
+  background-color: #fafafa;
+  ">
+<p>This project analyzes county-level water insecurity in the U.S., focusing on access to complete indoor plumbing in 2022 and 2023. It aims to identify regional disparities and year-over-year trends using spatial and statistical methods. The findings will highlight areas with significant plumbing insecurity to inform efforts toward improving water access equity.</p>
+</div>
+<!--Slide 5 -->
+</section>
+<section id="section-4" class="slide level2">
+<h2></h2>
+<div class="banner-container" style="margin-bottom: 30px;">
+<p><img data-src="images/banner_2.png" class="banner-image" style="max-width: 100%; height: auto;"></p>
+</div>
+<h3 id="question-1">Question 1</h3>
+<!--Slide 6 -->
+</section>
+<section id="section-5" class="slide level2">
+<h2></h2>
+<div class="banner-container" style="margin-bottom: 30px;">
+<p><img data-src="images/banner_2.png" class="banner-image" style="max-width: 100%; height: auto;"></p>
+</div>
+<h3 id="question-1-1">Question 1</h3>
+<!--Slide 7 -->
+</section>
+<section id="section-6" class="slide level2">
+<h2></h2>
+<div class="banner-container" style="margin-bottom: 30px;">
+<p><img data-src="images/banner_2.png" class="banner-image" style="max-width: 100%; height: auto;"></p>
+</div>
+<h3 id="question-2">Question 2</h3>
+<!--Slide 8 -->
+</section>
+<section id="section-7" class="slide level2">
+<h2></h2>
+<div class="banner-container" style="margin-bottom: 30px;">
+<p><img data-src="images/banner_2.png" class="banner-image" style="max-width: 100%; height: auto;"></p>
+</div>
+<h3 id="question-2-1">Question 2</h3>
+<!--Slide 9 -->
+</section>
+<section id="section-8" class="slide level2">
+<h2></h2>
+<div class="banner-container" style="margin-bottom: 30px;">
+<p><img data-src="images/banner_2.png" class="banner-image" style="max-width: 100%; height: auto;"></p>
+</div>
+<h3 id="summary">summary</h3>
+<!--Slide 10 -->
+</section>
+<section id="section-9" class="slide level2">
+<h2></h2>
+<div class="banner-container" style="margin-bottom: 30px;">
+<p><img data-src="images/banner_2.png" class="banner-image" style="max-width: 100%; height: auto;"></p>
+</div>
+<h3 id="final-slideendcreditsthanks">final slide/end/credits/thanks</h3>
 
 
 </section>
-</section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<div class="footer footer-default">
+<div style="
+  position: fixed;
+  bottom: 0;
+  left: 650px;
+  right: 0;
+  height: 50px;
+  background: rgba(255, 255, 255, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px 0 40px;
+  z-index: 9999;
+  box-sizing: border-box;
+">
+<p><span style="font-size: 2em; padding-right: 200px;">Wednesdy-July-02-2025</span> <img src="images/water_drop_2.png" height="41" style="vertical-align: middle;"></p>
+</div>
+</div>
+</div></div>
 
-</main> <!-- /main -->
-<script id="quarto-html-after-body" type="application/javascript">
-window.document.addEventListener("DOMContentLoaded", function (event) {
-  const toggleBodyColorMode = (bsSheetEl) => {
-    const mode = bsSheetEl.getAttribute("data-mode");
-    const bodyEl = window.document.querySelector("body");
-    if (mode === "dark") {
-      bodyEl.classList.add("quarto-dark");
-      bodyEl.classList.remove("quarto-light");
-    } else {
-      bodyEl.classList.add("quarto-light");
-      bodyEl.classList.remove("quarto-dark");
-    }
-  }
-  const toggleBodyColorPrimary = () => {
-    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
-    if (bsSheetEl) {
-      toggleBodyColorMode(bsSheetEl);
-    }
-  }
-  toggleBodyColorPrimary();  
-  const disableStylesheet = (stylesheets) => {
-    for (let i=0; i < stylesheets.length; i++) {
-      const stylesheet = stylesheets[i];
-      stylesheet.rel = 'prefetch';
-    }
-  }
-  const enableStylesheet = (stylesheets) => {
-    for (let i=0; i < stylesheets.length; i++) {
-      const stylesheet = stylesheets[i];
-      stylesheet.rel = 'stylesheet';
-    }
-  }
-  const manageTransitions = (selector, allowTransitions) => {
-    const els = window.document.querySelectorAll(selector);
-    for (let i=0; i < els.length; i++) {
-      const el = els[i];
-      if (allowTransitions) {
-        el.classList.remove('notransition');
-      } else {
-        el.classList.add('notransition');
-      }
-    }
-  }
-  const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
-    const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
-    const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
-    let newTheme = '';
-    if(darkModeDefault) {
-      newTheme = isAlternate ? baseTheme : alternateTheme;
-    } else {
-      newTheme = isAlternate ? alternateTheme : baseTheme;
-    }
-    const changeGiscusTheme = () => {
-      // From: https://github.com/giscus/giscus/issues/336
-      const sendMessage = (message) => {
-        const iframe = document.querySelector('iframe.giscus-frame');
-        if (!iframe) return;
-        iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
-      }
-      sendMessage({
-        setConfig: {
-          theme: newTheme
-        }
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="site_libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="site_libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="site_libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="site_libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="site_libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="site_libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="site_libs/revealjs/plugin/search/search.js"></script>
+  <script src="site_libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="site_libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': true,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: false,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'none',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1050,
+
+        height: 700,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
       });
     }
     const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
