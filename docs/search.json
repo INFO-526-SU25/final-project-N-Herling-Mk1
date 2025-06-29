@@ -37,9 +37,9 @@
   {
     "objectID": "presentation.html",
     "href": "presentation.html",
-    "title": "Project title",
+    "title": "Project Title",
     "section": "",
-    "text": "This slide uses a red triangle for the slide number and shows the date.\n\n\n\n\nMonday-June-23-2025"
+    "text": "&lt;img src=\"images/blue_water_2.png\" alt=\"Water drop\" style=\"height: 60px;\" /&gt;\n&lt;div style=\"\n  font-size: 50px;\n  font-weight: bold;\n  font-family: Arial, sans-serif;\n  text-align: left;\n  line-height: 1.4;\n  color: #1B9FAB;\n\"&gt;\n  Plumbing the Data:&lt;br&gt;\n  Mapping U.S. Water Insecurity\n&lt;/div&gt;\neditor: visual execute: echo: false"
   },
   {
     "objectID": "presentation.html#quarto",
@@ -205,9 +205,9 @@
   {
     "objectID": "presentation.html#a-slide-with-custom-styling",
     "href": "presentation.html#a-slide-with-custom-styling",
-    "title": "Project title",
+    "title": "Project Title",
     "section": "A Slide with Custom Styling",
-    "text": "A Slide with Custom Styling\nThis slide uses a red triangle for the slide number and shows the date.\n\n1\n\n\nMonday-June-23-2025"
+    "text": "A Slide with Custom Styling"
   },
   {
     "objectID": "presentation_ex.html",
@@ -313,5 +313,68 @@
     "title": "Plumbing the Data:Mapping U.S. Water Insecurity",
     "section": "Team roles",
     "text": "Team roles\nEach team member will be assigned one specific question to focus on (Yashi – Question 1, Nathan – Question 2). They will be responsible for independently cleaning, preparing, and analyzing the data related to their assigned question to ensure accuracy and reliability. Throughout the process, team members will collaborate closely during the problem analysis phase, sharing insights and providing constructive feedback to improve problem-solving strategies and ensure their approaches align with the overall objectives of the project.\nIn addition to their individual tasks, both team members will actively contribute to the collective development of the project by co-authoring the proposal, designing and delivering the presentation, and building and maintaining the project website."
+  },
+  {
+    "objectID": "presentation.html#using-quarto-for-presentations",
+    "href": "presentation.html#using-quarto-for-presentations",
+    "title": "Project Title",
+    "section": "Using Quarto for presentations",
+    "text": "Using Quarto for presentations\n\n\n\n\nBanner\n\n\n\n\n  \n    \n  \n  \n    Plumbing the Data:\n    Mapping U.S. Water Insecurity\n    \n      INFO 526 - Summer 2025 - Final Project\n    \n    \n      The Data Plumbers: Yashi Mi & Nathan Herling"
+  },
+  {
+    "objectID": "presentation.html#slide-..",
+    "href": "presentation.html#slide-..",
+    "title": "Project Title",
+    "section": "slide ..",
+    "text": "slide .."
+  },
+  {
+    "objectID": "presentation.html#slide-..-1",
+    "href": "presentation.html#slide-..-1",
+    "title": "Project Title",
+    "section": "slide ..",
+    "text": "slide .."
+  },
+  {
+    "objectID": "presentation.html#slide-..-2",
+    "href": "presentation.html#slide-..-2",
+    "title": "Project Title",
+    "section": "slide ..",
+    "text": "slide .."
+  },
+  {
+    "objectID": "presentation.html#slide-..-3",
+    "href": "presentation.html#slide-..-3",
+    "title": "Project Title",
+    "section": "slide ..",
+    "text": "slide .."
+  },
+  {
+    "objectID": "presentation.html#slide-..-4",
+    "href": "presentation.html#slide-..-4",
+    "title": "Project Title",
+    "section": "slide ..",
+    "text": "slide .."
+  },
+  {
+    "objectID": "presentation.html#slide-..-5",
+    "href": "presentation.html#slide-..-5",
+    "title": "Project Title",
+    "section": "slide ..",
+    "text": "slide .."
+  },
+  {
+    "objectID": "presentation.html#slide-..-6",
+    "href": "presentation.html#slide-..-6",
+    "title": "Project Title",
+    "section": "slide ..",
+    "text": "slide .."
+  },
+  {
+    "objectID": "presentation.html#water-insecurity-animation",
+    "href": "presentation.html#water-insecurity-animation",
+    "title": "Project Title",
+    "section": "Water Insecurity Animation",
+    "text": "Water Insecurity Animation"
   }
 ]

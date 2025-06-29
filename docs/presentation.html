@@ -10,8 +10,8 @@
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.6.42">
 
-  <meta name="author" content="Yashi Mi &amp; Nathan Herling">
-  <title>Project Title – Project title</title>
+  <meta name="author" content="">
+  <title>Project Title – presentation</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -128,40 +128,161 @@
   <div class="reveal">
     <div class="slides">
 
-<section id="title-slide" data-background-image="images/watercolour_sys02_img34_teacup-ocean.jpg" data-background-opacity="0.7" data-background-size="stretch" data-slide-number="none" class="quarto-title-block center">
-  <h1 class="title">Project title</h1>
-  <p class="subtitle">INFO 526 - Summer 2025 - Final Project</p>
 
-<div class="quarto-title-authors">
-<div class="quarto-title-author">
-<div class="quarto-title-author-name">
-Yashi Mi &amp; Nathan Herling 
-</div>
-</div>
-</div>
+<section class="slide level2">
 
-</section>
-<section>
-<section id="using-quarto-for-presentations" class="title-slide slide level1 center">
-<h1>Using Quarto for presentations</h1>
+<div class="banner-container" style="margin-bottom: 30px;">
+<p><img data-src="images/banner_2.png" class="banner-image" style="max-width: 100%; height: auto;"></p>
+</div>
+<div style="position: relative; display: flex; align-items: flex-start; margin-top: 30px; min-height: 300px;">
+  
+  <!-- Left image -->
+  <div style="flex-shrink: 0; margin-right: 40px;">
+    <img src="images/blue_water_2.png" alt="Water Drop" style="height: 300px;">
+  </div>
 
+  <!-- Right column: Text + Logo block -->
+  <div style="display: flex; flex-direction: column; justify-content: space-between; height: 300px;">
+    
+    <!-- Text block -->
+    <div style="
+      font-size: 70px;
+      font-weight: bold;
+      font-family: Arial, sans-serif;
+      text-align: left;
+      line-height: 1.4;
+      color: #1B9FAB;
+    ">
+      Plumbing the Data:<br>
+      Mapping U.S. Water Insecurity
+
+      <div style="font-size: 30px; margin-top: 20px; color: #AB0520;">
+        INFO 526 — Summer 2025 — Final Project
+      </div>
+    </div>
+
+    <!-- Logo block with fixed width -->
+    <div style="
+      display: flex;
+      align-items: center;
+      border: 1px solid black;
+      border-radius: 12px;
+      padding: 10px 16px;
+      background-color: #fff;
+      margin-top: 20px;
+      width: 420px;
+    ">
+      <img src="images/data_plumbers.png" alt="Logo" style="height: 60px; margin-right: 16px;">
+      <span style="
+        font-size: 18px;
+        font-family: Arial, sans-serif;
+        color: #333;
+      ">
+        <strong>The Data Plumbers:</strong> <br>Yashi Mi &amp; Nathan Herling
+      </span>
+    </div>
+  </div>
+</div>
 </section>
 <section id="a-slide-with-custom-styling" class="slide level2">
 <h2>A Slide with Custom Styling</h2>
-<p>This slide uses a red triangle for the slide number and shows the date.</p>
-<div class="triangle-slide-number">
-<p>1</p>
-</div>
-<div class="slide-date">
-<p>Monday-June-23-2025</p>
+</section>
+<section id="water-insecurity-animation" class="slide level2">
+<h2>Water Insecurity Animation</h2>
+<div style="width: 300px; margin: auto;">
+  <svg viewbox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+    <style>
+      /* Droplet animation: fall + fade */
+      .droplet {
+        fill: #1B9FAB;
+        transform-origin: 60px 20px;
+        animation: drop-fall 3s infinite ease-in-out;
+      }
+      @keyframes drop-fall {
+        0% { transform: translateY(0); opacity: 1; }
+        80% { transform: translateY(70px); opacity: 1; }
+        90% { opacity: 0; }
+        100% { transform: translateY(0); opacity: 0; }
+      }
+
+      /* Ground crack pulse */
+      .crack {
+        stroke: #8B4513;
+        stroke-width: 2;
+        fill: none;
+        transform-origin: 60px 110px;
+        animation: crack-pulse 3s infinite ease-in-out;
+      }
+      @keyframes crack-pulse {
+        0%, 100% { transform: scaleX(1) scaleY(1); opacity: 1; }
+        50% { transform: scaleX(1.2) scaleY(1.2); opacity: 0.6; }
+      }
+
+      /* Tap */
+      .tap {
+        fill: #555;
+      }
+    </style>
+
+    <!-- Tap -->
+    <rect class="tap" x="50" y="0" width="20" height="30" rx="4" ry="4"></rect>
+    <rect class="tap" x="58" y="30" width="4" height="10" rx="2" ry="2"></rect>
+
+    <!-- Droplet -->
+    <circle class="droplet" cx="60" cy="20" r="6"></circle>
+
+    <!-- Ground line -->
+    <line x1="0" y1="110" x2="120" y2="110" stroke="#654321" stroke-width="4"></line>
+
+    <!-- Cracks -->
+    <path class="crack" d="M40 110 L50 100 L60 110"></path>
+    <path class="crack" d="M80 110 L70 100 L60 110"></path>
+  </svg>
 </div>
 
+</section>
+<section id="slide-.." class="slide level2">
+<h2>slide ..</h2>
+</section>
+<section id="slide-..-1" class="slide level2">
+<h2>slide ..</h2>
+</section>
+<section id="slide-..-2" class="slide level2">
+<h2>slide ..</h2>
+</section>
+<section id="slide-..-3" class="slide level2">
+<h2>slide ..</h2>
+</section>
+<section id="slide-..-4" class="slide level2">
+<h2>slide ..</h2>
+</section>
+<section id="slide-..-5" class="slide level2">
+<h2>slide ..</h2>
+</section>
+<section id="slide-..-6" class="slide level2">
+<h2>slide ..</h2>
 
-</section></section>
+
+</section>
     </div>
   <div class="quarto-auto-generated-content" style="display: none;">
 <div class="footer footer-default">
-
+<div style="
+  position: fixed;
+  bottom: 0;
+  left: 500px;
+  right: 0;
+  height: 50px;
+  background: rgba(255, 255, 255, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px 0 40px;
+  z-index: 9999;
+  box-sizing: border-box;
+">
+<p><span style="font-size: 1em;">June 27, 2025</span> <img src="images/water_drop_2.png" height="40" style="vertical-align: middle;"></p>
+</div>
 </div>
 </div></div>
 

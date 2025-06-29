@@ -56,3 +56,26 @@
   padding: 12px;                /* space inside the div */
   margin: 16px 0;               /* vertical spacing around the wrapper */
 }
+
+.banner-container {
+  width: 180%; /* More consistent within Reveal.js scaling */
+  margin-top: -60px !important;
+  margin-bottom: 0.5em;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.banner-image {
+  width: 100%;
+  max-width: none;
+  max-height: 120px;
+  height: auto;
+  object-fit: cover;
+}
+
