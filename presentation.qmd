@@ -11,7 +11,7 @@ footer: |
   <div style="
     position: fixed;
     bottom: 0;
-    left: 500px;
+    left: 650px;
     right: 0;
     height: 50px;
     background: rgba(255, 255, 255, 0.8);
@@ -22,8 +22,8 @@ footer: |
     z-index: 9999;
     box-sizing: border-box;
   ">
-    <span style="font-size: 1em;">June 27, 2025</span>
-    <img src="images/water_drop_2.png" height="40" style="vertical-align: middle;" />
+    <span style="font-size: 2em; padding-right: 200px;">Wednesdy-July-02-2025</span>
+    <img src="images/water_drop_2.png" height="41" style="vertical-align: middle;" />
   </div>
 editor: visual
 execute:
@@ -65,8 +65,9 @@ data(mtcars)
 mtcars$speed <- mtcars$hp / mtcars$wt
 
 # ---- load data here, I guess ..........
+# TODO_
 ```
-
+<!-- slide 0 -->
 :::{.banner-container style="margin-bottom: 30px;"}
 ![](images/banner_2.png){.banner-image style="max-width: 100%; height: auto;"}
 :::
@@ -123,82 +124,145 @@ mtcars$speed <- mtcars$hp / mtcars$wt
 </div>
 ```
 
+<!--Slide 1 -->
+##
+:::{.banner-container style="margin-bottom: 30px;"}
+![](images/banner_2.png){.banner-image style="max-width: 100%; height: auto;"}
+:::
+
+### Our Dataset 
+
+<div class="cell_text_block">
+- **Title**: "Water Insecurity in the U.S." (TidyTuesday, 2025-01-28)  
+- **Source**: American Community Survey (ACS), USGS Vizlab  
+- **Curated by**: Niha Pereira  
+
+- **Focus**: Plumbing insecurity at the U.S. county level  
+- **Years covered**: 2022 and 2023  
+- **Geographic scope**: 850+ counties per year
+</div>
 
 
-
-
-## A Slide with Custom Styling
-## Water Insecurity Animation
+<!--Slide 2 -->
+##
+:::{.banner-container style="margin-bottom: 30px;"}
+![](images/banner_2.png){.banner-image style="max-width: 100%; height: auto;"}
+:::
 
 ```{=html}
-<div style="width: 300px; margin: auto;">
-  <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" >
-    <style>
-      /* Droplet animation: fall + fade */
-      .droplet {
-        fill: #1B9FAB;
-        transform-origin: 60px 20px;
-        animation: drop-fall 3s infinite ease-in-out;
-      }
-      @keyframes drop-fall {
-        0% { transform: translateY(0); opacity: 1; }
-        80% { transform: translateY(70px); opacity: 1; }
-        90% { opacity: 0; }
-        100% { transform: translateY(0); opacity: 0; }
-      }
+<div style="width: 100%; display: flex; justify-content: flex-start;">
+  <table style="width: 80%;">
+    <tr>
+      <td style="vertical-align: top;">
+        <h3>Data files</h3>
+        <ul>
+          <li><code>water_insecurity_2022.csv</code></li>
+          <li><code>water_insecurity_2023.csv</code></li>
+        </ul>
+        <h3 style="margin-top: 20px;">Repository</h3>
+        <p><code>tidytuesday/data/2025/2025-01-28</code></p>
+      </td>
+    </tr>
+  </table>
+</div>
+```
 
-      /* Ground crack pulse */
-      .crack {
-        stroke: #8B4513;
-        stroke-width: 2;
-        fill: none;
-        transform-origin: 60px 110px;
-        animation: crack-pulse 3s infinite ease-in-out;
-      }
-      @keyframes crack-pulse {
-        0%, 100% { transform: scaleX(1) scaleY(1); opacity: 1; }
-        50% { transform: scaleX(1.2) scaleY(1.2); opacity: 0.6; }
-      }
+<!-- slide 3 -->
+##
+:::{.banner-container style="margin-bottom: 30px;"}
+![](images/banner_2.png){.banner-image style="max-width: 100%; height: auto;"}
+:::
+### Variables Examined
+```{=html}
+<div style="
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 60px;
+  width: 95%;
+  font-size: 110%;
+  margin: 0;
+  padding: 0;
+">
 
-      /* Tap */
-      .tap {
-        fill: #555;
-      }
-    </style>
+  <div style="line-height: 1.3;">
+    <ul style="margin: 0; padding-left: 0;">
+      <li><code>geoid</code> – County FIPS code</li>
+      <li><code>name</code> – County name</li>
+      <li><code>year</code> – Survey year</li>
+      <li><code>geometry</code> – County boundaries</li>
+    </ul>
+  </div>
 
-    <!-- Tap -->
-    <rect class="tap" x="50" y="0" width="20" height="30" rx="4" ry="4" />
-    <rect class="tap" x="58" y="30" width="4" height="10" rx="2" ry="2" />
+  <div style="line-height: 1.3; padding-left: 20px;">
+    <ul style="margin: 0; padding-left: 20px;">
+      <li><code>total_pop</code> – Total population</li>
+      <li><code>plumbing</code> – Households lacking plumbing</li>
+      <li><code>percent_lacking_plumbing</code> – % without plumbing</li>
+    </ul>
+  </div>
 
-    <!-- Droplet -->
-    <circle class="droplet" cx="60" cy="20" r="6" />
-
-    <!-- Ground line -->
-    <line x1="0" y1="110" x2="120" y2="110" stroke="#654321" stroke-width="4" />
-
-    <!-- Cracks -->
-    <path class="crack" d="M40 110 L50 100 L60 110" />
-    <path class="crack" d="M80 110 L70 100 L60 110" />
-  </svg>
 </div>
 
 ```
-##  slide ..
+
+<!--Slide 4 -->
+##
+:::{.banner-container style="margin-bottom: 30px;"}
+![](images/banner_2.png){.banner-image style="max-width: 100%; height: auto;"}
+:::
+### project goal:
+<div style="
+  border: 2px solid black;
+  border-radius: 12px;
+  padding: 15px 20px;
+  max-width: 800px;
+  font-family: Arial, sans-serif;
+  font-size: 2rem;
+  line-height: 1.5;
+  background-color: #fafafa;
+  ">
+  This project analyzes county-level water insecurity in the U.S., focusing on access to complete indoor plumbing in 2022 and 2023. It aims to identify regional disparities and year-over-year trends using spatial and statistical methods. The findings will highlight areas with significant plumbing insecurity to inform efforts toward improving water access equity.
+</div>
 
 
-##  slide ..
+<!--Slide 5 -->
+##
+:::{.banner-container style="margin-bottom: 30px;"}
+![](images/banner_2.png){.banner-image style="max-width: 100%; height: auto;"}
+:::
+### Question 1
 
+<!--Slide 6 -->
+##
+:::{.banner-container style="margin-bottom: 30px;"}
+![](images/banner_2.png){.banner-image style="max-width: 100%; height: auto;"}
+:::
+### Question 1
 
-##  slide ..
+<!--Slide 7 -->
+##
+:::{.banner-container style="margin-bottom: 30px;"}
+![](images/banner_2.png){.banner-image style="max-width: 100%; height: auto;"}
+:::
+### Question 2
 
+<!--Slide 8 -->
+##
+:::{.banner-container style="margin-bottom: 30px;"}
+![](images/banner_2.png){.banner-image style="max-width: 100%; height: auto;"}
+:::
+### Question 2
 
-##  slide ..
+<!--Slide 9 -->
+##
+:::{.banner-container style="margin-bottom: 30px;"}
+![](images/banner_2.png){.banner-image style="max-width: 100%; height: auto;"}
+:::
+### summary
 
-
-##  slide ..
-
-
-##  slide ..
-
-
-##  slide ..
+<!--Slide 10 -->
+##
+:::{.banner-container style="margin-bottom: 30px;"}
+![](images/banner_2.png){.banner-image style="max-width: 100%; height: auto;"}
+:::
+### final slide/end/credits/thanks

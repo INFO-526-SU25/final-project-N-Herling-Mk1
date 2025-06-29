@@ -376,5 +376,89 @@
     "title": "Project Title",
     "section": "Water Insecurity Animation",
     "text": "Water Insecurity Animation"
+  },
+  {
+    "objectID": "presentation.html#our-dataset",
+    "href": "presentation.html#our-dataset",
+    "title": "Project Title",
+    "section": "Our Dataset",
+    "text": "Our Dataset\n\n\n\nThe dataset we are using is titled “Water Insecurity in the U.S.”, sourced from the TidyTuesday project (2025-01-28) and originally compiled by Niha Pereira using data from the American Community Survey (ACS) and USGS Vizlab.\nThe data focuses on county-level plumbing insecurity in the United States and includes information for two years: 2022 and 2023. It provides insight into which households across U.S. counties lack access to complete indoor plumbing—a measurable and critical indicator of water insecurity.\nOur Data:\n\nwater_insecurity_2022 dataset\n\nwater_insecurity_2023 dataset\n\nThese datasets contain variables such as:\n\nCounty name and geographic ID (name, geoid)\nTotal population (total_pop)\nHouseholds lacking plumbing (plumbing)\nPercent of population lacking plumbing (percent_lacking_plumbing)\nYear (year)\nCounty boundary geometry (geometry)\n\nTogether, they allow us to analyze spatial and temporal disparities in plumbing access across the U.S., as well as detect hotspots and coldspots of change between 2022 and 2023."
+  },
+  {
+    "objectID": "presentation.html#section",
+    "href": "presentation.html#section",
+    "title": "Project Title",
+    "section": "",
+    "text": "Our Dataset\n\n\nTitle: “Water Insecurity in the U.S.” (TidyTuesday, 2025-01-28)\n\nSource: American Community Survey (ACS), USGS Vizlab\n\nCurated by: Niha Pereira\nFocus: Plumbing insecurity at the U.S. county level\n\nYears covered: 2022 and 2023\n\nGeographic scope: 850+ counties per year"
+  },
+  {
+    "objectID": "presentation.html#section-1",
+    "href": "presentation.html#section-1",
+    "title": "Project Title",
+    "section": "",
+    "text": "Data files\n\nwater_insecurity_2022.csv\nwater_insecurity_2023.csv\n\nRepository\ntidytuesday/data/2025/2025-01-28"
+  },
+  {
+    "objectID": "presentation.html#data-overview",
+    "href": "presentation.html#data-overview",
+    "title": "Project Title",
+    "section": "Data Overview",
+    "text": "Data Overview\n\n\n\n\nData files\n\n\n\nwater_insecurity_2022.csv\n\n\nwater_insecurity_2023.csv\n\n\n\n\n\nKey variables\n\n\n\ngeoid – County FIPS code\n\n\nname – County name\n\n\nyear – Survey year\n\n\ngeometry – County boundaries\n\n\ntotal_pop – Total population\n\n\nplumbing – Households lacking plumbing\n\n\npercent_lacking_plumbing – % of population without plumbing"
+  },
+  {
+    "objectID": "presentation.html#section-2",
+    "href": "presentation.html#section-2",
+    "title": "Project Title",
+    "section": "",
+    "text": "Variables Examined\n\n\n  \n    \n      geoid – County FIPS code\n      name – County name\n      year – Survey year\n      geometry – County boundaries\n    \n  \n\n  \n    \n      total_pop – Total population\n      plumbing – Households lacking plumbing\n      percent_lacking_plumbing – % without plumbing"
+  },
+  {
+    "objectID": "presentation.html#section-3",
+    "href": "presentation.html#section-3",
+    "title": "Project Title",
+    "section": "",
+    "text": "project goal:\n\nThis project analyzes county-level water insecurity in the U.S., focusing on access to complete indoor plumbing in 2022 and 2023. It aims to identify regional disparities and year-over-year trends using spatial and statistical methods. The findings will highlight areas with significant plumbing insecurity to inform efforts toward improving water access equity."
+  },
+  {
+    "objectID": "presentation.html#section-4",
+    "href": "presentation.html#section-4",
+    "title": "Project Title",
+    "section": "",
+    "text": "Question 1"
+  },
+  {
+    "objectID": "presentation.html#section-5",
+    "href": "presentation.html#section-5",
+    "title": "Project Title",
+    "section": "",
+    "text": "Question 1"
+  },
+  {
+    "objectID": "presentation.html#section-6",
+    "href": "presentation.html#section-6",
+    "title": "Project Title",
+    "section": "",
+    "text": "Question 2"
+  },
+  {
+    "objectID": "presentation.html#section-7",
+    "href": "presentation.html#section-7",
+    "title": "Project Title",
+    "section": "",
+    "text": "Question 2"
+  },
+  {
+    "objectID": "presentation.html#section-8",
+    "href": "presentation.html#section-8",
+    "title": "Project Title",
+    "section": "",
+    "text": "summary"
+  },
+  {
+    "objectID": "presentation.html#section-9",
+    "href": "presentation.html#section-9",
+    "title": "Project Title",
+    "section": "",
+    "text": "final slide/end/credits/thanks"
   }
 ]

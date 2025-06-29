@@ -59,23 +59,25 @@
 
 .banner-container {
   width: 180%; /* More consistent within Reveal.js scaling */
-  margin-top: -60px !important;
-  margin-bottom: 0.5em;
-  padding: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: none;
-  position: relative;
-  left: 50%;
-  transform: translateX(-50%);
+  margin-top: -50px !important;
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
+  /* Remove any vertical flex alignment gaps */
+  align-items: flex-start !important;
+  margin-left: -10%;  /* Push left by 25% of its container */
+  margin-right: -30%;  /* Push left by 25% of its container */
 }
 
 .banner-image {
-  width: 100%;
-  max-width: none;
-  max-height: 120px;
-  height: auto;
+  display: block;    /* remove any inline spacing */
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
+  height: 120px;     /* fixed height as you want */
   object-fit: cover;
+}
+
+.cell_text_block {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
 }
 
