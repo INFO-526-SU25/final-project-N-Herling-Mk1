@@ -100,7 +100,7 @@ mtcars$speed <- mtcars$hp / mtcars$wt
       </div>
     </div>
 
-    <!-- Logo block with fixed width -->
+    <!-- Larger Logo block -->
     <div style="
       display: flex;
       align-items: center;
@@ -109,19 +109,20 @@ mtcars$speed <- mtcars$hp / mtcars$wt
       padding: 10px 16px;
       background-color: #fff;
       margin-top: 20px;
-      width: 420px;
+      width: 480px;
     ">
-      <img src="images/data_plumbers.png" alt="Logo" style="height: 60px; margin-right: 16px;" />
+      <img src="images/data_plumbers.png" alt="Logo" style="height: 90px; margin-right: 16px;" />
       <span style="
-        font-size: 18px;
+        font-size: 20px;
         font-family: Arial, sans-serif;
         color: #333;
       ">
-        <strong>The Data Plumbers:</strong> <br>Yashi Mi & Nathan Herling
+        <strong>The Data Plumbers:</strong><br>Yashi Mi & Nathan Herling
       </span>
     </div>
   </div>
 </div>
+
 ```
 
 <!--Slide 1 -->
