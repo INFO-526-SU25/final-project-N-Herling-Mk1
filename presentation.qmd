@@ -187,17 +187,17 @@ suppressMessages(water_insecurity_2023 <- read_csv(here("water_insecurity",
 ```{=html}
 <div style="width: 100%; display: flex; justify-content: flex-start;">
   <table style="width: 80%;">
-  <tr>
-    <td style="vertical-align: top;">
-      <h3>Data files</h3>
-      <ul>
-        <li><code>water_insecurity_2022.csv</code></li>
-        <li><code>water_insecurity_2023.csv</code></li>
-      </ul>
-      <h3 style="margin-top: 20px;">Repository</h3>
-      <p><code>tidytuesday/data/2025/2025-01-28</code></p>
-    </td>
-  </tr>
+<tr>
+  <td style="vertical-align: top;">
+    <h3>Data files</h3>
+    <ul>
+      <li><code>water_insecurity_2022.csv</code></li>
+      <li><code>water_insecurity_2023.csv</code></li>
+    </ul>
+    <h3 style="margin-top: 20px;">Repository</h3>
+    <p><code>tidytuesday/data/2025/2025-01-28</code></p>
+  </td>
+</tr>
 </table>
 </div>
 ```
@@ -254,16 +254,7 @@ suppressMessages(water_insecurity_2023 <- read_csv(here("water_insecurity",
 ### project goal:
 
 ::: {style="
-  border: 2px solid black;
-  border-radius: 12px;
-  padding: 15px 20px;
-  max-width: 800px;
-  font-family: Arial, sans-serif;
-  font-size: 2rem;
-  line-height: 1.5;
-  background-color: #fafafa;
-  "}
-This project analyzes county-level water insecurity in the U.S., focusing on access to complete indoor plumbing in 2022 and 2023. It aims to identify regional disparities and year-over-year trends using spatial and statistical methods. The findings will highlight areas with significant plumbing insecurity to inform efforts toward improving water access equity.
+border: 2px solid black; border-radius: 12px; padding: 15px 20px; max-width: 800px; font-family: Arial, sans-serif; font-size: 2rem; line-height: 1.5; background-color: #fafafa; "} This project analyzes county-level water insecurity in the U.S., focusing on access to complete indoor plumbing in 2022 and 2023. It aims to identify regional disparities and year-over-year trends using spatial and statistical methods. The findings will highlight areas with significant plumbing insecurity to inform efforts toward improving water access equity.
 :::
 
 <!--Slide 5 -->
