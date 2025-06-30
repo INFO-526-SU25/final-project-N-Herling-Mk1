@@ -5,7 +5,12 @@ library(tigris)
 library(spdep)
 library(tmap)
 
-# Cache tigris shapefiles
+
+# - hot spot orange/yellow
+#Hex - #FB9A06
+
+# - cold spot teal
+#Hex - #1ABC9C
 options(tigris_use_cache = TRUE)
 
 # ────────────────────────────────────────────────

@@ -46,7 +46,10 @@ pacman::p_load(tidyverse,
                sf,
                tidycensus,
                tigris,
-               patchwork)
+               patchwork,
+               viridis,
+               spdep
+               )
 options(readr.show_progress = FALSE)
 options(readr.show_progress = FALSE)
 options(tigris_progress = FALSE)
@@ -156,8 +159,8 @@ suppressMessages(water_insecurity_2023 <- read_csv(here("water_insecurity",
 
 ## 
 
-::: {.banner-container style="margin-bottom: 30px;"}
-![](images/banner_2.png){.banner-image style="max-width: 100%; height: auto;"}
+::: {.banner-container style="margin-bottom: 10px;"}
+![](images/banner_4.png){.banner-image style="max-width: 100%; height: auto;"}
 :::
 
 ### Our Dataset
@@ -180,8 +183,8 @@ suppressMessages(water_insecurity_2023 <- read_csv(here("water_insecurity",
 
 ## 
 
-::: {.banner-container style="margin-bottom: 30px;"}
-![](images/banner_2.png){.banner-image style="max-width: 100%; height: auto;"}
+::: {.banner-container style="margin-bottom: 10px;"}
+![](images/banner_4.png){.banner-image style="max-width: 100%; height: auto;"}
 :::
 
 ```{=html}
@@ -206,8 +209,8 @@ suppressMessages(water_insecurity_2023 <- read_csv(here("water_insecurity",
 
 ## 
 
-::: {.banner-container style="margin-bottom: 30px;"}
-![](images/banner_2.png){.banner-image style="max-width: 100%; height: auto;"}
+::: {.banner-container style="margin-bottom: 10px;"}
+![](images/banner_4.png){.banner-image style="max-width: 100%; height: auto;"}
 :::
 
 ### Variables Examined
@@ -247,22 +250,24 @@ suppressMessages(water_insecurity_2023 <- read_csv(here("water_insecurity",
 
 ## 
 
-::: {.banner-container style="margin-bottom: 30px;"}
-![](images/banner_2.png){.banner-image style="max-width: 100%; height: auto;"}
+::: {.banner-container style="margin-bottom: 10px;"}
+![](images/banner_4.png){.banner-image style="max-width: 100%; height: auto;"}
 :::
 
 ### project goal:
 
-::: {style="
-border: 2px solid black; border-radius: 12px; padding: 15px 20px; max-width: 800px; font-family: Arial, sans-serif; font-size: 2rem; line-height: 1.5; background-color: #fafafa; "} This project analyzes county-level water insecurity in the U.S., focusing on access to complete indoor plumbing in 2022 and 2023. It aims to identify regional disparities and year-over-year trends using spatial and statistical methods. The findings will highlight areas with significant plumbing insecurity to inform efforts toward improving water access equity.
+::: {.custom-box style="border: 2px solid black; border-radius: 12px; padding: 15px 20px; max-width: 800px; font-family: Arial, sans-serif; font-size: 2rem; line-height: 1.5; background-color: #fafafa;"}
+
+This project analyzes county-level water insecurity in the U.S., focusing on access to complete indoor plumbing in 2022 and 2023. It aims to identify regional disparities and year-over-year trends using spatial and statistical methods. The findings will highlight areas with significant plumbing insecurity to inform efforts toward improving water access equity.
+
 :::
 
 <!--Slide 5 -->
 
 ## 
 
-::: {.banner-container style="margin-bottom: 30px;"}
-![](images/banner_2.png){.banner-image style="max-width: 100%; height: auto;"}
+::: {.banner-container style="margin-bottom: 10px;"}
+![](images/banner_4.png){.banner-image style="max-width: 100%; height: auto;"}
 :::
 
 ### Question 1
@@ -277,21 +282,18 @@ This analysis focuses on identifying the top counties with the highest plumbing 
 
 ## 
 
-::: {.banner-container style="margin-bottom: 30px;"}
-![](images/banner_2.png){.banner-image style="max-width: 100%; height: auto;"}
-:::
+<h3 style="font-size: 32px; color: #2A9D8F; font-weight: bold; margin: 0px;">Question 1</h3>
 
-### Question 1
+<span style="font-size: 25px; margin: 0px;">Top 10 Counties with Highest Plumbing Insecurity in 2022 and 2023</span>
 
-##### Top 10 Counties with Highest Plumbing Insecurity in 2022 and 2023
 
 ```{r}
 #| lable: question1-results1
 #| echo: false
 #| message: false
 #| warning: false
-#| fig-width: 10
-#| fig-height: 5
+#| fig-width: 14
+#| fig-height: 3
 
 options(cli.default_handler = function(...) invisible())
 options(tigris_use_cache = TRUE)
@@ -348,21 +350,22 @@ plot_2023_bar <-ggplot(Top10_2023, aes(y=name, x=percent_lacking_plumbing, fill 
 
 ## 
 
-::: {.banner-container style="margin-bottom: 30px;"}
-![](images/banner_2.png){.banner-image style="max-width: 100%; height: auto;"}
-:::
-
 ### Question 1
 
-##### Top 10 Counties with Highest Plumbing Insecurity in 2022 and 2023
+<span style="font-size: 25px; margin: 0px;">Top 10 Counties with Highest Plumbing Insecurity in 2022 and 2023</span>
 
+::: {.full-plot-container}
 ```{r}
 #| lable: question1-results2
 #| echo: false
 #| message: false
 #| warning: false
 #| fig-width: 10
-#| fig-height: 4
+#| fig-height: 16
+#| out.width: "100%"
+#| out.height: "auto"
+#| fig-align: "center"
+
 
 options(cli.default_handler = function(...) invisible())
 options(tigris_use_cache = TRUE)
@@ -395,23 +398,27 @@ plot_2023_map <-ggplot() +
   theme_minimal()
 plot_2022_map | plot_2023_map
 ```
-
+:::
 <!--Slide 8 -->
 
 ## 
 
-::: {.banner-container style="margin-bottom: 30px;"}
-![](images/banner_2.png){.banner-image style="max-width: 100%; height: auto;"}
+::: {.banner-container style="margin-bottom: 10px;"}
+![](images/banner_4.png){.banner-image style="max-width: 100%; height: auto;"}
 :::
 
 ### Question 2
-
+::: cell_text_block
+**Top U.S. Counties in Hotspot and Coldspot Clusters of Plumbing Insecurity (2022–2023)?**
+<br>
+This analysis focuses on measuring year-over-year changes in plumbing insecurity across U.S. counties and identifying spatial clusters of significant improvement or decline, in order to understand where regional shifts in plumbing access are occurring and whether those shifts follow meaningful geographic patterns.
+:::
 <!--Slide 9 -->
 
 ## 
 
-::: {.banner-container style="margin-bottom: 30px;"}
-![](images/banner_2.png){.banner-image style="max-width: 100%; height: auto;"}
+::: {.banner-container style="margin-bottom: 10px;"}
+![](images/banner_4.png){.banner-image style="max-width: 100%; height: auto;"}
 :::
 
 ### Question 2
@@ -420,8 +427,8 @@ plot_2022_map | plot_2023_map
 
 ## 
 
-::: {.banner-container style="margin-bottom: 30px;"}
-![](images/banner_2.png){.banner-image style="max-width: 100%; height: auto;"}
+::: {.banner-container style="margin-bottom: 10px;"}
+![](images/banner_4.png){.banner-image style="max-width: 100%; height: auto;"}
 :::
 
 ### summary
@@ -436,8 +443,8 @@ plot_2022_map | plot_2023_map
 
 ## 
 
-::: {.banner-container style="margin-bottom: 30px;"}
-![](images/banner_2.png){.banner-image style="max-width: 100%; height: auto;"}
+::: {.banner-container style="margin-bottom: 10px;"}
+![](images/banner_4.png){.banner-image style="max-width: 100%; height: auto;"}
 :::
 
 ### Thank You!
