@@ -32,7 +32,7 @@ execute:
 | Summary of results    | 1-2 sentences                   | No        |
 :::
 
-Plumbing insecurity—a key dimension of water insecurity—refers to households lacking complete indoor plumbing, which has direct implications for public health, hygiene, and infrastructure equity. While those who live in the developed world often take it for granted, Inadequate access to safe, indoor plumbing increases the risk of waterborne diseases, hampers hygiene practices, and disproportionately affects vulnerable populations in both high- and low-income countries. . Monitoring changes in plumbing insecurity can help identify emerging public health risks, guide resource allocation, and inform equitable infrastructure development at local, national, and global levels. It also enables policymakers and researchers to track progress toward universal access to basic services, ensuring that no communities are left behind in efforts to improve health and living conditions . This project examines plumbing insecurity across U.S. counties using 2022 and 2023 data from the American Community Survey (ACS). We identify counties with the highest levels of plumbing insecurity each year and assess spatial changes over time to highlight areas of significant improvement or decline. Using bar plots, choropleth maps, and spatial clustering techniques (Getis-Ord G), we visualize affected regions and detect geographic “hotspots” and “coldspots” of change. Our findings reveal persistent regional disparities and statistically significant patterns in plumbing access, emphasizing the need for spatially targeted policy interventions. . <br> <b>#ToDo --\> discuss results.</b><br> <b>#ToDo --\> probably cut some categories down to 1 sentence (it's pretty lengthy)</b>
+Plumbing insecurity—a key dimension of water insecurity—refers to households lacking complete indoor plumbing, which has direct implications for public health, hygiene, and infrastructure equity. While those who live in the developed world often take it for granted, Inadequate access to safe, indoor plumbing increases the risk of waterborne diseases, hampers hygiene practices, and disproportionately affects vulnerable populations in both high- and low-income countries. Monitoring changes in plumbing insecurity can help identify emerging public health risks, guide resource allocation, and inform equitable infrastructure development at local, national, and global levels. **It also enables policymakers and researchers to track progress toward universal access to basic services, ensuring that no communities are left behind in efforts to improve health and living conditions .** This project examines U.S. county-level plumbing insecurity using 2022–2023 ACS data, identifying counties with highest insecurity and assessing spatial changes.(**This project examines plumbing insecurity across U.S. counties using 2022 and 2023 data from the American Community Survey (ACS). We identify counties with the highest levels of plumbing insecurity each year and assess spatial changes over time to highlight areas of significant improvement or decline.** )Using bar plots, choropleth maps, and spatial clustering techniques (Getis-Ord G), we visualize affected regions and detect geographic “hotspots” and “coldspots” of change. Our findings reveal persistent regional disparities and statistically significant patterns in plumbing access, emphasizing the need for spatially targeted policy interventions. . <br> <b>#ToDo --\> discuss results. Plumbing insecurity remains concentrated in Arizona and New Mexico, with Apache, McKinley, and Navajo counties consistently among the most affected. Alaska counties like Fairbanks North Star and Matanuska-Susitna also show notable insecurity, highlighting persistent infrastructural challenges in both the Southwest and remote regions.</b><br> <b>#ToDo --\> probably cut some categories down to 1 sentence (it's pretty lengthy)</b>
 
 ## Question 1:
 
@@ -42,18 +42,13 @@ Top counties had the highest plumbing insecurity in 2022 and 2023?
 
 ### Introduction
 
-
 <br><b>These two datasets provide information on the lack of complete indoor plumbing across U.S. counties in 2022 and 2023. The 2022 dataset includes data from 848 counties, while the 2023 dataset covers 854 counties, reflecting increased reporting in 2023. Each dataset contains seven variables: county ID (geoid), county name, geographic boundaries (geometry), year, total population, number of households lacking plumbing, and the percent lacking plumbing. This analysis focuses on identifying the top counties with the highest plumbing insecurity in each year and examining the geographic distribution of these counties to understand regional patterns of indoor plumbing leakage in the United States.</b><br>
-
 
 ### Approach
 
-
 <br><b>We will identify and visualize the U.S. counties with the highest levels of plumbing insecurity in 2022 and 2023. We first cleaned the data using the dplyr package by sorting counties in descending order of percent lacking plumbing and selecting the top 10 counties. We then created a new variable to classify counties as having greater than 1% or less than 1% plumbing insecurity for color coding in plots. For visualization, we used ggplot2 to create bar graphs displaying the top 10 counties with the highest plumbing insecurity percentages in 2022 and 2023, colored by insecurity level. To visualize the geographic distribution, we loaded a U.S. county shapefile using the tigris package (the geometry information in the datasets were stored as character class strings rather than usable spatial geometry objects), merged it with our top 10 data by county geoid, and created a choropleth map.</b><br>
 
-
 ### Analysis
-
 
 ```{r}
 # - loading package manager
@@ -169,10 +164,10 @@ ggplot(Top10_2023, aes(y=name, x=percent_lacking_plumbing, fill = percentage))+
    theme(panel.grid = element_blank())
 ```
 
-
 <details>
 
 <summary>Code: Load Library county Data</summary>
+
 ```{r}
 #| lable: code-block-3
 #| message: FALSE
@@ -185,8 +180,8 @@ counties_top10_2022 <- counties_sf |>
 
 glimpse(counties_top10_2022)
 ```
-</details>
 
+</details>
 
 ```{r}
 #| lable: graph-q1-3
@@ -230,9 +225,7 @@ ggplot() +
 
 ### Discussion
 
-
 <br><b>Both the 2022 and 2023 maps show that Arizona and New Mexico counties dominate the highest plumbing insecurity group (\>1%), suggesting persistent disparities in plumbing access across the Southwest. Among these two states, Apache County (Arizona), McKinley County (New Mexico), and Navajo County (Arizona) consistently ranked among the top four counties with the highest plumbing insecurity in both years, indicating enduring infrastructure and access challenges in these regions. Additionally, Alaska counties, including Fairbanks North Star Borough and Matanuska-Susitna Borough, consistently appeared with notable insecurity levels, highlighting infrastructure limitations in remote areas. Overall, plumbing insecurity in the U.S. remains concentrated in specific Southwestern and Alaskan counties, reflecting long-standing infrastructural inequities in these regions.</b><br>
-
 
 ## Question 2:
 

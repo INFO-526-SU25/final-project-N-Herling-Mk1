@@ -28,16 +28,30 @@ footer: |
 editor: visual
 execute:
   echo: false
-
 ---
 
 ```{r}
 #| label: load-packages
 #| include: false
 
-# Load packages here
-pacman::p_load(tidymodels,
-               tidyverse)
+# - loading package manager
+if (!require(pacman))
+  install.packages(pacman)
+
+# - loading required packages
+pacman::p_load(tidyverse,
+               here,
+               forcats,
+               scales,
+               sf,
+               tidycensus,
+               tigris,
+               patchwork)
+options(readr.show_progress = FALSE)
+options(readr.show_progress = FALSE)
+options(tigris_progress = FALSE)
+sf::sf_use_s2(FALSE)      # optional, disables spherical geometry engine, may help
+options(sf.show_progress = FALSE)  # this is the key
 
 ```
 
@@ -55,20 +69,34 @@ knitr::opts_chunk$set(
   fig.width = 6, 
   fig.asp = 0.618 
   )
+
 ```
 
 ```{r}
 #| label: load-data
 #| include: false
 # Load data here
-data(mtcars)
-mtcars$speed <- mtcars$hp / mtcars$wt
+# Load water insecurity data from the TidyTuesday project (2025-01-28)
+# This dataset explores social vulnerability and access to complete indoor
+# plumbing across U.S. counties,
+# curated by Niha Pereira and featured in the blog post:
+# "Mapping water insecurity in R with tidycensus"
+# Original data sources include the U.S. Census Bureau (ACS) and the USGS Vizlab’s
+# “Unequal Access to Water” visualization.
+# Repo: 
+# https://github.com/rfordatascience/tidytuesday/tree/main/data/2025/2025-01-28
+suppressMessages(water_insecurity_2022 <- read_csv(here("water_insecurity",
+                                       "water_insecurity_2022.csv"),progress = FALSE))
+suppressMessages(water_insecurity_2023 <- read_csv(here("water_insecurity",
+                                       "water_insecurity_2023.csv"),progress = FALSE))
 
 # ---- load data here, I guess ..........
 # TODO_
 ```
+
 <!-- slide 0 -->
-:::{.banner-container style="margin-bottom: 30px;"}
+
+::: {.banner-container style="margin-bottom: 30px;"}
 ![](images/banner_2.png){.banner-image style="max-width: 100%; height: auto;"}
 :::
 
@@ -117,63 +145,73 @@ mtcars$speed <- mtcars$hp / mtcars$wt
         font-family: Arial, sans-serif;
         color: #333;
       ">
-        <strong>The Data Plumbers:</strong><br>Yashi Mi & Nathan Herling
+        <strong>The Data Plumbers:</strong><br>  Nathan Herling & Yashi Mi
       </span>
     </div>
   </div>
 </div>
-
 ```
 
 <!--Slide 1 -->
-##
-:::{.banner-container style="margin-bottom: 30px;"}
+
+## 
+
+::: {.banner-container style="margin-bottom: 30px;"}
 ![](images/banner_2.png){.banner-image style="max-width: 100%; height: auto;"}
 :::
 
-### Our Dataset 
+### Our Dataset
 
-<div class="cell_text_block">
-- **Title**: "Water Insecurity in the U.S." (TidyTuesday, 2025-01-28)  
-- **Source**: American Community Survey (ACS), USGS Vizlab  
-- **Curated by**: Niha Pereira  
+::: cell_text_block
+-   **Title**: "Water Insecurity in the U.S." (TidyTuesday, 2025-01-28)\
 
-- **Focus**: Plumbing insecurity at the U.S. county level  
-- **Years covered**: 2022 and 2023  
-- **Geographic scope**: 850+ counties per year
-</div>
+-   **Source**: American Community Survey (ACS), USGS Vizlab\
 
+-   **Curated by**: Niha Pereira
+
+-   **Focus**: Plumbing insecurity at the U.S. county level\
+
+-   **Years covered**: 2022 and 2023\
+
+-   **Geographic scope**: 850+ counties per year
+:::
 
 <!--Slide 2 -->
-##
-:::{.banner-container style="margin-bottom: 30px;"}
+
+## 
+
+::: {.banner-container style="margin-bottom: 30px;"}
 ![](images/banner_2.png){.banner-image style="max-width: 100%; height: auto;"}
 :::
 
 ```{=html}
 <div style="width: 100%; display: flex; justify-content: flex-start;">
   <table style="width: 80%;">
-    <tr>
-      <td style="vertical-align: top;">
-        <h3>Data files</h3>
-        <ul>
-          <li><code>water_insecurity_2022.csv</code></li>
-          <li><code>water_insecurity_2023.csv</code></li>
-        </ul>
-        <h3 style="margin-top: 20px;">Repository</h3>
-        <p><code>tidytuesday/data/2025/2025-01-28</code></p>
-      </td>
-    </tr>
-  </table>
+  <tr>
+    <td style="vertical-align: top;">
+      <h3>Data files</h3>
+      <ul>
+        <li><code>water_insecurity_2022.csv</code></li>
+        <li><code>water_insecurity_2023.csv</code></li>
+      </ul>
+      <h3 style="margin-top: 20px;">Repository</h3>
+      <p><code>tidytuesday/data/2025/2025-01-28</code></p>
+    </td>
+  </tr>
+</table>
 </div>
 ```
 
 <!-- slide 3 -->
-##
-:::{.banner-container style="margin-bottom: 30px;"}
+
+## 
+
+::: {.banner-container style="margin-bottom: 30px;"}
 ![](images/banner_2.png){.banner-image style="max-width: 100%; height: auto;"}
 :::
+
 ### Variables Examined
+
 ```{=html}
 <div style="
   display: grid;
@@ -203,16 +241,19 @@ mtcars$speed <- mtcars$hp / mtcars$wt
   </div>
 
 </div>
-
 ```
 
 <!--Slide 4 -->
-##
-:::{.banner-container style="margin-bottom: 30px;"}
+
+## 
+
+::: {.banner-container style="margin-bottom: 30px;"}
 ![](images/banner_2.png){.banner-image style="max-width: 100%; height: auto;"}
 :::
+
 ### project goal:
-<div style="
+
+::: {style="
   border: 2px solid black;
   border-radius: 12px;
   padding: 15px 20px;
@@ -221,49 +262,201 @@ mtcars$speed <- mtcars$hp / mtcars$wt
   font-size: 2rem;
   line-height: 1.5;
   background-color: #fafafa;
-  ">
-  This project analyzes county-level water insecurity in the U.S., focusing on access to complete indoor plumbing in 2022 and 2023. It aims to identify regional disparities and year-over-year trends using spatial and statistical methods. The findings will highlight areas with significant plumbing insecurity to inform efforts toward improving water access equity.
-</div>
-
+  "}
+This project analyzes county-level water insecurity in the U.S., focusing on access to complete indoor plumbing in 2022 and 2023. It aims to identify regional disparities and year-over-year trends using spatial and statistical methods. The findings will highlight areas with significant plumbing insecurity to inform efforts toward improving water access equity.
+:::
 
 <!--Slide 5 -->
-##
-:::{.banner-container style="margin-bottom: 30px;"}
+
+## 
+
+::: {.banner-container style="margin-bottom: 30px;"}
 ![](images/banner_2.png){.banner-image style="max-width: 100%; height: auto;"}
 :::
+
 ### Question 1
+
+::: cell_text_block
+**Top counties had the highest plumbing insecurity in 2022 and 2023?**
+
+This analysis focuses on identifying the top counties with the highest plumbing insecurity in each year and examining the geographic distribution of these counties to understand regional patterns of indoor plumbing leakage in the United States.
+:::
 
 <!--Slide 6 -->
-##
-:::{.banner-container style="margin-bottom: 30px;"}
+
+## 
+
+::: {.banner-container style="margin-bottom: 30px;"}
 ![](images/banner_2.png){.banner-image style="max-width: 100%; height: auto;"}
 :::
+
 ### Question 1
 
+##### Top 10 Counties with Highest Plumbing Insecurity in 2022 and 2023
+
+```{r}
+#| lable: question1-results1
+#| echo: false
+#| message: false
+#| warning: false
+#| fig-width: 10
+#| fig-height: 5
+
+options(cli.default_handler = function(...) invisible())
+options(tigris_use_cache = TRUE)
+
+#Top 10 dataset
+Top10_2022<-water_insecurity_2022 |>
+  arrange(desc(percent_lacking_plumbing))|>
+  slice_head(n = 10)|>
+  mutate(name = fct_reorder(name, percent_lacking_plumbing),
+         percentage = case_when(percent_lacking_plumbing > 1 ~ "> 1%",
+         TRUE ~ "≤ 1%"))
+
+
+Top10_2023<-water_insecurity_2023 |>
+  arrange(desc(percent_lacking_plumbing))|>
+  slice_head(n = 10)|>
+  mutate(name = fct_reorder(name, percent_lacking_plumbing),
+         percentage = case_when(percent_lacking_plumbing > 1 ~ "> 1%",
+         TRUE ~ "≤ 1%"))
+
+#Bar graph
+plot_2022_bar <- ggplot(Top10_2022, aes(y=name, x=percent_lacking_plumbing, fill = percentage))+
+  geom_col()+
+  scale_fill_manual(
+    values = c("> 1%" = "#E76F51", "≤ 1%" = "#2A9D8F"))+
+  labs(
+    title = "Top 10 U.S. Counties with Highest \nPlumbing Insecurity (2022)",
+    x = "Lacking Plumbing",
+    y = ""
+  ) +
+  scale_x_continuous(labels = label_percent(scale = 1))+
+  theme_minimal()+
+   theme(panel.grid = element_blank())
+
+plot_2023_bar <-ggplot(Top10_2023, aes(y=name, x=percent_lacking_plumbing, fill = percentage))+
+  geom_col()+
+  scale_fill_manual(
+    values = c("> 1%" = "#E76F51", "≤ 1%" = "#2A9D8F"))+
+  labs(
+    title = "Top 10 U.S. Counties with Highest \nPlumbing Insecurity (2023)",
+    x = "Lacking Plumbing",
+    y = ""
+  ) +
+  scale_x_continuous(labels = label_percent(scale = 1))+
+  theme_minimal()+
+   theme(panel.grid = element_blank())
+
+(plot_2022_bar | plot_2023_bar) + plot_layout(widths = c(1,1))
+
+
+```
+
 <!--Slide 7 -->
-##
-:::{.banner-container style="margin-bottom: 30px;"}
+
+## 
+
+::: {.banner-container style="margin-bottom: 30px;"}
 ![](images/banner_2.png){.banner-image style="max-width: 100%; height: auto;"}
 :::
-### Question 2
+
+### Question 1
+
+##### Top 10 Counties with Highest Plumbing Insecurity in 2022 and 2023
+
+```{r}
+#| lable: question1-results2
+#| echo: false
+#| message: false
+#| warning: false
+#| fig-width: 10
+#| fig-height: 4
+
+options(cli.default_handler = function(...) invisible())
+options(tigris_use_cache = TRUE)
+
+#Load Library county Data
+counties_sf <- counties(cb = TRUE, year = 2022, class = "sf")
+counties_top10_2022 <- counties_sf |>
+  left_join(Top10_2022, by = c("GEOID" = "geoid"))
+
+counties_top10_2023 <- counties_sf |>
+  left_join(Top10_2023, by = c("GEOID" = "geoid"))
+
+#Map
+plot_2022_map <-ggplot() +
+  geom_sf(data = counties_sf, fill = "grey90", color = "white") +   
+  geom_sf(data = counties_top10_2022, aes(fill = percentage), color = NA) + 
+  scale_fill_manual(
+    values = c("> 1%" = "#E76F51", "≤ 1%" = "#2A9D8F"),na.value = NA,) + labs(
+    title = "Top 10 U.S. Counties with Highest \nPlumbing Insecurity (2022)")+
+  coord_sf(xlim = c(-180, -60), ylim = c(15, 72)) + 
+  theme_minimal()
+
+plot_2023_map <-ggplot() +
+  geom_sf(data = counties_sf, fill = "grey90", color = "white") +   
+  geom_sf(data = counties_top10_2023, aes(fill = percentage), color = NA) + 
+  scale_fill_manual(
+    values = c("> 1%" = "#E76F51", "≤ 1%" = "#2A9D8F"),na.value = NA,) +labs(
+    title = "Top 10 U.S. Counties with Highest \nPlumbing Insecurity (2022)")+
+  coord_sf(xlim = c(-180, -60), ylim = c(15, 72)) + 
+  theme_minimal()
+plot_2022_map | plot_2023_map
+```
 
 <!--Slide 8 -->
-##
-:::{.banner-container style="margin-bottom: 30px;"}
+
+## 
+
+::: {.banner-container style="margin-bottom: 30px;"}
 ![](images/banner_2.png){.banner-image style="max-width: 100%; height: auto;"}
 :::
+
 ### Question 2
 
 <!--Slide 9 -->
-##
-:::{.banner-container style="margin-bottom: 30px;"}
+
+## 
+
+::: {.banner-container style="margin-bottom: 30px;"}
 ![](images/banner_2.png){.banner-image style="max-width: 100%; height: auto;"}
 :::
-### summary
+
+### Question 2
 
 <!--Slide 10 -->
-##
-:::{.banner-container style="margin-bottom: 30px;"}
+
+## 
+
+::: {.banner-container style="margin-bottom: 30px;"}
 ![](images/banner_2.png){.banner-image style="max-width: 100%; height: auto;"}
 :::
-### final slide/end/credits/thanks
+
+### summary
+
+::: cell_text_block
+-   Arizona and New Mexico counties consistently rank highest in plumbing insecurity, with Apache, McKinley, and Navajo counties showing persistent access challenges.
+
+-   Alaska counties like Fairbanks North Star and Matanuska-Susitna also face notable plumbing insecurity, highlighting infrastructural inequities in remote regions.
+:::
+
+<!--Slide 11 -->
+
+## 
+
+::: {.banner-container style="margin-bottom: 30px;"}
+![](images/banner_2.png){.banner-image style="max-width: 100%; height: auto;"}
+:::
+
+### Thank You!
+
+-   We appreciate your attention.
+-   Questions or feedback are welcome.
+
+**Team Members:**
+
+-   Nathan Herling
+-   Yashi Mi
+
+## 
