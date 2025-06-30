@@ -20,6 +20,9 @@ execute:
   echo: false
 ---
 
+
+
+
 ## Abstract
 
 ::: {.table-wrapper style="background:#f5f7fa; border:1px solid #007BFF; padding:10px;"}
@@ -49,6 +52,9 @@ Top counties had the highest plumbing insecurity in 2022 and 2023?
 <br><b>We will identify and visualize the U.S. counties with the highest levels of plumbing insecurity in 2022 and 2023. We first cleaned the data using the dplyr package by sorting counties in descending order of percent lacking plumbing and selecting the top 10 counties. We then created a new variable to classify counties as having greater than 1% or less than 1% plumbing insecurity for color coding in plots. For visualization, we used ggplot2 to create bar graphs displaying the top 10 counties with the highest plumbing insecurity percentages in 2022 and 2023, colored by insecurity level. To visualize the geographic distribution, we loaded a U.S. county shapefile using the tigris package (the geometry information in the datasets were stored as character class strings rather than usable spatial geometry objects), merged it with our top 10 data by county geoid, and created a choropleth map.</b><br>
 
 ### Analysis
+
+
+
 
 ```{r}
 # - loading package manager
@@ -174,9 +180,15 @@ ggplot(Top10_2023, aes(y=name, x=percent_lacking_plumbing, fill = percentage))+
    theme(panel.grid = element_blank())
 ```
 
+
+
+
 <details>
 
 <summary>Code: Load Library county Data</summary>
+
+
+
 
 ```{r}
 #| lable: code-block-3
@@ -191,7 +203,13 @@ counties_top10_2022 <- counties_sf |>
 glimpse(counties_top10_2022)
 ```
 
+
+
+
 </details>
+
+
+
 
 ```{r}
 #| lable: graph-q1-3
@@ -233,6 +251,9 @@ ggplot() +
   theme_minimal()
 ```
 
+
+
+
 ### Discussion
 
 <br><b>Both the 2022 and 2023 maps show that Arizona and New Mexico counties dominate the highest plumbing insecurity group (\>1%), suggesting persistent disparities in plumbing access across the Southwest. Among these two states, Apache County (Arizona), McKinley County (New Mexico), and Navajo County (Arizona) consistently ranked among the top four counties with the highest plumbing insecurity in both years, indicating enduring infrastructure and access challenges in these regions. Additionally, Alaska counties, including Fairbanks North Star Borough and Matanuska-Susitna Borough, consistently appeared with notable insecurity levels, highlighting infrastructure limitations in remote areas. Overall, plumbing insecurity in the U.S. remains concentrated in specific Southwestern and Alaskan counties, reflecting long-standing infrastructural inequities in these regions.</b><br>
@@ -266,3 +287,4 @@ How did the plumbing insecurity change from 2022 to 2023 across U.S. counties, a
 ::: salmon-box
 <br><b>#ToDo</b><br>
 :::
+
