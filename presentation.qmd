@@ -255,11 +255,8 @@ This analysis focuses on identifying the top counties with the highest plumbing 
 
 ## 
 
-<h3 style="font-size: 32px; color: #2A9D8F; font-weight: bold; margin: 0px;">
+### Question 1
 
-Question 1
-
-</h3>
 
 [Top 10 Counties with Highest Plumbing Insecurity in 2022 and 2023]{style="font-size: 25px; margin: 0px;"}
 
