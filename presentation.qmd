@@ -157,13 +157,7 @@ suppressMessages(water_insecurity_2023 <- read_csv(here("water_insecurity",
 
 <!--Slide 1 -->
 
-## 
-
-::: {.banner-container style="margin-bottom: 10px;"}
-![](images/banner_4.png){.banner-image style="max-width: 100%; height: auto;"}
-:::
-
-### Our Dataset
+## Our Dataset
 
 ::: cell_text_block
 -   **Title**: "Water Insecurity in the U.S." (TidyTuesday, 2025-01-28)\
@@ -183,37 +177,27 @@ suppressMessages(water_insecurity_2023 <- read_csv(here("water_insecurity",
 
 ## 
 
-::: {.banner-container style="margin-bottom: 10px;"}
-![](images/banner_4.png){.banner-image style="max-width: 100%; height: auto;"}
-:::
-
 ```{=html}
-<div style="width: 100%; display: flex; justify-content: flex-start;">
-  <table style="width: 80%;">
-<tr>
-<td style="vertical-align: top;">
-<h3>Data files</h3>
-<ul>
-  <li><code>water_insecurity_2022.csv</code></li>
-  <li><code>water_insecurity_2023.csv</code></li>
-</ul>
-<h3 style="margin-top: 20px;">Repository</h3>
-<p><code>tidytuesday/data/2025/2025-01-28</code></p>
-</td>
-</tr>
-</table>
+<div style="width: 100%; display: flex; justify-content: space-between; align-items: flex-start;">
+  <div style="width: 50%;">
+    <h3>Data files</h3>
+    <ul>
+      <li><code>water_insecurity_2022.csv</code></li>
+      <li><code>water_insecurity_2023.csv</code></li>
+    </ul>
+    <h3 style="margin-top: 20px;">Repository</h3>
+    <p><code>tidytuesday/data/2025/2025-01-28</code></p>
+  </div>
+  <div style="width: 50%; display: flex; justify-content: flex-end;">
+    <img src="images/tidy_Tuesday_logo.png" alt="TidyTuesday Logo" style="width: 300px; height: auto;"/>
+  </div>
 </div>
+
 ```
 
 <!-- slide 3 -->
 
-## 
-
-::: {.banner-container style="margin-bottom: 10px;"}
-![](images/banner_4.png){.banner-image style="max-width: 100%; height: auto;"}
-:::
-
-### Variables Examined
+## Variables Examined
 
 ```{=html}
 <div style="
@@ -248,15 +232,9 @@ suppressMessages(water_insecurity_2023 <- read_csv(here("water_insecurity",
 
 <!--Slide 4 -->
 
-## 
+## Project goal
 
-::: {.banner-container style="margin-bottom: 10px;"}
-![](images/banner_4.png){.banner-image style="max-width: 100%; height: auto;"}
-:::
-
-### project goal:
-
-::: {.custom-box style="border: 2px solid black; border-radius: 12px; padding: 15px 20px; max-width: 800px; font-family: Arial, sans-serif; font-size: 2rem; line-height: 1.5; background-color: #fafafa;"}
+::: {.custom-box style="border: 2px solid #19A6B8; border-radius: 12px; padding: 15px 20px; max-width: 900px; font-family: Arial, sans-serif; font-size: 2.75rem; line-height: 1.5; background-color: #fafafa;"}
 This project analyzes county-level water insecurity in the U.S., focusing on access to complete indoor plumbing in 2022 and 2023. It aims to identify regional disparities and year-over-year trends using spatial and statistical methods. The findings will highlight areas with significant plumbing insecurity to inform efforts toward improving water access equity.
 :::
 
@@ -264,9 +242,6 @@ This project analyzes county-level water insecurity in the U.S., focusing on acc
 
 ## 
 
-::: {.banner-container style="margin-bottom: 10px;"}
-![](images/banner_4.png){.banner-image style="max-width: 100%; height: auto;"}
-:::
 
 ### Question 1
 
@@ -405,10 +380,6 @@ plot_2022_map | plot_2023_map
 
 ## 
 
-::: {.banner-container style="margin-bottom: 10px;"}
-![](images/banner_4.png){.banner-image style="max-width: 100%; height: auto;"}
-:::
-
 ### Question 2
 
 ::: cell_text_block
@@ -419,19 +390,14 @@ plot_2022_map | plot_2023_map
 
 ## 
 
-::: {.banner-container style="margin-bottom: 10px;"}
-![](images/banner_4.png){.banner-image style="max-width: 100%; height: auto;"}
-:::
-
 ### Question 2
+**mL params**
+... blah ... blah ... talk about hyperparams... used.
+
 
 <!--Slide 10 -->
-
 ## 
 
-::: {.banner-container style="margin-bottom: 10px;"}
-![](images/banner_4.png){.banner-image style="max-width: 100%; height: auto;"}
-:::
 
 ### summary
 
@@ -442,11 +408,10 @@ plot_2022_map | plot_2023_map
 :::
 
 <!--Slide 11 -->
-
 ## 
 
 ::: {.banner-container style="margin-bottom: 10px;"}
-![](images/banner_4.png){.banner-image style="max-width: 100%; height: auto;"}
+![](images/banner_2.png){.banner-image style="max-width: 100%; height: auto;"}
 :::
 
 ### Thank You!
@@ -456,7 +421,38 @@ plot_2022_map | plot_2023_map
 
 **Team Members:**
 
--   Nathan Herling
--   Yashi Mi
+```{=html}
+<!-- Container for full-width layout with left and right content -->
+<div style="
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+  padding: 12px;
+">
 
-## 
+  <!-- Left side: Team info box -->
+  <div style="
+    width: 480px;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    display: flex;
+    align-items: center;
+  ">
+    <img src="images/data_plumbers.png" alt="Data Plumbers Logo" style="height: 90px; margin-right: 16px;" />
+    <div style="font-family: Arial, sans-serif; color: #333;">
+      <div style="font-size: 30px; font-weight: bold;">The Data Plumbers:</div>
+      <div style="font-size: 24px;">Nathan Herling &amp; Yashi Mi</div>
+    </div>
+  </div>
+
+  <!-- Right side: Rolling sphere GIF -->
+  <!-- Right side: Offset Rolling Sphere GIF -->
+  <div style="transform: translate(10px, -350px);">
+    <img src="images/rolling_sphere.gif" alt="Rolling Sphere" style="height: 300px;" />
+  </div>
+</div>
+```
+
