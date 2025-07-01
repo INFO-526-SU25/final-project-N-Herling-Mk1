@@ -251,24 +251,29 @@ This analysis examines how plumbing insecurity has changed across U.S. counties 
 
 We cleaned and filtered the 2022 and 2023 datasets using the dplyr package to remove rows with missing percent_lacking_plumbing values and retained only counties with data available in both years. We then computed a new variable: plumbing_change, calculated as the 2023 percentage minus the 2022 percentage. This measure captures whether plumbing access improved (negative change) or worsened (positive change) from year to year.
 
-To detect spatial patterns in these changes, we performed Local Getis-Ord G analysis* using the spdep package. This statistical method identifies local clusters of high or low values within a geographic neighborhood, helping us evaluate whether counties with similar changes in plumbing access are geographically grouped. We defined a spatial weights matrix based on county adjacency and calculated Local G* z-scores to identify statistically significant clusters.
+To detect spatial patterns in these changes, we performed Local Getis-Ord G analysis\* using the spdep package. This statistical method identifies local clusters of high or low values within a geographic neighborhood, helping us evaluate whether counties with similar changes in plumbing access are geographically grouped. We defined a spatial weights matrix based on county adjacency and calculated Local G\* z-scores to identify statistically significant clusters.
 
-<div class="scientific-box2">
-  <b>Spatial Cluster Classification</b><br>
-  <p>Each county was labeled based on the Getis-Ord <em>G*</em> z-score as follows:</p>
-  <ul>
-    <li><strong>Hotspot</strong> (significantly worsening): <code>z ≥ 1.96</code></li>
-    <li><strong>Coldspot</strong> (significantly improving): <code>z ≤ -1.96</code></li>
-    <li><strong>Not significant</strong> (no spatial clustering): <code>-1.96 &lt; z &lt; 1.96</code></li>
-  </ul>
-  <p>These classifications were used to identify clusters of counties with statistically meaningful changes in plumbing insecurity between 2022 and 2023.</p>
-</div>
+::: scientific-box2
+<b>Spatial Cluster Classification</b><br>
 
+<p>Each county was labeled based on the Getis-Ord <em>G\*</em> z-score as follows:</p>
+
+<ul>
+
+<li><strong>Hotspot</strong> (significantly worsening): <code>z ≥ 1.96</code></li>
+
+<li><strong>Coldspot</strong> (significantly improving): <code>z ≤ -1.96</code></li>
+
+<li><strong>Not significant</strong> (no spatial clustering): <code>-1.96 \< z \< 1.96</code></li>
+
+</ul>
+
+<p>These classifications were used to identify clusters of counties with statistically meaningful changes in plumbing insecurity between 2022 and 2023.</p>
+:::
 
 To visualize the spatial clustering, we used the tmap package to create a color-coded choropleth map of the continental U.S., with counties shaded by cluster classification. This allowed us to see where plumbing insecurity is improving or deteriorating in a spatially meaningful way.
 
 As a secondary strategy (to be used if spatial significance was limited), we planned a backup approach: identifying counties with a relative change of ±10% or more. This allows us to capture substantial shifts even if they are not spatially clustered.
-
 
 ### Analysis
 

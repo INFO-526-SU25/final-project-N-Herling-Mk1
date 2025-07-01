@@ -191,15 +191,15 @@ suppressMessages(water_insecurity_2023 <- read_csv(here("water_insecurity",
 <div style="width: 100%; display: flex; justify-content: flex-start;">
   <table style="width: 80%;">
 <tr>
-  <td style="vertical-align: top;">
-    <h3>Data files</h3>
-    <ul>
-      <li><code>water_insecurity_2022.csv</code></li>
-      <li><code>water_insecurity_2023.csv</code></li>
-    </ul>
-    <h3 style="margin-top: 20px;">Repository</h3>
-    <p><code>tidytuesday/data/2025/2025-01-28</code></p>
-  </td>
+<td style="vertical-align: top;">
+<h3>Data files</h3>
+<ul>
+  <li><code>water_insecurity_2022.csv</code></li>
+  <li><code>water_insecurity_2023.csv</code></li>
+</ul>
+<h3 style="margin-top: 20px;">Repository</h3>
+<p><code>tidytuesday/data/2025/2025-01-28</code></p>
+</td>
 </tr>
 </table>
 </div>
@@ -257,9 +257,7 @@ suppressMessages(water_insecurity_2023 <- read_csv(here("water_insecurity",
 ### project goal:
 
 ::: {.custom-box style="border: 2px solid black; border-radius: 12px; padding: 15px 20px; max-width: 800px; font-family: Arial, sans-serif; font-size: 2rem; line-height: 1.5; background-color: #fafafa;"}
-
 This project analyzes county-level water insecurity in the U.S., focusing on access to complete indoor plumbing in 2022 and 2023. It aims to identify regional disparities and year-over-year trends using spatial and statistical methods. The findings will highlight areas with significant plumbing insecurity to inform efforts toward improving water access equity.
-
 :::
 
 <!--Slide 5 -->
@@ -282,10 +280,13 @@ This analysis focuses on identifying the top counties with the highest plumbing 
 
 ## 
 
-<h3 style="font-size: 32px; color: #2A9D8F; font-weight: bold; margin: 0px;">Question 1</h3>
+<h3 style="font-size: 32px; color: #2A9D8F; font-weight: bold; margin: 0px;">
 
-<span style="font-size: 25px; margin: 0px;">Top 10 Counties with Highest Plumbing Insecurity in 2022 and 2023</span>
+Question 1
 
+</h3>
+
+[Top 10 Counties with Highest Plumbing Insecurity in 2022 and 2023]{style="font-size: 25px; margin: 0px;"}
 
 ```{r}
 #| lable: question1-results1
@@ -352,9 +353,9 @@ plot_2023_bar <-ggplot(Top10_2023, aes(y=name, x=percent_lacking_plumbing, fill 
 
 ### Question 1
 
-<span style="font-size: 25px; margin: 0px;">Top 10 Counties with Highest Plumbing Insecurity in 2022 and 2023</span>
+[Top 10 Counties with Highest Plumbing Insecurity in 2022 and 2023]{style="font-size: 25px; margin: 0px;"}
 
-::: {.full-plot-container}
+::: full-plot-container
 ```{r}
 #| lable: question1-results2
 #| echo: false
@@ -399,6 +400,7 @@ plot_2023_map <-ggplot() +
 plot_2022_map | plot_2023_map
 ```
 :::
+
 <!--Slide 8 -->
 
 ## 
@@ -408,11 +410,11 @@ plot_2022_map | plot_2023_map
 :::
 
 ### Question 2
+
 ::: cell_text_block
-**Top U.S. Counties in Hotspot and Coldspot Clusters of Plumbing Insecurity (2022–2023)?**
-<br>
-This analysis focuses on measuring year-over-year changes in plumbing insecurity across U.S. counties and identifying spatial clusters of significant improvement or decline, in order to understand where regional shifts in plumbing access are occurring and whether those shifts follow meaningful geographic patterns.
+**Top U.S. Counties in Hotspot and Coldspot Clusters of Plumbing Insecurity (2022–2023)?** <br> This analysis focuses on measuring year-over-year changes in plumbing insecurity across U.S. counties and identifying spatial clusters of significant improvement or decline, in order to understand where regional shifts in plumbing access are occurring and whether those shifts follow meaningful geographic patterns.
 :::
+
 <!--Slide 9 -->
 
 ## 
