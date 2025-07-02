@@ -305,7 +305,7 @@
     "href": "index.html#question-2",
     "title": "Project Title",
     "section": "Question 2:",
-    "text": "Question 2:\n\nHow did the plumbing insecurity change from 2022 to 2023 across U.S. counties, and where do significant spatial clusters (hotspots and coldspots) of worsening or improving plumbing access exist?\n\n\nIntroduction\nThis analysis examines how plumbing insecurity has changed across U.S. counties between 2022 and 2023. Plumbing insecurity is defined as the percentage of households lacking complete indoor plumbing, a key indicator of basic water access. Using data from the American Community Survey (ACS), we aim to measure the year-over-year change in plumbing access and determine whether there are spatial clusters—groups of neighboring counties—that have significantly improved (coldspots) or worsened (hotspots). The 2022 dataset includes 848 counties, while the 2023 dataset includes 854 counties. For this analysis, we restrict the data to counties that are present in both years and have no missing values for the percent_lacking_plumbing variable, allowing for a valid and consistent change calculation.\n\n\nApproach\nWe cleaned and filtered the 2022 and 2023 datasets using the dplyr package to remove rows with missing percent_lacking_plumbing values and retained only counties with data available in both years. We then computed a new variable: plumbing_change, calculated as the 2023 percentage minus the 2022 percentage. This measure captures whether plumbing access improved (negative change) or worsened (positive change) from year to year.\nTo detect spatial patterns in these changes, we performed Local Getis-Ord G analysis* using the spdep package. This statistical method identifies local clusters of high or low values within a geographic neighborhood, helping us evaluate whether counties with similar changes in plumbing access are geographically grouped. We defined a spatial weights matrix based on county adjacency and calculated Local G* z-scores to identify statistically significant clusters.\n\nSpatial Cluster Classification\n\nEach county was labeled based on the Getis-Ord G* z-score as follows:\n\n\n\nHotspot (significantly worsening): z ≥ 1.96\n\n\nColdspot (significantly improving): z ≤ -1.96\n\n\nNot significant (no spatial clustering): -1.96 &lt; z &lt; 1.96\n\n\n\nThese classifications were used to identify clusters of counties with statistically meaningful changes in plumbing insecurity between 2022 and 2023.\n\n\nTo visualize the spatial clustering, we used the tmap package to create a color-coded choropleth map of the continental U.S., with counties shaded by cluster classification. This allowed us to see where plumbing insecurity is improving or deteriorating in a spatially meaningful way.\nAs a secondary strategy (to be used if spatial significance was limited), we planned a backup approach: identifying counties with a relative change of ±10% or more. This allows us to capture substantial shifts even if they are not spatially clustered.\n\n\nAnalysis\n\n#ToDo\n\n\n\nDiscussion\n\n#ToDo"
+    "text": "Question 2:\n\nHow did the plumbing insecurity change from 2022 to 2023 across U.S. counties, and where do significant spatial clusters (hotspots and coldspots) of worsening or improving plumbing access exist?\n\n\nIntroduction\nThis analysis examines how plumbing insecurity has changed across U.S. counties between 2022 and 2023. Plumbing insecurity is defined as the percentage of households lacking complete indoor plumbing, a key indicator of basic water access. Using data from the American Community Survey (ACS), we aim to measure the year-over-year change in plumbing access and determine whether there are spatial clusters—groups of neighboring counties—that have significantly improved (coldspots) or worsened (hotspots). The 2022 dataset includes 848 counties, while the 2023 dataset includes 854 counties. For this analysis, we restrict the data to counties that are present in both years and have no missing values for the percent_lacking_plumbing variable, allowing for a valid and consistent change calculation.\n\n\nApproach\nWe cleaned and filtered the 2022 and 2023 datasets using the dplyr package to remove rows with missing percent_lacking_plumbing values and retained only counties with data available in both years. We then computed a new variable: plumbing_change, calculated as the 2023 percentage minus the 2022 percentage. This measure captures whether plumbing access improved (negative change) or worsened (positive change) from year to year.\nTo detect spatial patterns in these changes, we performed Local Getis-Ord G analysis* using the spdep package. This statistical method identifies local clusters of high or low values within a geographic neighborhood, helping us evaluate whether counties with similar changes in plumbing access are geographically grouped. We defined a spatial weights matrix based on county adjacency and calculated Local G* z-scores to identify statistically significant clusters.\n\nSpatial Cluster Classification\n\nEach county was labeled based on the Getis-Ord G* z-score as follows:\n\n\n\nHotspot (significantly worsening): z ≥ 1.96\n\n\nColdspot (significantly improving): z ≤ -1.96\n\n\nNot significant (no spatial clustering): -1.96 &lt; z &lt; 1.96\n\n\n\nThese classifications were used to identify clusters of counties with statistically meaningful changes in plumbing insecurity between 2022 and 2023.\n\n\nTo visualize the spatial clustering, we used the tmap package to create a color-coded choropleth map of the continental U.S., with counties shaded by cluster classification. This allowed us to see where plumbing insecurity is improving or deteriorating in a spatially meaningful way.\nAs a secondary strategy (to be used if spatial significance was limited), we planned a backup approach: identifying counties with a relative change of ±10% or more. This allows us to capture substantial shifts even if they are not spatially clustered.\n\n\nAnalysis\n\n\n\n\n\n\n\n\n\n\n\nSummary:\n Total counties in continental US:  3122 \n Counties excluded due to missing neighbors:  50 \n Total counties analyzed:  673 \n\n\n\n\n\n\n\n\n\n\n\n\n\n#ToDo\n\n\n\nDiscussion\n\n#ToDo"
   },
   {
     "objectID": "proposal.html#team-roles",
@@ -431,42 +431,42 @@
     "href": "presentation.html#section-5",
     "title": "Project Title",
     "section": "",
-    "text": "Question 2\nmL params … blah … blah … talk about hyperparams… used."
+    "text": "Question 2\n\n\n  Hyperparameter Overview\n\n  \n    1. Spatial Contiguity Type (queen_setting)\n    \n      Determines how neighboring counties are defined.\n      Queen contiguity (TRUE) considers counties neighbors if they share an edge or a corner.\n      Rook contiguity (FALSE) considers counties neighbors only if they share an edge.\n      Queen contiguity captures more spatial relationships compared to Rook contiguity.\n    \n\n    2. Snap Distance (snap_distance)\n    \n      Distance threshold (20,000 meters) used to “snap” county boundaries close enough to be considered neighbors.\n      Helps address gaps or small separations in spatial boundaries for more robust neighbor definitions.\n    \n\n    3. Z-Score Threshold (z_threshold)\n    \n      Statistical cutoff (±1.96) for identifying significant spatial clusters.\n      Corresponds to a 95% confidence level (p ≤ 0.05).\n      Counties with Local G* statistic z-scores beyond this threshold are classified as hotspots (worsening) or coldspots (improving)."
   },
   {
     "objectID": "presentation.html#section-6",
     "href": "presentation.html#section-6",
     "title": "Project Title",
     "section": "",
-    "text": "summary\n\n\nArizona and New Mexico counties consistently rank highest in plumbing insecurity, with Apache, McKinley, and Navajo counties showing persistent access challenges.\nAlaska counties like Fairbanks North Star and Matanuska-Susitna also face notable plumbing insecurity, highlighting infrastructural inequities in remote regions."
+    "text": "mL sweep graph\n\n\nSummary:\n Total counties in continental US:  3122 \n Counties excluded due to missing neighbors:  50 \n Total counties analyzed:  673"
   },
   {
     "objectID": "presentation.html#section-7",
     "href": "presentation.html#section-7",
     "title": "Project Title",
     "section": "",
-    "text": "Thank You!\n\nWe appreciate your attention.\nQuestions or feedback are welcome.\n\nTeam Members:\n\n\n\n  \n  \n    \n    \n      The Data Plumbers:\n      Nathan Herling & Yashi Mi"
+    "text": "Animation graph"
   },
   {
     "objectID": "presentation.html#section-8",
     "href": "presentation.html#section-8",
     "title": "Project Title",
     "section": "",
-    "text": "Thank You!\n\nWe appreciate your attention.\nQuestions or feedback are welcome.\n\nTeam Members:\n\n  \n  \n    The Data Plumbers:\n    Nathan Herling & Yashi Mi"
+    "text": "Summary 1"
   },
   {
     "objectID": "presentation.html#section-9",
     "href": "presentation.html#section-9",
     "title": "Project Title",
     "section": "",
-    "text": "Thank You!\n\nWe appreciate your attention.\nQuestions or feedback are welcome.\n\nTeam Members:\n\n  \n  \n    The Data Plumbers:\n    Nathan Herling & Yashi Mi"
+    "text": "Summary 2\n\n\nArizona and New Mexico counties consistently rank highest in plumbing insecurity, with Apache, McKinley, and Navajo counties showing persistent access challenges.\nAlaska counties like Fairbanks North Star and Matanuska-Susitna also face notable plumbing insecurity, highlighting infrastructural inequities in remote regions."
   },
   {
     "objectID": "presentation.html#section-10",
     "href": "presentation.html#section-10",
     "title": "Project Title",
     "section": "",
-    "text": "Thank You!\n\nWe appreciate your attention.\nQuestions or feedback are welcome.\n\nTeam Members:\n\n  \n  \n    The Data Plumbers:\n    Nathan Herling & Yashi Mi"
+    "text": "Thank You!\n\nWe appreciate your attention.\nQuestions or feedback are welcome.\n\nTeam Members:\n\n\n\n  \n  \n    \n    \n      The Data Plumbers:\n      Nathan Herling & Yashi Mi"
   },
   {
     "objectID": "presentation.html#the-data-plumbers",

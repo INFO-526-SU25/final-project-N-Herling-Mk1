@@ -306,12 +306,65 @@
 <section id="section-5" class="slide level2">
 <h2></h2>
 <h3 id="question-2-1">Question 2</h3>
-<p><strong>mL params</strong> … blah … blah … talk about hyperparams… used.</p>
-<!--Slide 10 -->
+<div style="font-size: 24px; line-height: 1.4;">
+
+  <h2>Hyperparameter Overview</h2>
+
+  <dl>
+    <dt><strong>1. Spatial Contiguity Type (<code>queen_setting</code>)</strong></dt>
+    <dd>
+      Determines how neighboring counties are defined.<br>
+      <strong>Queen contiguity</strong> (<code>TRUE</code>) considers counties neighbors if they share an edge <em>or</em> a corner.<br>
+      <strong>Rook contiguity</strong> (<code>FALSE</code>) considers counties neighbors only if they share an edge.<br>
+      Queen contiguity captures more spatial relationships compared to Rook contiguity.
+    </dd>
+
+    <dt><strong>2. Snap Distance (<code>snap_distance</code>)</strong></dt>
+    <dd>
+      Distance threshold (20,000 meters) used to “snap” county boundaries close enough to be considered neighbors.<br>
+      Helps address gaps or small separations in spatial boundaries for more robust neighbor definitions.
+    </dd>
+
+    <dt><strong>3. Z-Score Threshold (<code>z_threshold</code>)</strong></dt>
+    <dd>
+      Statistical cutoff (±1.96) for identifying significant spatial clusters.<br>
+      Corresponds to a 95% confidence level (p ≤ 0.05).<br>
+      Counties with Local G* statistic z-scores beyond this threshold are classified as <strong>hotspots</strong> (worsening) or <strong>coldspots</strong> (improving).
+    </dd>
+  </dl>
+
+</div>
+
+<!--Slide 10-->
 </section>
 <section id="section-6" class="slide level2">
 <h2></h2>
-<h3 id="summary">summary</h3>
+
+<!--Slide 11 -->
+<img data-src="presentation_files/figure-revealjs/unnamed-chunk-3-1.png" width="1800" class="r-stretch"></section>
+<section id="section-7" class="slide level2">
+<h2></h2>
+<h3 id="animation-graph">Animation graph</h3>
+<!--
+::: {#snap-distance style="padding: 6px; background-color: #f4f4f4; border-left: 4px solid #007acc; font-family: Arial, sans-serif; font-size: 24px;"}
+<strong>Sweeping through the hyperparameter</strong>: <br>
+<em>“Snap Distance”</em><br>
+From <strong>0</strong> to <strong>20,000</strong> [m]
+:::
+-->
+<div style="max-width: 800px; margin: 0 auto;">
+<p><img src="images/snap_distance_sweep.gif" style="width: 100%;"></p>
+</div>
+<!--Slide 11 -->
+</section>
+<section id="section-8" class="slide level2">
+<h2></h2>
+<h3 id="summary-1">Summary 1</h3>
+<!--Slide 12 -->
+</section>
+<section id="section-9" class="slide level2">
+<h2></h2>
+<h3 id="summary-2">Summary 2</h3>
 <div class="cell_text_block">
 <ul>
 <li><p>Arizona and New Mexico counties consistently rank highest in plumbing insecurity, with Apache, McKinley, and Navajo counties showing persistent access challenges.</p></li>
@@ -320,7 +373,7 @@
 </div>
 <!--Slide 11 -->
 </section>
-<section id="section-7" class="slide level2">
+<section id="section-10" class="slide level2">
 <h2></h2>
 <div class="banner-container" style="margin-bottom: 10px;">
 <p><img data-src="images/banner_2.png" class="banner-image" style="max-width: 100%; height: auto;"></p>

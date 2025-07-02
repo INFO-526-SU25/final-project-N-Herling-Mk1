@@ -62,7 +62,18 @@ pacman::p_load(tidyverse,
                scales,
                sf,
                tidycensus,
-               tigris)
+               tigris,
+               ggrepel,
+               viridis,
+               spdep,
+               tmap
+               )
+
+library(tidyverse)
+library(here)
+library(patchwork)
+library(viridis)    # for turbo colors
+library(ggrepel)    # for repel annotations
 
 options(readr.show_progress = FALSE)
 options(tigris_progress = FALSE)
@@ -138,7 +149,10 @@ ggplot(Top10_2022, aes(y=name, x=percent_lacking_plumbing, fill = percentage))+
   ) +
   scale_x_continuous(labels = label_percent(scale = 1))+
   theme_minimal()+
-   theme(panel.grid = element_blank())
+   theme(
+     panel.grid = element_blank(),
+     plot.margin = margin(t = 5, r = 20, b = 5, l = -20)  # top, right, bottom, left//.. shift it left
+     )
 ```
 
 ```{r}
@@ -171,7 +185,10 @@ ggplot(Top10_2023, aes(y=name, x=percent_lacking_plumbing, fill = percentage))+
   ) +
   scale_x_continuous(labels = label_percent(scale = 1))+
   theme_minimal()+
-   theme(panel.grid = element_blank())
+   theme(
+     panel.grid = element_blank(),
+     plot.margin = margin(t = 5, r = 20, b = 5, l = -20)  # top, right, bottom, left//.. shift it left
+     )
 ```
 
 <details>
@@ -276,6 +293,325 @@ To visualize the spatial clustering, we used the tmap package to create a color-
 As a secondary strategy (to be used if spatial significance was limited), we planned a backup approach: identifying counties with a relative change of ±10% or more. This allows us to capture substantial shifts even if they are not spatially clustered.
 
 ### Analysis
+```{r}
+#| label: label-me-code-block-5
+
+
+# ────────────────────────────────────────────────
+# Load hyperparameter sweep results
+results_tbl <- read_csv(here("_extra", "hyper_param_sweep.csv"), show_col_types = FALSE)
+
+# ────────────────────────────────────────────────
+# Shared plot theme
+base_theme <- theme_minimal(base_size = 13)
+
+# ────────────────────────────────────────────────
+# Set cutoff for significance
+z_cutoff <- 1.96
+
+# ────────────────────────────────────────────────
+# Define shading colors from viridis turbo palette
+shade_hot_color <- viridis(10, option = "turbo")[7]  # bright yellow-ish
+shade_cold_color <- viridis(10, option = "turbo")[4] # teal-ish
+
+# ────────────────────────────────────────────────
+# Hotspot plot (positive z)
+p_hotspot <- ggplot(
+  results_tbl %>% filter(!is.na(`Hotspot (Worsening)`)),
+  aes(x = z, y = `Hotspot (Worsening)`, color = factor(snap))
+) +
+  # Shade right of cutoff line (zone of significance)
+  annotate(
+    "rect",
+    xmin = z_cutoff, xmax = Inf,
+    ymin = -Inf, ymax = Inf,
+    fill = shade_hot_color,
+    alpha = 0.7
+  ) +
+  geom_line(linewidth = 1) +
+  facet_wrap(~ queen, labeller = label_both) +
+  geom_vline(xintercept = z_cutoff, linetype = "dashed", color = "red") +
+  # Repel annotation for vertical line
+  geom_text_repel(
+    data = tibble(
+      x = z_cutoff,
+      y = max(results_tbl$`Hotspot (Worsening)`, na.rm = TRUE) * 0.3,
+      label = paste0("z = ", z_cutoff)
+    ),
+    aes(x = x, y = y, label = label),
+    color = "black",
+    nudge_x = -0.32,
+    nudge_y = -0.4 * max(results_tbl$`Hotspot (Worsening)`, na.rm = TRUE),
+    direction = "y",
+    hjust = 1,
+    segment.size = 0.3,
+    segment.color = "grey50",
+    size = 4
+  ) +
+  annotate(
+    "text",
+    x = z_cutoff + 0.2,
+    y = max(results_tbl$`Hotspot (Worsening)`, na.rm = TRUE) * 0.8,
+    label = "Statistical Significance\nHotspots (p ≤ 0.05)",
+    color = "black",
+    hjust = 0.21,
+    size = 3
+  ) +
+  labs(
+    title = "Hotspot Counts vs Positive Z-Threshold",
+    x = "Z-Threshold",
+    y = "Hotspot Count",
+    color = "Snap Distance"
+  ) +
+  base_theme +
+  theme(
+    panel.spacing.x = unit(1.5, "lines"),  # increased horizontal spacing
+    strip.text = element_text(size = 12, face = "bold"),  # Larger & bold facet titles
+    plot.title = element_text(hjust = 0.5)
+    )
+
+# ────────────────────────────────────────────────
+# Coldspot plot (negative z)
+coldspot_data <- results_tbl %>%
+  filter(!is.na(`Coldspot (Improving)`)) %>%
+  mutate(z_neg = -z)
+
+p_coldspot <- ggplot(
+  coldspot_data,
+  aes(x = z_neg, y = `Coldspot (Improving)`, color = factor(snap))
+) +
+  # Shade left of cutoff line (zone of significance)
+  annotate(
+    "rect",
+    xmin = -Inf, xmax = -z_cutoff,
+    ymin = -Inf, ymax = Inf,
+    fill = shade_cold_color,
+    alpha = 0.7
+  ) +
+  geom_line(linewidth = 1) +
+  facet_wrap(~ queen, labeller = label_both) +
+  geom_vline(xintercept = -z_cutoff, linetype = "dashed", color = "red") +
+  # Repel annotation for vertical line
+  geom_text_repel(
+    data = tibble(
+      x = -z_cutoff,
+      y = max(coldspot_data$`Coldspot (Improving)`, na.rm = TRUE) * 0.3,
+      label = paste0("z = -", z_cutoff)
+    ),
+    aes(x = x, y = y, label = label),
+    color = "black",
+    nudge_x = 0.3,
+    nudge_y = -0.5 * max(coldspot_data$`Coldspot (Improving)`, na.rm = TRUE),
+    direction = "y",
+    hjust = 0,
+    segment.size = 0.3,
+    segment.color = "grey50",
+    size = 4
+  ) +
+  annotate(
+    "text",
+    x = -z_cutoff - 0.2,
+    y = max(coldspot_data$`Coldspot (Improving)`, na.rm = TRUE) * 0.85,
+    label = "Statistical Significance\nColdspots (p ≤ 0.05)",
+    color = "black",
+    hjust = 0.82,
+    size = 3
+  ) +
+  labs(
+    title = "Coldspot Counts vs Negative Z-Threshold",
+    x = "Z-Threshold (Negative for Coldspots)",
+    y = "Coldspot Count",
+    color = "Snap Distance"
+  ) +
+  base_theme +
+  theme(
+    panel.spacing.x = unit(1.5, "lines"),  # increased horizontal spacing
+    strip.text = element_text(size = 12, face = "bold"),  # Larger & bold facet titles
+    plot.title = element_text(hjust = 0.5)
+  )
+# ────────────────────────────────────────────────
+# Combine plots vertically with equal heights
+combined_plot <- p_hotspot / p_coldspot + plot_layout(heights = c(1, 1))
+
+# ────────────────────────────────────────────────
+# Save and print
+ggsave(
+  filename = here("_extra", "topo_lines_hotspot_coldspot_shaded_annotated.png"),
+  plot = combined_plot,
+  width = 8,
+  height = 10
+)
+
+print(combined_plot)
+
+```
+
+```{r}
+#| label: label-me-code-block-6
+# ────────────────────────────────────────────────
+# Hyperparameters
+queen_setting <- TRUE
+snap_distance <- 20000
+z_threshold <- 1.96
+
+# ────────────────────────────────────────────────
+# Load and clean data
+water_2022_clean <- read.csv(here("Water_insecurity", "water_insecurity_2022.csv")) %>%
+  filter(!is.na(percent_lacking_plumbing)) %>%
+  mutate(geoid = as.character(geoid))
+
+water_2023_clean <- read.csv(here("Water_insecurity", "water_insecurity_2023.csv")) %>%
+  filter(!is.na(percent_lacking_plumbing)) %>%
+  mutate(geoid = as.character(geoid))
+
+# Filter to common GEOIDs
+common_geoids <- intersect(water_2022_clean$geoid, water_2023_clean$geoid)
+water_2022_filtered <- water_2022_clean %>% filter(geoid %in% common_geoids)
+water_2023_filtered <- water_2023_clean %>% filter(geoid %in% common_geoids)
+
+# ────────────────────────────────────────────────
+# Join to shapefile
+counties_sf <- counties(cb = TRUE, year = 2022, class = "sf")
+
+# Filter to continental US counties (exclude AK '02', HI '15', PR '72', etc.)
+continental_states <- setdiff(unique(counties_sf$STATEFP), c("02", "15", "72"))
+counties_sf_continental <- counties_sf %>%
+  filter(STATEFP %in% continental_states)
+
+total_counties_continental <- nrow(counties_sf_continental)
+
+counties_2022 <- counties_sf_continental %>%
+  left_join(water_2022_filtered %>%
+              select(geoid, percent_lacking_plumbing_2022 = percent_lacking_plumbing),
+            by = c("GEOID" = "geoid"))
+
+counties_2023 <- counties_sf_continental %>%
+  left_join(water_2023_filtered %>%
+              select(geoid, percent_lacking_plumbing),
+            by = c("GEOID" = "geoid"))
+
+# ────────────────────────────────────────────────
+# Calculate change and project
+spatial_data <- counties_2023 %>%
+  left_join(counties_2022 %>% st_drop_geometry() %>%
+              select(GEOID, percent_lacking_plumbing_2022),
+            by = "GEOID") %>%
+  mutate(change = percent_lacking_plumbing - percent_lacking_plumbing_2022) %>%
+  filter(!is.na(change))
+
+# Project to Albers Equal Area
+spatial_data <- st_transform(spatial_data, crs = 5070)
+
+# ────────────────────────────────────────────────
+# Create neighbors
+nb <- poly2nb(spatial_data, queen = queen_setting, snap = snap_distance)
+
+# Identify and exclude counties with no neighbors
+no_neighbors <- which(card(nb) == 0)
+num_no_neighbors <- length(no_neighbors)
+
+if (num_no_neighbors > 0) {
+  spatial_data <- spatial_data[-no_neighbors, ]
+  nb <- poly2nb(spatial_data, queen = queen_setting, snap = snap_distance)
+}
+
+# Total counties analyzed after exclusions
+total_analyzed <- nrow(spatial_data)
+
+# ────────────────────────────────────────────────
+# Print alert summary
+cat(
+  "Summary:\n",
+  "Total counties in continental US: ", total_counties_continental, "\n",
+  "Counties excluded due to missing neighbors: ", num_no_neighbors, "\n",
+  "Total counties analyzed: ", total_analyzed, "\n"
+)
+
+# ────────────────────────────────────────────────
+# Create spatial weights
+lw <- nb2listw(nb, style = "W", zero.policy = TRUE)
+
+# Compute Local G* statistic
+local_gstar <- localG(spatial_data$change, listw = lw, zero.policy = TRUE)
+spatial_data$gstar_z <- as.numeric(local_gstar)
+
+# ────────────────────────────────────────────────
+# Classify clusters based on z-score thresholds
+spatial_data <- spatial_data %>%
+  mutate(cluster_type = case_when(
+    gstar_z >=  z_threshold  ~ "Hotspot (Worsening)",
+    gstar_z <= -z_threshold  ~ "Coldspot (Improving)",
+    TRUE                     ~ "Not Significant"
+  ))
+
+# ────────────────────────────────────────────────
+# Count clusters for annotation and update labels
+cluster_counts <- spatial_data %>%
+  count(cluster_type) %>%
+  complete(cluster_type = c("Hotspot (Worsening)", "Coldspot (Improving)", "Not Significant"), fill = list(n = 0))
+
+cluster_labels <- cluster_counts %>%
+  mutate(label = paste0(cluster_type, " [n=", n, "]")) %>%
+  arrange(factor(cluster_type, levels = c("Hotspot (Worsening)", "Coldspot (Improving)", "Not Significant"))) %>%
+  pull(label)
+
+# Update cluster_type to factor with counts in labels
+spatial_data$cluster_type <- factor(spatial_data$cluster_type,
+                                    levels = c("Hotspot (Worsening)", "Coldspot (Improving)", "Not Significant"),
+                                    labels = cluster_labels)
+
+# ────────────────────────────────────────────────
+# Set tmap mode and create the final plot
+tmap_mode("plot")
+
+cluster_colors <- c(
+  "#FDE725FF",
+  "#21908CFF",
+  "#440154FF"
+)
+names(cluster_colors) <- cluster_labels
+
+# ────────────────────────────────────────────────
+# Get state boundaries for overlay
+states_sf <- states(cb = TRUE, year = 2022, class = "sf") %>%
+  filter(STATEFP %in% continental_states) %>%
+  st_transform(crs = st_crs(spatial_data))  # match CRS with spatial_data
+
+# ────────────────────────────────────────────────
+# Add overlay to existing plot
+g1 <- tm_shape(spatial_data) +
+  tm_polygons("cluster_type",
+              fill.scale = tm_scale(values = cluster_colors,
+                                    legend.title = "Plumbing Access Change Clusters")) +
+  tm_shape(states_sf) +  # overlay begins here
+  tm_borders(lwd = 1.2, col = "black") +
+  tm_title("Spatial Clustering of Plumbing Access Changes (2022–2023)", size = 1.2) +
+  tm_credits(
+    paste0(
+      "Local G* Statistic (z ≥ ±", z_threshold, ")\n",
+      "Contiguity = ", ifelse(queen_setting, "Queen", "Rook"),
+      " | Snap Distance = ", snap_distance, " meters"
+    ),
+    position = c("center", "top"),
+    size = 0.7,
+    lines = 2
+  ) +
+  tm_layout(
+    legend.position = c("left", "bottom"),
+    legend.just = "right",
+    legend.outside = FALSE,
+    legend.text.size = 0.6,
+    legend.title.size = 0.75,
+    inner.margins = c(0.2, 0.02, 0.12, 0.02)
+  )
+
+print(g1)
+
+```
+
+<div style="max-width: 800px; margin: 0 auto;">
+  <img src="images/snap_distance_sweep.gif" style="width: 100%;" />
+</div>
 
 ::: salmon-box
 <br><b>#ToDo</b><br>

@@ -48,7 +48,9 @@ pacman::p_load(tidyverse,
                tigris,
                patchwork,
                viridis,
-               spdep
+               spdep,
+               tmap,
+               ggrepel
                )
 options(readr.show_progress = FALSE)
 options(readr.show_progress = FALSE)
@@ -388,15 +390,227 @@ plot_2022_map | plot_2023_map
 ## 
 
 ### Question 2
-**mL params**
-... blah ... blah ... talk about hyperparams... used.
+```{=html}
+<div style="font-size: 24px; line-height: 1.4;">
 
+  <h2>Hyperparameter Overview</h2>
 
-<!--Slide 10 -->
+  <dl>
+    <dt><strong>1. Spatial Contiguity Type (<code>queen_setting</code>)</strong></dt>
+    <dd>
+      Determines how neighboring counties are defined.<br>
+      <strong>Queen contiguity</strong> (<code>TRUE</code>) considers counties neighbors if they share an edge <em>or</em> a corner.<br>
+      <strong>Rook contiguity</strong> (<code>FALSE</code>) considers counties neighbors only if they share an edge.<br>
+      Queen contiguity captures more spatial relationships compared to Rook contiguity.
+    </dd>
+
+    <dt><strong>2. Snap Distance (<code>snap_distance</code>)</strong></dt>
+    <dd>
+      Distance threshold (20,000 meters) used to “snap” county boundaries close enough to be considered neighbors.<br>
+      Helps address gaps or small separations in spatial boundaries for more robust neighbor definitions.
+    </dd>
+
+    <dt><strong>3. Z-Score Threshold (<code>z_threshold</code>)</strong></dt>
+    <dd>
+      Statistical cutoff (±1.96) for identifying significant spatial clusters.<br>
+      Corresponds to a 95% confidence level (p ≤ 0.05).<br>
+      Counties with Local G* statistic z-scores beyond this threshold are classified as <strong>hotspots</strong> (worsening) or <strong>coldspots</strong> (improving).
+    </dd>
+  </dl>
+
+</div>
+
+```
+<!--Slide 10-->
+##
+```{r}
+# Load hyperparameter sweep results
+results_tbl <- read_csv(here("_extra", "hyper_param_sweep.csv"), show_col_types = FALSE)
+
+# ────────────────────────────────────────────────
+# Shared plot theme
+base_theme <- theme_minimal(base_size = 13)
+
+# ────────────────────────────────────────────────
+# Set cutoff for significance
+z_cutoff <- 1.96
+
+# ────────────────────────────────────────────────
+# Define shading colors from viridis turbo palette
+shade_hot_color <- viridis(10, option = "turbo")[7]  # bright yellow-ish
+shade_cold_color <- viridis(10, option = "turbo")[4] # teal-ish
+
+# ────────────────────────────────────────────────
+# Hotspot plot (positive z)
+p_hotspot <- ggplot(
+  results_tbl %>% filter(!is.na(`Hotspot (Worsening)`)),
+  aes(x = z, y = `Hotspot (Worsening)`, color = factor(snap))
+) +
+  # Shade right of cutoff line (zone of significance)
+  annotate(
+    "rect",
+    xmin = z_cutoff, xmax = Inf,
+    ymin = -Inf, ymax = Inf,
+    fill = shade_hot_color,
+    alpha = 0.7
+  ) +
+  geom_line(linewidth = 0.5) +
+  facet_wrap(~ queen, labeller = label_both) +
+  geom_vline(xintercept = z_cutoff, linetype = "dashed", color = "red") +
+  # Repel annotation for vertical line
+  geom_text_repel(
+    data = tibble(
+      x = z_cutoff,
+      y = max(results_tbl$`Hotspot (Worsening)`, na.rm = TRUE) * 0.3,
+      label = paste0("z = ", z_cutoff)
+    ),
+    aes(x = x, y = y, label = label),
+    color = "black",
+    nudge_x = -0.32,
+    nudge_y = -0.4 * max(results_tbl$`Hotspot (Worsening)`, na.rm = TRUE),
+    direction = "y",
+    hjust = 1,
+    segment.size = 0.3,
+    segment.color = "grey50",
+    size = 2
+  ) +
+  annotate(
+    "text",
+    x = z_cutoff + 0.2,
+    y = max(results_tbl$`Hotspot (Worsening)`, na.rm = TRUE) * 0.8,
+    label = "Statistical Significance\nHotspots (p ≤ 0.05)",
+    color = "black",
+    hjust = 0.2,
+    size = 2
+  ) +
+  labs(
+    title = "Hotspot Counts vs Positive Z-Threshold",
+    x = "Z-Threshold",
+    y = "Hotspot Count",
+    color = "Snap Distance"
+  ) +
+  base_theme +
+theme(
+  panel.spacing.x = unit(1.5, "lines"),
+  strip.text = element_text(size = 8, face = "bold"),   # column facet titles
+  strip.text.y = element_text(size = 10),                # row facet titles like "Hotspot Count"
+  axis.title.y = element_text(size = 9),                # << controls "Hotspot Count" size
+  axis.title.x = element_text(size = 10),
+  plot.title = element_text(hjust = 0.5),
+  axis.text.x = element_text(size = 8, angle = 45, hjust = 1),
+  axis.text.y = element_text(size = 8),                  # y-axis labels
+  legend.text = element_text(size = 8),                  # legend text size
+  legend.title = element_text(size = 9),                 # legend title size (optional)
+  legend.spacing.y = unit(0.1, "cm"),                    # vertical space between legend items
+  legend.key.size = unit(0.3, "cm")                      # size of legend key boxes
+)
+
+# ────────────────────────────────────────────────
+# Coldspot plot (negative z)
+coldspot_data <- results_tbl %>%
+  filter(!is.na(`Coldspot (Improving)`)) %>%
+  mutate(z_neg = -z)
+
+p_coldspot <- ggplot(
+  coldspot_data,
+  aes(x = z_neg, y = `Coldspot (Improving)`, color = factor(snap))
+) +
+  # Shade left of cutoff line (zone of significance)
+  annotate(
+    "rect",
+    xmin = -Inf, xmax = -z_cutoff,
+    ymin = -Inf, ymax = Inf,
+    fill = shade_cold_color,
+    alpha = 0.7
+  ) +
+  geom_line(linewidth = 0.5) +
+  facet_wrap(~ queen, labeller = label_both) +
+  geom_vline(xintercept = -z_cutoff, linetype = "dashed", color = "red") +
+  # Repel annotation for vertical line
+  geom_text_repel(
+    data = tibble(
+      x = -z_cutoff,
+      y = max(coldspot_data$`Coldspot (Improving)`, na.rm = TRUE) * 0.3,
+      label = paste0("z = -", z_cutoff)
+    ),
+    aes(x = x, y = y, label = label),
+    color = "black",
+    nudge_x = 0.3,
+    nudge_y = -0.5 * max(coldspot_data$`Coldspot (Improving)`, na.rm = TRUE),
+    direction = "y",
+    hjust = 0,
+    segment.size = 0.3,
+    segment.color = "grey50",
+    size = 2
+  ) +
+  annotate(
+    "text",
+    x = -z_cutoff - 0.2,
+    y = max(coldspot_data$`Coldspot (Improving)`, na.rm = TRUE) * 0.85,
+    label = "Statistical Significance\nColdspots (p ≤ 0.05)",
+    color = "black",
+    hjust = 0.9,
+    size = 2
+  ) +
+  labs(
+    title = "Coldspot Counts vs Negative Z-Threshold",
+    x = "Z-Threshold (Negative for Coldspots)",
+    y = "Coldspot Count",
+    color = "Snap Distance"
+  ) +
+  base_theme +
+  theme(
+  panel.spacing.x = unit(1.5, "lines"),
+  strip.text = element_text(size = 8, face = "bold"),   # column facet titles
+  strip.text.y = element_text(size = 10),                # row facet titles like "Hotspot Count"
+  axis.title.y = element_text(size = 9),                # << controls "Hotspot Count" size
+  axis.title.x = element_text(size = 10),
+  plot.title = element_text(hjust = 0.5),
+  axis.text.x = element_text(size = 8, angle = 45, hjust = 1),
+  axis.text.y = element_text(size = 8),                  # y-axis labels
+  legend.text = element_text(size = 8),                  # legend text size
+  legend.title = element_text(size = 9),                 # legend title size (optional)
+  legend.spacing.y = unit(0.1, "cm"),                    # vertical space between legend items
+  legend.key.size = unit(0.3, "cm")                      # size of legend key boxes
+  )
+# ────────────────────────────────────────────────
+# Combine plots vertically with equal heights
+combined_plot <- p_hotspot / p_coldspot + plot_layout(heights = c(1, 1))
+
+# ────────────────────────────────────────────────
+# Save and print
+ggsave(
+  filename = here("_extra", "topo_lines_hotspot_coldspot_shaded_annotated.png"),
+  plot = combined_plot,
+  width = 8,
+  height = 10
+)
+
+print(combined_plot)
+
+```
+<!--Slide 11 -->
+##
+### Animation graph
+<!--
+::: {#snap-distance style="padding: 6px; background-color: #f4f4f4; border-left: 4px solid #007acc; font-family: Arial, sans-serif; font-size: 24px;"}
+<strong>Sweeping through the hyperparameter</strong>: <br>
+<em>“Snap Distance”</em><br>
+From <strong>0</strong> to <strong>20,000</strong> [m]
+:::
+-->
+<div style="max-width: 800px; margin: 0 auto;">
+  <img src="images/snap_distance_sweep.gif" style="width: 100%;" />
+</div>
+
+<!--Slide 11 -->
 ## 
 
+### Summary 1
 
-### summary
+<!--Slide 12 -->
+##
+### Summary 2
 
 ::: cell_text_block
 -   Arizona and New Mexico counties consistently rank highest in plumbing insecurity, with Apache, McKinley, and Navajo counties showing persistent access challenges.
