@@ -685,3 +685,12 @@ To evaluate how spatial model parameters interacted with the data’s topology, 
 
 These findings demonstrate that significant clusters of change in plumbing insecurity do exist and are geographically meaningful—but only when spatial model parameters are carefully tuned. The hyperparameter sweep, akin to methods used in machine learning, revealed that snap distance was the most influential factor in detecting these patterns. When set too high, the model effectively overfit, diluting meaningful local trends by merging unrelated counties into large, unrealistic neighborhoods. By selecting an optimal 20 km threshold, we improved model interpretability and spatial resolution without compromising statistical validity. This outcome highlights the value of treating spatial analysis with the same rigor applied in machine learning workflows—where thoughtful parameter tuning is essential to uncovering accurate and actionable insights.
 
+### Video Link
+#### Watch the presentation?
+<div style="text-align: center; margin-top: 1em;">
+  <a href="https://arizona.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=c1deeff3-49aa-488e-8fa5-b30f0100e035" target="_blank" style="text-decoration: none;">
+    <img src="images/water_drop_2.png" alt="Watch Video" style="width: 300px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); transition: transform 0.2s;">
+    <div style="margin-top: 0.5em; font-weight: bold; color: #2c3e50;">Watch Video</div>
+  </a>
+</div>
+

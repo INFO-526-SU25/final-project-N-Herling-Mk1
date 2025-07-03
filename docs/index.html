@@ -180,6 +180,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#approach-1" id="toc-approach-1" class="nav-link" data-scroll-target="#approach-1">Approach</a></li>
   <li><a href="#analysis-1" id="toc-analysis-1" class="nav-link" data-scroll-target="#analysis-1">Analysis</a></li>
   <li><a href="#discussion-1" id="toc-discussion-1" class="nav-link" data-scroll-target="#discussion-1">Discussion</a></li>
+  <li><a href="#video-link" id="toc-video-link" class="nav-link" data-scroll-target="#video-link">Video Link</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -1073,8 +1074,21 @@ A .gif animation showing hot/cold spot analysis for hyperparamter sweep of ‘Sn
 <p>The choropleth map of Getis-Ord G* clusters reveals that year-over-year changes in plumbing insecurity are not randomly distributed across U.S. counties but are instead spatially patterned. Statistically significant hotspots—areas where plumbing access worsened—were most concentrated in New Jersey, Louisiana, and Michigan, while coldspots—areas of improvement—were primarily found in Virginia and Ohio. These patterns likely reflect regional differences in infrastructure funding, policy implementation, or socioeconomic vulnerability.</p>
 <p>To evaluate how spatial model parameters interacted with the data’s topology, a hyperparameter sweep was performed across three variables: contiguity type (Queen vs.&nbsp;Rook), snap distance, and z-score threshold. Among these, snap distance had the most substantial impact on the clustering results. A 20,000-meter threshold produced coherent clusters without overfitting, while higher distances led to overly broad neighborhood definitions and reduced spatial precision. The Queen contiguity setting—capturing both shared edges and corners—was used, but contiguity type had minimal influence on output quality. The z-score threshold of ±1.96 (p ≤ 0.05) effectively distinguished statistically significant clusters.</p>
 <p>These findings demonstrate that significant clusters of change in plumbing insecurity do exist and are geographically meaningful—but only when spatial model parameters are carefully tuned. The hyperparameter sweep, akin to methods used in machine learning, revealed that snap distance was the most influential factor in detecting these patterns. When set too high, the model effectively overfit, diluting meaningful local trends by merging unrelated counties into large, unrealistic neighborhoods. By selecting an optimal 20 km threshold, we improved model interpretability and spatial resolution without compromising statistical validity. This outcome highlights the value of treating spatial analysis with the same rigor applied in machine learning workflows—where thoughtful parameter tuning is essential to uncovering accurate and actionable insights.</p>
+</section>
+<section id="video-link" class="level3">
+<h3 class="anchored" data-anchor-id="video-link">Video Link</h3>
+<section id="watch-the-presentation" class="level4">
+<h4 class="anchored" data-anchor-id="watch-the-presentation">Watch the presentation?</h4>
+<div style="text-align: center; margin-top: 1em;">
+<a href="https://arizona.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=c1deeff3-49aa-488e-8fa5-b30f0100e035" target="_blank" style="text-decoration: none;"> <img src="images/water_drop_2.png" alt="Watch Video" style="width: 300px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); transition: transform 0.2s;">
+<div style="margin-top: 0.5em; font-weight: bold; color: #2c3e50;">
+Watch Video
+</div>
+</a><p><a href="https://arizona.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=c1deeff3-49aa-488e-8fa5-b30f0100e035" target="_blank" style="text-decoration: none;"></a></p>
+</div>
 
 
+</section>
 </section>
 </section>
 
