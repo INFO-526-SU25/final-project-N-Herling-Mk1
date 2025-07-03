@@ -388,12 +388,9 @@ plot_2022_map | plot_2023_map
 <!--Slide 9 -->
 
 ## 
-
-### Question 2
 ```{=html}
-<div style="font-size: 24px; line-height: 1.4;">
-
-  <h2>Hyperparameter Overview</h2>
+<div style="font-size: 24px; line-height: 1.3;">
+  <h2>Spatial clustering using Local Getis-Ord G* - Hyperparameters</h2>
 
   <dl>
     <dt><strong>1. Spatial Contiguity Type (<code>queen_setting</code>)</strong></dt>
@@ -591,7 +588,7 @@ print(combined_plot)
 ```
 <!--Slide 11 -->
 ##
-### Animation graph
+  <h4>Snap Distance parameter sweep - animated</h4>
 <!--
 ::: {#snap-distance style="padding: 6px; background-color: #f4f4f4; border-left: 4px solid #007acc; font-family: Arial, sans-serif; font-size: 24px;"}
 <strong>Sweeping through the hyperparameter</strong>: <br>
@@ -605,17 +602,20 @@ From <strong>0</strong> to <strong>20,000</strong> [m]
 
 <!--Slide 11 -->
 ## 
-
-### Summary 1
-
-<!--Slide 12 -->
-##
-### Summary 2
-
+### Summary Q1
 ::: cell_text_block
 -   Arizona and New Mexico counties consistently rank highest in plumbing insecurity, with Apache, McKinley, and Navajo counties showing persistent access challenges.
 
 -   Alaska counties like Fairbanks North Star and Matanuska-Susitna also face notable plumbing insecurity, highlighting infrastructural inequities in remote regions.
+:::
+<!--Slide 12 -->
+##
+### Summary Q2
+::: cell_text_block
+- Analysis (2022–2023) revealed significant county-level changes in plumbing insecurity across the U.S., measured as the percent change in households lacking complete indoor plumbing.
+
+- Spatial clustering using Local Getis-Ord G* identified statistically significant hotspots (worsening conditions) mainly in New Jersey, Louisiana, and Michigan, and coldspots (improving conditions) concentrated in Virginia and Ohio.
+
 :::
 
 <!--Slide 11 -->

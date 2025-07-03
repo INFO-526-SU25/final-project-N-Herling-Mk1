@@ -22,6 +22,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -202,15 +236,75 @@ ul.task-list li input[type="checkbox"] {
 </div>
 <section id="introduction" class="level3">
 <h3 class="anchored" data-anchor-id="introduction">Introduction</h3>
-<p><br><b>These two datasets provide information on the lack of complete indoor plumbing across U.S. counties in 2022 and 2023. The 2022 dataset includes data from 848 counties, while the 2023 dataset covers 854 counties, reflecting increased reporting in 2023. Each dataset contains seven variables: county ID (geoid), county name, geographic boundaries (geometry), year, total population, number of households lacking plumbing, and the percent lacking plumbing. This analysis focuses on identifying the top counties with the highest plumbing insecurity in each year and examining the geographic distribution of these counties to understand regional patterns of indoor plumbing leakage in the United States.</b><br></p>
+<p><br>These two datasets provide information on the lack of complete indoor plumbing across U.S. counties in 2022 and 2023. The 2022 dataset includes data from 848 counties, while the 2023 dataset covers 854 counties, reflecting increased reporting in 2023. Each dataset contains seven variables: county ID (geoid), county name, geographic boundaries (geometry), year, total population, number of households lacking plumbing, and the percent lacking plumbing. This analysis focuses on identifying the top counties with the highest plumbing insecurity in each year and examining the geographic distribution of these counties to understand regional patterns of indoor plumbing leakage in the United States.<br></p>
 </section>
 <section id="approach" class="level3">
 <h3 class="anchored" data-anchor-id="approach">Approach</h3>
-<p><br><b>We will identify and visualize the U.S. counties with the highest levels of plumbing insecurity in 2022 and 2023. We first cleaned the data using the dplyr package by sorting counties in descending order of percent lacking plumbing and selecting the top 10 counties. We then created a new variable to classify counties as having greater than 1% or less than 1% plumbing insecurity for color coding in plots. For visualization, we used ggplot2 to create bar graphs displaying the top 10 counties with the highest plumbing insecurity percentages in 2022 and 2023, colored by insecurity level. To visualize the geographic distribution, we loaded a U.S. county shapefile using the tigris package (the geometry information in the datasets were stored as character class strings rather than usable spatial geometry objects), merged it with our top 10 data by county geoid, and created a choropleth map.</b><br></p>
+<p><br>We will identify and visualize the U.S. counties with the highest levels of plumbing insecurity in 2022 and 2023. We first cleaned the data using the dplyr package by sorting counties in descending order of percent lacking plumbing and selecting the top 10 counties. We then created a new variable to classify counties as having greater than 1% or less than 1% plumbing insecurity for color coding in plots. For visualization, we used ggplot2 to create bar graphs displaying the top 10 counties with the highest plumbing insecurity percentages in 2022 and 2023, colored by insecurity level. To visualize the geographic distribution, we loaded a U.S. county shapefile using the tigris package (the geometry information in the datasets were stored as character class strings rather than usable spatial geometry objects), merged it with our top 10 data by county geoid, and created a choropleth map.<br></p>
 </section>
 <section id="analysis" class="level3">
 <h3 class="anchored" data-anchor-id="analysis">Analysis</h3>
 <div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># - loading package manager</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(pacman))</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">install.packages</span>(pacman)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># - loading required packages</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(tidyverse,</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>               here,</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>               forcats,</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>               scales,</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>               sf,</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>               tidycensus,</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>               tigris,</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>               ggrepel,</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>               viridis,</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>               spdep,</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>               tmap</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>               )</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(viridis)    <span class="co"># for turbo colors</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggrepel)    <span class="co"># for repel annotations</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">readr.show_progress =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">tigris_progress =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>sf<span class="sc">::</span><span class="fu">sf_use_s2</span>(<span class="cn">FALSE</span>)      <span class="co"># optional, disables spherical geometry engine, may help</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">sf.show_progress =</span> <span class="cn">FALSE</span>)  <span class="co"># this is the key</span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="co"># This suppresses CLI (command line interface) output from certain packages,</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="co"># especially those using the 'cli' package (like dplyr, tidyr, etc.).</span></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="co"># By setting cli.default_handler to a function that does nothing (`invisible()`),</span></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="co"># it silences progress bars, messages, and styled output from these packages.</span></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">cli.default_handler =</span> <span class="cf">function</span>(...) <span class="fu">invisible</span>())</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a><span class="co"># This tells the 'tigris' package (used for downloading U.S. Census boundary data)</span></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a><span class="co"># to cache shapefiles locally. This speeds up future runs by avoiding repeated downloads.</span></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a><span class="co"># The shapefiles are stored in a cache directory on your machine.</span></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">tigris_use_cache =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load water insecurity data from the TidyTuesday project (2025-01-28)</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># This dataset explores social vulnerability and access to complete indoor</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># plumbing across U.S. counties,</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># curated by Niha Pereira and featured in the blog post:</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co"># "Mapping water insecurity in R with tidycensus"</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Original data sources include the U.S. Census Bureau (ACS) and the USGS Vizlab’s</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co"># “Unequal Access to Water” visualization.</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Repo: </span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="co"># https://github.com/rfordatascience/tidytuesday/tree/main/data/2025/2025-01-28</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressMessages</span>(water_insecurity_2022 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">here</span>(<span class="st">"water_insecurity"</span>,</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>                                       <span class="st">"water_insecurity_2022.csv"</span>),<span class="at">progress =</span> <span class="cn">FALSE</span>))</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressMessages</span>(water_insecurity_2023 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">here</span>(<span class="st">"water_insecurity"</span>,</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>                                       <span class="st">"water_insecurity_2023.csv"</span>),<span class="at">progress =</span> <span class="cn">FALSE</span>))</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(water_insecurity_2022)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Rows: 848
 Columns: 7
@@ -222,6 +316,10 @@ $ total_pop                &lt;dbl&gt; 108079, 65432, 9721138, 482650, 1628997, 
 $ plumbing                 &lt;dbl&gt; 93, 2440, 6195, 148, 808, 18, 128, 0, 123, 13…
 $ percent_lacking_plumbing &lt;dbl&gt; 0.08604817, 3.72906223, 0.06372711, 0.0306640…</code></pre>
 </div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(water_insecurity_2023)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Rows: 854
 Columns: 7
@@ -234,7 +332,17 @@ $ plumbing                 &lt;dbl&gt; 271, 30, 5248, 187, 308, 517, 4, 198, 126
 $ percent_lacking_plumbing &lt;dbl&gt; 0.106900401, 0.027659457, 0.054308317, 0.0714…</code></pre>
 </div>
 </div>
-<div class="cell" data-lable="code-block-1">
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>Top10_2022<span class="ot">&lt;-</span>water_insecurity_2022 <span class="sc">|&gt;</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(percent_lacking_plumbing))<span class="sc">|&gt;</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">10</span>)<span class="sc">|&gt;</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">name =</span> <span class="fu">fct_reorder</span>(name, percent_lacking_plumbing),</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">percentage =</span> <span class="fu">case_when</span>(percent_lacking_plumbing <span class="sc">&gt;</span> <span class="dv">1</span> <span class="sc">~</span> <span class="st">"&gt; 1%"</span>,</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>         <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">"≤ 1%"</span>))</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(Top10_2022)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Rows: 10
 Columns: 8
@@ -248,16 +356,44 @@ $ percent_lacking_plumbing &lt;dbl&gt; 3.7290622, 2.7796076, 1.6189600, 1.299341
 $ percentage               &lt;chr&gt; "&gt; 1%", "&gt; 1%", "&gt; 1%", "&gt; 1%", "&gt; 1%", "≤ 1%…</code></pre>
 </div>
 </div>
-<div class="cell" data-lable="graph-q1-1">
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(Top10_2022, <span class="fu">aes</span>(<span class="at">y=</span>name, <span class="at">x=</span>percent_lacking_plumbing, <span class="at">fill =</span> percentage))<span class="sc">+</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>()<span class="sc">+</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">values =</span> <span class="fu">c</span>(<span class="st">"&gt; 1%"</span> <span class="ot">=</span> <span class="st">"#E76F51"</span>, <span class="st">"≤ 1%"</span> <span class="ot">=</span> <span class="st">"#2A9D8F"</span>))<span class="sc">+</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Top 10 U.S. Counties with Highest Plumbing Insecurity (2022)"</span>,</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Lacking Plumbing"</span>,</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">""</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">labels =</span> <span class="fu">label_percent</span>(<span class="at">scale =</span> <span class="dv">1</span>))<span class="sc">+</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()<span class="sc">+</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>   <span class="fu">theme</span>(</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>     <span class="at">panel.grid =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>     <span class="at">plot.margin =</span> <span class="fu">margin</span>(<span class="at">t =</span> <span class="dv">5</span>, <span class="at">r =</span> <span class="dv">20</span>, <span class="at">b =</span> <span class="dv">5</span>, <span class="at">l =</span> <span class="sc">-</span><span class="dv">20</span>)  <span class="co"># top, right, bottom, left//.. shift it left</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>     )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="index_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="index_files/figure-html/graph-q1-1-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
-<div class="cell" data-lable="code-block-2">
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>Top10_2023<span class="ot">&lt;-</span>water_insecurity_2023 <span class="sc">|&gt;</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(percent_lacking_plumbing))<span class="sc">|&gt;</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">10</span>)<span class="sc">|&gt;</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">name =</span> <span class="fu">fct_reorder</span>(name, percent_lacking_plumbing),</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">percentage =</span> <span class="fu">case_when</span>(percent_lacking_plumbing <span class="sc">&gt;</span> <span class="dv">1</span> <span class="sc">~</span> <span class="st">"&gt; 1%"</span>,</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>         <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">"≤ 1%"</span>))</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(Top10_2023)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Rows: 10
 Columns: 8
@@ -271,20 +407,25 @@ $ percent_lacking_plumbing &lt;dbl&gt; 3.9132173, 2.3038795, 1.8831717, 1.849324
 $ percentage               &lt;chr&gt; "&gt; 1%", "&gt; 1%", "&gt; 1%", "&gt; 1%", "≤ 1%", "≤ 1%…</code></pre>
 </div>
 </div>
-<div class="cell" data-lable="graph-q1-2">
+<div class="cell">
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="index_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="index_files/figure-html/graph-q1-2-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
-<details>
-<summary>
-Code: Load Library county Data
-</summary>
-<div class="cell" data-lable="code-block-3">
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>counties_sf <span class="ot">&lt;-</span> <span class="fu">counties</span>(<span class="at">cb =</span> <span class="cn">TRUE</span>, <span class="at">year =</span> <span class="dv">2022</span>, <span class="at">class =</span> <span class="st">"sf"</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>counties_top10_2022 <span class="ot">&lt;-</span> counties_sf <span class="sc">|&gt;</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(Top10_2022, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"GEOID"</span> <span class="ot">=</span> <span class="st">"geoid"</span>))</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(counties_top10_2022)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Rows: 3,235
 Columns: 20
@@ -310,17 +451,35 @@ $ percentage               &lt;chr&gt; NA, NA, NA, NA, NA, NA, "&gt; 1%", NA, NA
 $ geometry.x               &lt;MULTIPOLYGON [°]&gt; MULTIPOLYGON (((-85.71209 3..., …</code></pre>
 </div>
 </div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> counties_sf, <span class="at">fill =</span> <span class="st">"grey90"</span>, <span class="at">color =</span> <span class="st">"white"</span>) <span class="sc">+</span>   </span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> counties_top10_2022, <span class="fu">aes</span>(<span class="at">fill =</span> percentage), <span class="at">color =</span> <span class="cn">NA</span>) <span class="sc">+</span> </span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">values =</span> <span class="fu">c</span>(<span class="st">"&gt; 1%"</span> <span class="ot">=</span> <span class="st">"#E76F51"</span>, <span class="st">"≤ 1%"</span> <span class="ot">=</span> <span class="st">"#2A9D8F"</span>),<span class="at">na.value =</span> <span class="cn">NA</span>,) <span class="sc">+</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Top 10 U.S. Counties with Highest Plumbing Insecurity (2022)"</span>) <span class="sc">+</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_sf</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">180</span>, <span class="sc">-</span><span class="dv">60</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">15</span>, <span class="dv">72</span>)) <span class="sc">+</span> </span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell" data-lable="graph-q1-3">
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="index_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="index_files/figure-html/graph-q1-3-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
-<div class="cell" data-lable="code-block-4">
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>counties_sf <span class="ot">&lt;-</span> <span class="fu">counties</span>(<span class="at">cb =</span> <span class="cn">TRUE</span>, <span class="at">year =</span> <span class="dv">2022</span>, <span class="at">class =</span> <span class="st">"sf"</span>)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>counties_top10_2023 <span class="ot">&lt;-</span> counties_sf <span class="sc">|&gt;</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(Top10_2023, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"GEOID"</span> <span class="ot">=</span> <span class="st">"geoid"</span>))</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(counties_top10_2023)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Rows: 3,235
 Columns: 20
@@ -346,11 +505,23 @@ $ percentage               &lt;chr&gt; NA, NA, NA, NA, NA, NA, "&gt; 1%", NA, NA
 $ geometry.x               &lt;MULTIPOLYGON [°]&gt; MULTIPOLYGON (((-85.71209 3..., …</code></pre>
 </div>
 </div>
-<div class="cell" data-lable="graph-q1-4">
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> counties_sf, <span class="at">fill =</span> <span class="st">"grey90"</span>, <span class="at">color =</span> <span class="st">"white"</span>) <span class="sc">+</span>   </span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> counties_top10_2023, <span class="fu">aes</span>(<span class="at">fill =</span> percentage), <span class="at">color =</span> <span class="cn">NA</span>) <span class="sc">+</span> </span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">values =</span> <span class="fu">c</span>(<span class="st">"&gt; 1%"</span> <span class="ot">=</span> <span class="st">"#E76F51"</span>, <span class="st">"≤ 1%"</span> <span class="ot">=</span> <span class="st">"#2A9D8F"</span>),<span class="at">na.value =</span> <span class="cn">NA</span>,) <span class="sc">+</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Top 10 U.S. Counties with Highest Plumbing Insecurity (2023)"</span>) <span class="sc">+</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_sf</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">180</span>, <span class="sc">-</span><span class="dv">60</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">15</span>, <span class="dv">72</span>)) <span class="sc">+</span> </span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="index_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="index_files/figure-html/graph-q1-4-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -358,7 +529,7 @@ $ geometry.x               &lt;MULTIPOLYGON [°]&gt; MULTIPOLYGON (((-85.71209 3
 </section>
 <section id="discussion" class="level3">
 <h3 class="anchored" data-anchor-id="discussion">Discussion</h3>
-<p><br><b>Both the 2022 and 2023 maps show that Arizona and New Mexico counties dominate the highest plumbing insecurity group (&gt;1%), suggesting persistent disparities in plumbing access across the Southwest. Among these two states, Apache County (Arizona), McKinley County (New Mexico), and Navajo County (Arizona) consistently ranked among the top four counties with the highest plumbing insecurity in both years, indicating enduring infrastructure and access challenges in these regions. Additionally, Alaska counties, including Fairbanks North Star Borough and Matanuska-Susitna Borough, consistently appeared with notable insecurity levels, highlighting infrastructure limitations in remote areas. Overall, plumbing insecurity in the U.S. remains concentrated in specific Southwestern and Alaskan counties, reflecting long-standing infrastructural inequities in these regions.</b><br></p>
+<p><br>Both the 2022 and 2023 maps show that Arizona and New Mexico counties dominate the highest plumbing insecurity group (&gt;1%), suggesting persistent disparities in plumbing access across the Southwest. Among these two states, Apache County (Arizona), McKinley County (New Mexico), and Navajo County (Arizona) consistently ranked among the top four counties with the highest plumbing insecurity in both years, indicating enduring infrastructure and access challenges in these regions. Additionally, Alaska counties, including Fairbanks North Star Borough and Matanuska-Susitna Borough, consistently appeared with notable insecurity levels, highlighting infrastructure limitations in remote areas. Overall, plumbing insecurity in the U.S. remains concentrated in specific Southwestern and Alaskan counties, reflecting long-standing infrastructural inequities in these regions.<br></p>
 </section>
 </section>
 <section id="question-2" class="level2">
@@ -372,8 +543,10 @@ $ geometry.x               &lt;MULTIPOLYGON [°]&gt; MULTIPOLYGON (((-85.71209 3
 </section>
 <section id="approach-1" class="level3">
 <h3 class="anchored" data-anchor-id="approach-1">Approach</h3>
-<p>We cleaned and filtered the 2022 and 2023 datasets using the dplyr package to remove rows with missing percent_lacking_plumbing values and retained only counties with data available in both years. We then computed a new variable: plumbing_change, calculated as the 2023 percentage minus the 2022 percentage. This measure captures whether plumbing access improved (negative change) or worsened (positive change) from year to year.</p>
-<p>To detect spatial patterns in these changes, we performed Local Getis-Ord G analysis* using the spdep package. This statistical method identifies local clusters of high or low values within a geographic neighborhood, helping us evaluate whether counties with similar changes in plumbing access are geographically grouped. We defined a spatial weights matrix based on county adjacency and calculated Local G* z-scores to identify statistically significant clusters.</p>
+<p>After cleaning and filtering the data to retain only counties with complete plumbing insecurity data for both 2022 and 2023, we calculated the year-over-year change in plumbing insecurity as the difference in percentages between the two years. To explore spatial patterns in these changes, we performed Local Getis-Ord G* analysis using the spdep package, which identifies statistically significant local clusters of high or low values within geographic neighborhoods.</p>
+<p>To visualize these spatial clusters, we created a choropleth map using the tmap package. This map colors counties based on their hotspot, coldspot, or non-significant status, providing an intuitive spatial overview of where plumbing insecurity is worsening or improving. Choropleth maps are ideal for this purpose because they convey geographic patterns clearly and facilitate regional comparisons.</p>
+<p>In addition to the spatial visualization, we conducted a hyperparameter sweep across key model parameters—specifically snap distance and contiguity type—to understand how these choices affect the detection of spatial clusters. This analysis was visualized using a line plot showing the number and significance of identified clusters as a function of snap distance. The line plot helps illustrate how parameter tuning impacts model sensitivity and potential overfitting, making it easier to select optimal settings for reliable spatial inference.</p>
+<p>Together, these two complementary plots — a choropleth map and a hyperparameter sweep line plot — allow us to both identify meaningful spatial patterns in plumbing insecurity change and validate the robustness of our spatial clustering methodology.</p>
 <div class="scientific-box2">
 <p><b>Spatial Cluster Classification</b><br></p>
 <p>
@@ -394,12 +567,159 @@ Each county was labeled based on the Getis-Ord <em>G*</em> z-score as follows:
 These classifications were used to identify clusters of counties with statistically meaningful changes in plumbing insecurity between 2022 and 2023.
 </p>
 </div>
-<p>To visualize the spatial clustering, we used the tmap package to create a color-coded choropleth map of the continental U.S., with counties shaded by cluster classification. This allowed us to see where plumbing insecurity is improving or deteriorating in a spatially meaningful way.</p>
-<p>As a secondary strategy (to be used if spatial significance was limited), we planned a backup approach: identifying counties with a relative change of ±10% or more. This allows us to capture substantial shifts even if they are not spatially clustered.</p>
 </section>
 <section id="analysis-1" class="level3">
 <h3 class="anchored" data-anchor-id="analysis-1">Analysis</h3>
 <div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ────────────────────────────────────────────────</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Load hyperparameter sweep results</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>results_tbl <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">here</span>(<span class="st">"_extra"</span>, <span class="st">"hyper_param_sweep.csv"</span>), <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="co"># ────────────────────────────────────────────────</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Shared plot theme</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>base_theme <span class="ot">&lt;-</span> <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">13</span>)</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a><span class="co"># ────────────────────────────────────────────────</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Set cutoff for significance</span></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>z_cutoff <span class="ot">&lt;-</span> <span class="fl">1.96</span></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a><span class="co"># ────────────────────────────────────────────────</span></span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Define shading colors from viridis turbo palette</span></span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>shade_hot_color <span class="ot">&lt;-</span> <span class="fu">viridis</span>(<span class="dv">10</span>, <span class="at">option =</span> <span class="st">"turbo"</span>)[<span class="dv">7</span>]  <span class="co"># bright yellow-ish</span></span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>shade_cold_color <span class="ot">&lt;-</span> <span class="fu">viridis</span>(<span class="dv">10</span>, <span class="at">option =</span> <span class="st">"turbo"</span>)[<span class="dv">4</span>] <span class="co"># teal-ish</span></span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a><span class="co"># ────────────────────────────────────────────────</span></span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Hotspot plot (positive z)</span></span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a>p_hotspot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(</span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a>  results_tbl <span class="sc">%&gt;%</span> <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(<span class="st">`</span><span class="at">Hotspot (Worsening)</span><span class="st">`</span>)),</span>
+<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> z, <span class="at">y =</span> <span class="st">`</span><span class="at">Hotspot (Worsening)</span><span class="st">`</span>, <span class="at">color =</span> <span class="fu">factor</span>(snap))</span>
+<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a>) <span class="sc">+</span></span>
+<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Shade right of cutoff line (zone of significance)</span></span>
+<span id="cb17-25"><a href="#cb17-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(</span>
+<span id="cb17-26"><a href="#cb17-26" aria-hidden="true" tabindex="-1"></a>    <span class="st">"rect"</span>,</span>
+<span id="cb17-27"><a href="#cb17-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">xmin =</span> z_cutoff, <span class="at">xmax =</span> <span class="cn">Inf</span>,</span>
+<span id="cb17-28"><a href="#cb17-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">ymin =</span> <span class="sc">-</span><span class="cn">Inf</span>, <span class="at">ymax =</span> <span class="cn">Inf</span>,</span>
+<span id="cb17-29"><a href="#cb17-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> shade_hot_color,</span>
+<span id="cb17-30"><a href="#cb17-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">alpha =</span> <span class="fl">0.7</span></span>
+<span id="cb17-31"><a href="#cb17-31" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb17-32"><a href="#cb17-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb17-33"><a href="#cb17-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> queen, <span class="at">labeller =</span> label_both) <span class="sc">+</span></span>
+<span id="cb17-34"><a href="#cb17-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> z_cutoff, <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb17-35"><a href="#cb17-35" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Repel annotation for vertical line</span></span>
+<span id="cb17-36"><a href="#cb17-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text_repel</span>(</span>
+<span id="cb17-37"><a href="#cb17-37" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> <span class="fu">tibble</span>(</span>
+<span id="cb17-38"><a href="#cb17-38" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> z_cutoff,</span>
+<span id="cb17-39"><a href="#cb17-39" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> <span class="fu">max</span>(results_tbl<span class="sc">$</span><span class="st">`</span><span class="at">Hotspot (Worsening)</span><span class="st">`</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">*</span> <span class="fl">0.3</span>,</span>
+<span id="cb17-40"><a href="#cb17-40" aria-hidden="true" tabindex="-1"></a>      <span class="at">label =</span> <span class="fu">paste0</span>(<span class="st">"z = "</span>, z_cutoff)</span>
+<span id="cb17-41"><a href="#cb17-41" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb17-42"><a href="#cb17-42" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">label =</span> label),</span>
+<span id="cb17-43"><a href="#cb17-43" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"black"</span>,</span>
+<span id="cb17-44"><a href="#cb17-44" aria-hidden="true" tabindex="-1"></a>    <span class="at">nudge_x =</span> <span class="sc">-</span><span class="fl">0.32</span>,</span>
+<span id="cb17-45"><a href="#cb17-45" aria-hidden="true" tabindex="-1"></a>    <span class="at">nudge_y =</span> <span class="sc">-</span><span class="fl">0.4</span> <span class="sc">*</span> <span class="fu">max</span>(results_tbl<span class="sc">$</span><span class="st">`</span><span class="at">Hotspot (Worsening)</span><span class="st">`</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb17-46"><a href="#cb17-46" aria-hidden="true" tabindex="-1"></a>    <span class="at">direction =</span> <span class="st">"y"</span>,</span>
+<span id="cb17-47"><a href="#cb17-47" aria-hidden="true" tabindex="-1"></a>    <span class="at">hjust =</span> <span class="dv">1</span>,</span>
+<span id="cb17-48"><a href="#cb17-48" aria-hidden="true" tabindex="-1"></a>    <span class="at">segment.size =</span> <span class="fl">0.3</span>,</span>
+<span id="cb17-49"><a href="#cb17-49" aria-hidden="true" tabindex="-1"></a>    <span class="at">segment.color =</span> <span class="st">"grey50"</span>,</span>
+<span id="cb17-50"><a href="#cb17-50" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> <span class="dv">4</span></span>
+<span id="cb17-51"><a href="#cb17-51" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb17-52"><a href="#cb17-52" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(</span>
+<span id="cb17-53"><a href="#cb17-53" aria-hidden="true" tabindex="-1"></a>    <span class="st">"text"</span>,</span>
+<span id="cb17-54"><a href="#cb17-54" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> z_cutoff <span class="sc">+</span> <span class="fl">0.2</span>,</span>
+<span id="cb17-55"><a href="#cb17-55" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="fu">max</span>(results_tbl<span class="sc">$</span><span class="st">`</span><span class="at">Hotspot (Worsening)</span><span class="st">`</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">*</span> <span class="fl">0.8</span>,</span>
+<span id="cb17-56"><a href="#cb17-56" aria-hidden="true" tabindex="-1"></a>    <span class="at">label =</span> <span class="st">"Statistical Significance</span><span class="sc">\n</span><span class="st">Hotspots (p ≤ 0.05)"</span>,</span>
+<span id="cb17-57"><a href="#cb17-57" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"black"</span>,</span>
+<span id="cb17-58"><a href="#cb17-58" aria-hidden="true" tabindex="-1"></a>    <span class="at">hjust =</span> <span class="fl">0.21</span>,</span>
+<span id="cb17-59"><a href="#cb17-59" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> <span class="dv">3</span></span>
+<span id="cb17-60"><a href="#cb17-60" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb17-61"><a href="#cb17-61" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb17-62"><a href="#cb17-62" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Hotspot Counts vs Positive Z-Threshold"</span>,</span>
+<span id="cb17-63"><a href="#cb17-63" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Z-Threshold"</span>,</span>
+<span id="cb17-64"><a href="#cb17-64" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Hotspot Count"</span>,</span>
+<span id="cb17-65"><a href="#cb17-65" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"Snap Distance"</span></span>
+<span id="cb17-66"><a href="#cb17-66" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb17-67"><a href="#cb17-67" aria-hidden="true" tabindex="-1"></a>  base_theme <span class="sc">+</span></span>
+<span id="cb17-68"><a href="#cb17-68" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb17-69"><a href="#cb17-69" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.spacing.x =</span> <span class="fu">unit</span>(<span class="fl">1.5</span>, <span class="st">"lines"</span>),  <span class="co"># increased horizontal spacing</span></span>
+<span id="cb17-70"><a href="#cb17-70" aria-hidden="true" tabindex="-1"></a>    <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>, <span class="at">face =</span> <span class="st">"bold"</span>),  <span class="co"># Larger &amp; bold facet titles</span></span>
+<span id="cb17-71"><a href="#cb17-71" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>)</span>
+<span id="cb17-72"><a href="#cb17-72" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb17-73"><a href="#cb17-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-74"><a href="#cb17-74" aria-hidden="true" tabindex="-1"></a><span class="co"># ────────────────────────────────────────────────</span></span>
+<span id="cb17-75"><a href="#cb17-75" aria-hidden="true" tabindex="-1"></a><span class="co"># Coldspot plot (negative z)</span></span>
+<span id="cb17-76"><a href="#cb17-76" aria-hidden="true" tabindex="-1"></a>coldspot_data <span class="ot">&lt;-</span> results_tbl <span class="sc">%&gt;%</span></span>
+<span id="cb17-77"><a href="#cb17-77" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(<span class="st">`</span><span class="at">Coldspot (Improving)</span><span class="st">`</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb17-78"><a href="#cb17-78" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">z_neg =</span> <span class="sc">-</span>z)</span>
+<span id="cb17-79"><a href="#cb17-79" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-80"><a href="#cb17-80" aria-hidden="true" tabindex="-1"></a>p_coldspot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(</span>
+<span id="cb17-81"><a href="#cb17-81" aria-hidden="true" tabindex="-1"></a>  coldspot_data,</span>
+<span id="cb17-82"><a href="#cb17-82" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> z_neg, <span class="at">y =</span> <span class="st">`</span><span class="at">Coldspot (Improving)</span><span class="st">`</span>, <span class="at">color =</span> <span class="fu">factor</span>(snap))</span>
+<span id="cb17-83"><a href="#cb17-83" aria-hidden="true" tabindex="-1"></a>) <span class="sc">+</span></span>
+<span id="cb17-84"><a href="#cb17-84" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Shade left of cutoff line (zone of significance)</span></span>
+<span id="cb17-85"><a href="#cb17-85" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(</span>
+<span id="cb17-86"><a href="#cb17-86" aria-hidden="true" tabindex="-1"></a>    <span class="st">"rect"</span>,</span>
+<span id="cb17-87"><a href="#cb17-87" aria-hidden="true" tabindex="-1"></a>    <span class="at">xmin =</span> <span class="sc">-</span><span class="cn">Inf</span>, <span class="at">xmax =</span> <span class="sc">-</span>z_cutoff,</span>
+<span id="cb17-88"><a href="#cb17-88" aria-hidden="true" tabindex="-1"></a>    <span class="at">ymin =</span> <span class="sc">-</span><span class="cn">Inf</span>, <span class="at">ymax =</span> <span class="cn">Inf</span>,</span>
+<span id="cb17-89"><a href="#cb17-89" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> shade_cold_color,</span>
+<span id="cb17-90"><a href="#cb17-90" aria-hidden="true" tabindex="-1"></a>    <span class="at">alpha =</span> <span class="fl">0.7</span></span>
+<span id="cb17-91"><a href="#cb17-91" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb17-92"><a href="#cb17-92" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb17-93"><a href="#cb17-93" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> queen, <span class="at">labeller =</span> label_both) <span class="sc">+</span></span>
+<span id="cb17-94"><a href="#cb17-94" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="sc">-</span>z_cutoff, <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb17-95"><a href="#cb17-95" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Repel annotation for vertical line</span></span>
+<span id="cb17-96"><a href="#cb17-96" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text_repel</span>(</span>
+<span id="cb17-97"><a href="#cb17-97" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> <span class="fu">tibble</span>(</span>
+<span id="cb17-98"><a href="#cb17-98" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> <span class="sc">-</span>z_cutoff,</span>
+<span id="cb17-99"><a href="#cb17-99" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> <span class="fu">max</span>(coldspot_data<span class="sc">$</span><span class="st">`</span><span class="at">Coldspot (Improving)</span><span class="st">`</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">*</span> <span class="fl">0.3</span>,</span>
+<span id="cb17-100"><a href="#cb17-100" aria-hidden="true" tabindex="-1"></a>      <span class="at">label =</span> <span class="fu">paste0</span>(<span class="st">"z = -"</span>, z_cutoff)</span>
+<span id="cb17-101"><a href="#cb17-101" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb17-102"><a href="#cb17-102" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">label =</span> label),</span>
+<span id="cb17-103"><a href="#cb17-103" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"black"</span>,</span>
+<span id="cb17-104"><a href="#cb17-104" aria-hidden="true" tabindex="-1"></a>    <span class="at">nudge_x =</span> <span class="fl">0.3</span>,</span>
+<span id="cb17-105"><a href="#cb17-105" aria-hidden="true" tabindex="-1"></a>    <span class="at">nudge_y =</span> <span class="sc">-</span><span class="fl">0.5</span> <span class="sc">*</span> <span class="fu">max</span>(coldspot_data<span class="sc">$</span><span class="st">`</span><span class="at">Coldspot (Improving)</span><span class="st">`</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb17-106"><a href="#cb17-106" aria-hidden="true" tabindex="-1"></a>    <span class="at">direction =</span> <span class="st">"y"</span>,</span>
+<span id="cb17-107"><a href="#cb17-107" aria-hidden="true" tabindex="-1"></a>    <span class="at">hjust =</span> <span class="dv">0</span>,</span>
+<span id="cb17-108"><a href="#cb17-108" aria-hidden="true" tabindex="-1"></a>    <span class="at">segment.size =</span> <span class="fl">0.3</span>,</span>
+<span id="cb17-109"><a href="#cb17-109" aria-hidden="true" tabindex="-1"></a>    <span class="at">segment.color =</span> <span class="st">"grey50"</span>,</span>
+<span id="cb17-110"><a href="#cb17-110" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> <span class="dv">4</span></span>
+<span id="cb17-111"><a href="#cb17-111" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb17-112"><a href="#cb17-112" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(</span>
+<span id="cb17-113"><a href="#cb17-113" aria-hidden="true" tabindex="-1"></a>    <span class="st">"text"</span>,</span>
+<span id="cb17-114"><a href="#cb17-114" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="sc">-</span>z_cutoff <span class="sc">-</span> <span class="fl">0.2</span>,</span>
+<span id="cb17-115"><a href="#cb17-115" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="fu">max</span>(coldspot_data<span class="sc">$</span><span class="st">`</span><span class="at">Coldspot (Improving)</span><span class="st">`</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">*</span> <span class="fl">0.85</span>,</span>
+<span id="cb17-116"><a href="#cb17-116" aria-hidden="true" tabindex="-1"></a>    <span class="at">label =</span> <span class="st">"Statistical Significance</span><span class="sc">\n</span><span class="st">Coldspots (p ≤ 0.05)"</span>,</span>
+<span id="cb17-117"><a href="#cb17-117" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"black"</span>,</span>
+<span id="cb17-118"><a href="#cb17-118" aria-hidden="true" tabindex="-1"></a>    <span class="at">hjust =</span> <span class="fl">0.82</span>,</span>
+<span id="cb17-119"><a href="#cb17-119" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> <span class="dv">3</span></span>
+<span id="cb17-120"><a href="#cb17-120" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb17-121"><a href="#cb17-121" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb17-122"><a href="#cb17-122" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Coldspot Counts vs Negative Z-Threshold"</span>,</span>
+<span id="cb17-123"><a href="#cb17-123" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Z-Threshold (Negative for Coldspots)"</span>,</span>
+<span id="cb17-124"><a href="#cb17-124" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Coldspot Count"</span>,</span>
+<span id="cb17-125"><a href="#cb17-125" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"Snap Distance"</span></span>
+<span id="cb17-126"><a href="#cb17-126" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb17-127"><a href="#cb17-127" aria-hidden="true" tabindex="-1"></a>  base_theme <span class="sc">+</span></span>
+<span id="cb17-128"><a href="#cb17-128" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb17-129"><a href="#cb17-129" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.spacing.x =</span> <span class="fu">unit</span>(<span class="fl">1.5</span>, <span class="st">"lines"</span>),  <span class="co"># increased horizontal spacing</span></span>
+<span id="cb17-130"><a href="#cb17-130" aria-hidden="true" tabindex="-1"></a>    <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>, <span class="at">face =</span> <span class="st">"bold"</span>),  <span class="co"># Larger &amp; bold facet titles</span></span>
+<span id="cb17-131"><a href="#cb17-131" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>)</span>
+<span id="cb17-132"><a href="#cb17-132" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb17-133"><a href="#cb17-133" aria-hidden="true" tabindex="-1"></a><span class="co"># ────────────────────────────────────────────────</span></span>
+<span id="cb17-134"><a href="#cb17-134" aria-hidden="true" tabindex="-1"></a><span class="co"># Combine plots vertically with equal heights</span></span>
+<span id="cb17-135"><a href="#cb17-135" aria-hidden="true" tabindex="-1"></a>combined_plot <span class="ot">&lt;-</span> p_hotspot <span class="sc">/</span> p_coldspot <span class="sc">+</span> <span class="fu">plot_layout</span>(<span class="at">heights =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>))</span>
+<span id="cb17-136"><a href="#cb17-136" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-137"><a href="#cb17-137" aria-hidden="true" tabindex="-1"></a><span class="co"># ────────────────────────────────────────────────</span></span>
+<span id="cb17-138"><a href="#cb17-138" aria-hidden="true" tabindex="-1"></a><span class="co"># Save and print</span></span>
+<span id="cb17-139"><a href="#cb17-139" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(</span>
+<span id="cb17-140"><a href="#cb17-140" aria-hidden="true" tabindex="-1"></a>  <span class="at">filename =</span> <span class="fu">here</span>(<span class="st">"_extra"</span>, <span class="st">"topo_lines_hotspot_coldspot_shaded_annotated.png"</span>),</span>
+<span id="cb17-141"><a href="#cb17-141" aria-hidden="true" tabindex="-1"></a>  <span class="at">plot =</span> combined_plot,</span>
+<span id="cb17-142"><a href="#cb17-142" aria-hidden="true" tabindex="-1"></a>  <span class="at">width =</span> <span class="dv">8</span>,</span>
+<span id="cb17-143"><a href="#cb17-143" aria-hidden="true" tabindex="-1"></a>  <span class="at">height =</span> <span class="dv">10</span></span>
+<span id="cb17-144"><a href="#cb17-144" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb17-145"><a href="#cb17-145" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-146"><a href="#cb17-146" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(combined_plot)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -409,12 +729,175 @@ These classifications were used to identify clusters of counties with statistica
 </div>
 </div>
 <div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ────────────────────────────────────────────────</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Hyperparameters</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>queen_setting <span class="ot">&lt;-</span> <span class="cn">TRUE</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>snap_distance <span class="ot">&lt;-</span> <span class="dv">20000</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>z_threshold <span class="ot">&lt;-</span> <span class="fl">1.96</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="co"># ────────────────────────────────────────────────</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Load and clean data</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>water_2022_clean <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">here</span>(<span class="st">"Water_insecurity"</span>, <span class="st">"water_insecurity_2022.csv"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(percent_lacking_plumbing)) <span class="sc">%&gt;%</span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">geoid =</span> <span class="fu">as.character</span>(geoid))</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>water_2023_clean <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">here</span>(<span class="st">"Water_insecurity"</span>, <span class="st">"water_insecurity_2023.csv"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(percent_lacking_plumbing)) <span class="sc">%&gt;%</span></span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">geoid =</span> <span class="fu">as.character</span>(geoid))</span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter to common GEOIDs</span></span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>common_geoids <span class="ot">&lt;-</span> <span class="fu">intersect</span>(water_2022_clean<span class="sc">$</span>geoid, water_2023_clean<span class="sc">$</span>geoid)</span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>water_2022_filtered <span class="ot">&lt;-</span> water_2022_clean <span class="sc">%&gt;%</span> <span class="fu">filter</span>(geoid <span class="sc">%in%</span> common_geoids)</span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a>water_2023_filtered <span class="ot">&lt;-</span> water_2023_clean <span class="sc">%&gt;%</span> <span class="fu">filter</span>(geoid <span class="sc">%in%</span> common_geoids)</span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a><span class="co"># ────────────────────────────────────────────────</span></span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Join to shapefile</span></span>
+<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a>counties_sf <span class="ot">&lt;-</span> <span class="fu">counties</span>(<span class="at">cb =</span> <span class="cn">TRUE</span>, <span class="at">year =</span> <span class="dv">2022</span>, <span class="at">class =</span> <span class="st">"sf"</span>)</span>
+<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter to continental US counties (exclude AK '02', HI '15', PR '72', etc.)</span></span>
+<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a>continental_states <span class="ot">&lt;-</span> <span class="fu">setdiff</span>(<span class="fu">unique</span>(counties_sf<span class="sc">$</span>STATEFP), <span class="fu">c</span>(<span class="st">"02"</span>, <span class="st">"15"</span>, <span class="st">"72"</span>))</span>
+<span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a>counties_sf_continental <span class="ot">&lt;-</span> counties_sf <span class="sc">%&gt;%</span></span>
+<span id="cb18-29"><a href="#cb18-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(STATEFP <span class="sc">%in%</span> continental_states)</span>
+<span id="cb18-30"><a href="#cb18-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-31"><a href="#cb18-31" aria-hidden="true" tabindex="-1"></a>total_counties_continental <span class="ot">&lt;-</span> <span class="fu">nrow</span>(counties_sf_continental)</span>
+<span id="cb18-32"><a href="#cb18-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-33"><a href="#cb18-33" aria-hidden="true" tabindex="-1"></a>counties_2022 <span class="ot">&lt;-</span> counties_sf_continental <span class="sc">%&gt;%</span></span>
+<span id="cb18-34"><a href="#cb18-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(water_2022_filtered <span class="sc">%&gt;%</span></span>
+<span id="cb18-35"><a href="#cb18-35" aria-hidden="true" tabindex="-1"></a>              <span class="fu">select</span>(geoid, <span class="at">percent_lacking_plumbing_2022 =</span> percent_lacking_plumbing),</span>
+<span id="cb18-36"><a href="#cb18-36" aria-hidden="true" tabindex="-1"></a>            <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"GEOID"</span> <span class="ot">=</span> <span class="st">"geoid"</span>))</span>
+<span id="cb18-37"><a href="#cb18-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-38"><a href="#cb18-38" aria-hidden="true" tabindex="-1"></a>counties_2023 <span class="ot">&lt;-</span> counties_sf_continental <span class="sc">%&gt;%</span></span>
+<span id="cb18-39"><a href="#cb18-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(water_2023_filtered <span class="sc">%&gt;%</span></span>
+<span id="cb18-40"><a href="#cb18-40" aria-hidden="true" tabindex="-1"></a>              <span class="fu">select</span>(geoid, percent_lacking_plumbing),</span>
+<span id="cb18-41"><a href="#cb18-41" aria-hidden="true" tabindex="-1"></a>            <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"GEOID"</span> <span class="ot">=</span> <span class="st">"geoid"</span>))</span>
+<span id="cb18-42"><a href="#cb18-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-43"><a href="#cb18-43" aria-hidden="true" tabindex="-1"></a><span class="co"># ────────────────────────────────────────────────</span></span>
+<span id="cb18-44"><a href="#cb18-44" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate change and project</span></span>
+<span id="cb18-45"><a href="#cb18-45" aria-hidden="true" tabindex="-1"></a>spatial_data <span class="ot">&lt;-</span> counties_2023 <span class="sc">%&gt;%</span></span>
+<span id="cb18-46"><a href="#cb18-46" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(counties_2022 <span class="sc">%&gt;%</span> <span class="fu">st_drop_geometry</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb18-47"><a href="#cb18-47" aria-hidden="true" tabindex="-1"></a>              <span class="fu">select</span>(GEOID, percent_lacking_plumbing_2022),</span>
+<span id="cb18-48"><a href="#cb18-48" aria-hidden="true" tabindex="-1"></a>            <span class="at">by =</span> <span class="st">"GEOID"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb18-49"><a href="#cb18-49" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">change =</span> percent_lacking_plumbing <span class="sc">-</span> percent_lacking_plumbing_2022) <span class="sc">%&gt;%</span></span>
+<span id="cb18-50"><a href="#cb18-50" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(change))</span>
+<span id="cb18-51"><a href="#cb18-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-52"><a href="#cb18-52" aria-hidden="true" tabindex="-1"></a><span class="co"># Project to Albers Equal Area</span></span>
+<span id="cb18-53"><a href="#cb18-53" aria-hidden="true" tabindex="-1"></a>spatial_data <span class="ot">&lt;-</span> <span class="fu">st_transform</span>(spatial_data, <span class="at">crs =</span> <span class="dv">5070</span>)</span>
+<span id="cb18-54"><a href="#cb18-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-55"><a href="#cb18-55" aria-hidden="true" tabindex="-1"></a><span class="co"># ────────────────────────────────────────────────</span></span>
+<span id="cb18-56"><a href="#cb18-56" aria-hidden="true" tabindex="-1"></a><span class="co"># Create neighbors</span></span>
+<span id="cb18-57"><a href="#cb18-57" aria-hidden="true" tabindex="-1"></a>nb <span class="ot">&lt;-</span> <span class="fu">poly2nb</span>(spatial_data, <span class="at">queen =</span> queen_setting, <span class="at">snap =</span> snap_distance)</span>
+<span id="cb18-58"><a href="#cb18-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-59"><a href="#cb18-59" aria-hidden="true" tabindex="-1"></a><span class="co"># Identify and exclude counties with no neighbors</span></span>
+<span id="cb18-60"><a href="#cb18-60" aria-hidden="true" tabindex="-1"></a>no_neighbors <span class="ot">&lt;-</span> <span class="fu">which</span>(<span class="fu">card</span>(nb) <span class="sc">==</span> <span class="dv">0</span>)</span>
+<span id="cb18-61"><a href="#cb18-61" aria-hidden="true" tabindex="-1"></a>num_no_neighbors <span class="ot">&lt;-</span> <span class="fu">length</span>(no_neighbors)</span>
+<span id="cb18-62"><a href="#cb18-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-63"><a href="#cb18-63" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (num_no_neighbors <span class="sc">&gt;</span> <span class="dv">0</span>) {</span>
+<span id="cb18-64"><a href="#cb18-64" aria-hidden="true" tabindex="-1"></a>  spatial_data <span class="ot">&lt;-</span> spatial_data[<span class="sc">-</span>no_neighbors, ]</span>
+<span id="cb18-65"><a href="#cb18-65" aria-hidden="true" tabindex="-1"></a>  nb <span class="ot">&lt;-</span> <span class="fu">poly2nb</span>(spatial_data, <span class="at">queen =</span> queen_setting, <span class="at">snap =</span> snap_distance)</span>
+<span id="cb18-66"><a href="#cb18-66" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb18-67"><a href="#cb18-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-68"><a href="#cb18-68" aria-hidden="true" tabindex="-1"></a><span class="co"># Total counties analyzed after exclusions</span></span>
+<span id="cb18-69"><a href="#cb18-69" aria-hidden="true" tabindex="-1"></a>total_analyzed <span class="ot">&lt;-</span> <span class="fu">nrow</span>(spatial_data)</span>
+<span id="cb18-70"><a href="#cb18-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-71"><a href="#cb18-71" aria-hidden="true" tabindex="-1"></a><span class="co"># ────────────────────────────────────────────────</span></span>
+<span id="cb18-72"><a href="#cb18-72" aria-hidden="true" tabindex="-1"></a><span class="co"># Print alert summary</span></span>
+<span id="cb18-73"><a href="#cb18-73" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(</span>
+<span id="cb18-74"><a href="#cb18-74" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Summary:</span><span class="sc">\n</span><span class="st">"</span>,</span>
+<span id="cb18-75"><a href="#cb18-75" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Total counties in continental US: "</span>, total_counties_continental, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>,</span>
+<span id="cb18-76"><a href="#cb18-76" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Counties excluded due to missing neighbors: "</span>, num_no_neighbors, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>,</span>
+<span id="cb18-77"><a href="#cb18-77" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Total counties analyzed: "</span>, total_analyzed, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span></span>
+<span id="cb18-78"><a href="#cb18-78" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Summary:
  Total counties in continental US:  3122 
  Counties excluded due to missing neighbors:  50 
  Total counties analyzed:  673 </code></pre>
 </div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ────────────────────────────────────────────────</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Create spatial weights</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>lw <span class="ot">&lt;-</span> <span class="fu">nb2listw</span>(nb, <span class="at">style =</span> <span class="st">"W"</span>, <span class="at">zero.policy =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute Local G* statistic</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>local_gstar <span class="ot">&lt;-</span> <span class="fu">localG</span>(spatial_data<span class="sc">$</span>change, <span class="at">listw =</span> lw, <span class="at">zero.policy =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>spatial_data<span class="sc">$</span>gstar_z <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(local_gstar)</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a><span class="co"># ────────────────────────────────────────────────</span></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Classify clusters based on z-score thresholds</span></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>spatial_data <span class="ot">&lt;-</span> spatial_data <span class="sc">%&gt;%</span></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">cluster_type =</span> <span class="fu">case_when</span>(</span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>    gstar_z <span class="sc">&gt;=</span>  z_threshold  <span class="sc">~</span> <span class="st">"Hotspot (Worsening)"</span>,</span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>    gstar_z <span class="sc">&lt;=</span> <span class="sc">-</span>z_threshold  <span class="sc">~</span> <span class="st">"Coldspot (Improving)"</span>,</span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>    <span class="cn">TRUE</span>                     <span class="sc">~</span> <span class="st">"Not Significant"</span></span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>  ))</span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a><span class="co"># ────────────────────────────────────────────────</span></span>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Count clusters for annotation and update labels</span></span>
+<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a>cluster_counts <span class="ot">&lt;-</span> spatial_data <span class="sc">%&gt;%</span></span>
+<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(cluster_type) <span class="sc">%&gt;%</span></span>
+<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">complete</span>(<span class="at">cluster_type =</span> <span class="fu">c</span>(<span class="st">"Hotspot (Worsening)"</span>, <span class="st">"Coldspot (Improving)"</span>, <span class="st">"Not Significant"</span>), <span class="at">fill =</span> <span class="fu">list</span>(<span class="at">n =</span> <span class="dv">0</span>))</span>
+<span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-24"><a href="#cb20-24" aria-hidden="true" tabindex="-1"></a>cluster_labels <span class="ot">&lt;-</span> cluster_counts <span class="sc">%&gt;%</span></span>
+<span id="cb20-25"><a href="#cb20-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">label =</span> <span class="fu">paste0</span>(cluster_type, <span class="st">" [n="</span>, n, <span class="st">"]"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb20-26"><a href="#cb20-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">factor</span>(cluster_type, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Hotspot (Worsening)"</span>, <span class="st">"Coldspot (Improving)"</span>, <span class="st">"Not Significant"</span>))) <span class="sc">%&gt;%</span></span>
+<span id="cb20-27"><a href="#cb20-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(label)</span>
+<span id="cb20-28"><a href="#cb20-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-29"><a href="#cb20-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Update cluster_type to factor with counts in labels</span></span>
+<span id="cb20-30"><a href="#cb20-30" aria-hidden="true" tabindex="-1"></a>spatial_data<span class="sc">$</span>cluster_type <span class="ot">&lt;-</span> <span class="fu">factor</span>(spatial_data<span class="sc">$</span>cluster_type,</span>
+<span id="cb20-31"><a href="#cb20-31" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Hotspot (Worsening)"</span>, <span class="st">"Coldspot (Improving)"</span>, <span class="st">"Not Significant"</span>),</span>
+<span id="cb20-32"><a href="#cb20-32" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">labels =</span> cluster_labels)</span>
+<span id="cb20-33"><a href="#cb20-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-34"><a href="#cb20-34" aria-hidden="true" tabindex="-1"></a><span class="co"># ────────────────────────────────────────────────</span></span>
+<span id="cb20-35"><a href="#cb20-35" aria-hidden="true" tabindex="-1"></a><span class="co"># Set tmap mode and create the final plot</span></span>
+<span id="cb20-36"><a href="#cb20-36" aria-hidden="true" tabindex="-1"></a><span class="fu">tmap_mode</span>(<span class="st">"plot"</span>)</span>
+<span id="cb20-37"><a href="#cb20-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-38"><a href="#cb20-38" aria-hidden="true" tabindex="-1"></a>cluster_colors <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb20-39"><a href="#cb20-39" aria-hidden="true" tabindex="-1"></a>  <span class="st">"#FDE725FF"</span>,</span>
+<span id="cb20-40"><a href="#cb20-40" aria-hidden="true" tabindex="-1"></a>  <span class="st">"#21908CFF"</span>,</span>
+<span id="cb20-41"><a href="#cb20-41" aria-hidden="true" tabindex="-1"></a>  <span class="st">"#440154FF"</span></span>
+<span id="cb20-42"><a href="#cb20-42" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb20-43"><a href="#cb20-43" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(cluster_colors) <span class="ot">&lt;-</span> cluster_labels</span>
+<span id="cb20-44"><a href="#cb20-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-45"><a href="#cb20-45" aria-hidden="true" tabindex="-1"></a><span class="co"># ────────────────────────────────────────────────</span></span>
+<span id="cb20-46"><a href="#cb20-46" aria-hidden="true" tabindex="-1"></a><span class="co"># Get state boundaries for overlay</span></span>
+<span id="cb20-47"><a href="#cb20-47" aria-hidden="true" tabindex="-1"></a>states_sf <span class="ot">&lt;-</span> <span class="fu">states</span>(<span class="at">cb =</span> <span class="cn">TRUE</span>, <span class="at">year =</span> <span class="dv">2022</span>, <span class="at">class =</span> <span class="st">"sf"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb20-48"><a href="#cb20-48" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(STATEFP <span class="sc">%in%</span> continental_states) <span class="sc">%&gt;%</span></span>
+<span id="cb20-49"><a href="#cb20-49" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_transform</span>(<span class="at">crs =</span> <span class="fu">st_crs</span>(spatial_data))  <span class="co"># match CRS with spatial_data</span></span>
+<span id="cb20-50"><a href="#cb20-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-51"><a href="#cb20-51" aria-hidden="true" tabindex="-1"></a><span class="co"># ────────────────────────────────────────────────</span></span>
+<span id="cb20-52"><a href="#cb20-52" aria-hidden="true" tabindex="-1"></a><span class="co"># Add overlay to existing plot</span></span>
+<span id="cb20-53"><a href="#cb20-53" aria-hidden="true" tabindex="-1"></a>g1 <span class="ot">&lt;-</span> <span class="fu">tm_shape</span>(spatial_data) <span class="sc">+</span></span>
+<span id="cb20-54"><a href="#cb20-54" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_polygons</span>(<span class="st">"cluster_type"</span>,</span>
+<span id="cb20-55"><a href="#cb20-55" aria-hidden="true" tabindex="-1"></a>              <span class="at">fill.scale =</span> <span class="fu">tm_scale</span>(<span class="at">values =</span> cluster_colors,</span>
+<span id="cb20-56"><a href="#cb20-56" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">legend.title =</span> <span class="st">"Plumbing Access Change Clusters"</span>)) <span class="sc">+</span></span>
+<span id="cb20-57"><a href="#cb20-57" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_shape</span>(states_sf) <span class="sc">+</span>  <span class="co"># overlay begins here</span></span>
+<span id="cb20-58"><a href="#cb20-58" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_borders</span>(<span class="at">lwd =</span> <span class="fl">1.2</span>, <span class="at">col =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
+<span id="cb20-59"><a href="#cb20-59" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_title</span>(<span class="st">"Spatial Clustering of Plumbing Access Changes (2022–2023)"</span>, <span class="at">size =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
+<span id="cb20-60"><a href="#cb20-60" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_credits</span>(</span>
+<span id="cb20-61"><a href="#cb20-61" aria-hidden="true" tabindex="-1"></a>    <span class="fu">paste0</span>(</span>
+<span id="cb20-62"><a href="#cb20-62" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Local G* Statistic (z ≥ ±"</span>, z_threshold, <span class="st">")</span><span class="sc">\n</span><span class="st">"</span>,</span>
+<span id="cb20-63"><a href="#cb20-63" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Contiguity = "</span>, <span class="fu">ifelse</span>(queen_setting, <span class="st">"Queen"</span>, <span class="st">"Rook"</span>),</span>
+<span id="cb20-64"><a href="#cb20-64" aria-hidden="true" tabindex="-1"></a>      <span class="st">" | Snap Distance = "</span>, snap_distance, <span class="st">" meters"</span></span>
+<span id="cb20-65"><a href="#cb20-65" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb20-66"><a href="#cb20-66" aria-hidden="true" tabindex="-1"></a>    <span class="at">position =</span> <span class="fu">c</span>(<span class="st">"center"</span>, <span class="st">"top"</span>),</span>
+<span id="cb20-67"><a href="#cb20-67" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> <span class="fl">0.7</span>,</span>
+<span id="cb20-68"><a href="#cb20-68" aria-hidden="true" tabindex="-1"></a>    <span class="at">lines =</span> <span class="dv">2</span></span>
+<span id="cb20-69"><a href="#cb20-69" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb20-70"><a href="#cb20-70" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_layout</span>(</span>
+<span id="cb20-71"><a href="#cb20-71" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="fu">c</span>(<span class="st">"left"</span>, <span class="st">"bottom"</span>),</span>
+<span id="cb20-72"><a href="#cb20-72" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.just =</span> <span class="st">"right"</span>,</span>
+<span id="cb20-73"><a href="#cb20-73" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.outside =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb20-74"><a href="#cb20-74" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.text.size =</span> <span class="fl">0.6</span>,</span>
+<span id="cb20-75"><a href="#cb20-75" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.title.size =</span> <span class="fl">0.75</span>,</span>
+<span id="cb20-76"><a href="#cb20-76" aria-hidden="true" tabindex="-1"></a>    <span class="at">inner.margins =</span> <span class="fu">c</span>(<span class="fl">0.2</span>, <span class="fl">0.02</span>, <span class="fl">0.12</span>, <span class="fl">0.02</span>)</span>
+<span id="cb20-77"><a href="#cb20-77" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb20-78"><a href="#cb20-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-79"><a href="#cb20-79" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(g1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -423,15 +906,12 @@ These classifications were used to identify clusters of counties with statistica
 </div>
 </div>
 </div>
-<div style="max-width: 800px; margin: 0 auto;">
-<p><img src="images/snap_distance_sweep.gif" style="width: 100%;"></p>
+<h5 class="anchored">
+A .gif animation showing hot/cold spot analysis for hyperparamter sweep of ‘Snap Distance’
+</h5>
+<div style="max-width: 800px; margin: 0 auto; text-align: center;">
+<p><img src="images/snap_distance_sweep.gif" style="width: 100%; max-width: 800px;"></p>
 </div>
-<div class="salmon-box">
-<p><br><b>#ToDo</b><br></p>
-</div>
-</section>
-<section id="discussion-1" class="level3">
-<h3 class="anchored" data-anchor-id="discussion-1">Discussion</h3>
 <section id="table-1-data-summary-for-machine-learning-parameters." class="level5 table-wrapper" style="background:#f5f7fa; border:1px solid #007BFF; padding:10px; border-radius:8px; margin:25px;">
 <h5 class="anchored" data-anchor-id="table-1-data-summary-for-machine-learning-parameters.">Table 1: Data Summary for machine learning parameters.</h5>
 <table class="caption-top table">
@@ -473,17 +953,13 @@ These classifications were used to identify clusters of counties with statistica
 </tbody>
 </table>
 </section>
-<section id="table-2-hotspot-counties-worsening-by-state-most-counties-first" class="level5 table-wrapper" style="background:#f5f7fa; border:1px solid #007BFF; padding:10px; border-radius:8px; margin:25px;">
+<section id="table-2-hotspot-counties-worsening-by-state-most-counties-first" class="level5 table-wrapper" style="background:#f5f7fa; border:1px solid #007BFF; padding:10px; border-radius:8px; margin:25px; font-size:0.75em;">
 <h5 class="anchored" data-anchor-id="table-2-hotspot-counties-worsening-by-state-most-counties-first">Table 2: Hotspot Counties (Worsening) by State (Most counties first)</h5>
 <table class="caption-top table">
-<colgroup>
-<col style="width: 24%">
-<col style="width: 75%">
-</colgroup>
 <thead>
 <tr class="header">
-<th><span style="font-size:1.2em;">State</span></th>
-<th style="text-align: center;"><span style="font-size:1.2em;">Number of Counties (n)</span></th>
+<th>State</th>
+<th style="text-align: center;">Number of Counties (n)</th>
 </tr>
 </thead>
 <tbody>
@@ -530,7 +1006,7 @@ These classifications were used to identify clusters of counties with statistica
 </tbody>
 </table>
 </section>
-<section id="table-3-coldspot-counties-improving-by-state-most-counties-first" class="level5 table-wrapper" style="background:#f5f7fa; border:1px solid #007BFF; padding:10px; border-radius:8px; margin:25px;">
+<section id="table-3-coldspot-counties-improving-by-state-most-counties-first" class="level5 table-wrapper" style="background:#f5f7fa; border:1px solid #007BFF; padding:10px; border-radius:8px; margin:25px; font-size:0.75em;">
 <h5 class="anchored" data-anchor-id="table-3-coldspot-counties-improving-by-state-most-counties-first">Table 3: Coldspot Counties (Improving) by State (Most counties first)</h5>
 <table class="caption-top table">
 <colgroup>
@@ -591,9 +1067,12 @@ These classifications were used to identify clusters of counties with statistica
 </tbody>
 </table>
 </section>
-<div class="salmon-box">
-<p><br><b>#ToDo</b><br></p>
-</div>
+</section>
+<section id="discussion-1" class="level3">
+<h3 class="anchored" data-anchor-id="discussion-1">Discussion</h3>
+<p>The choropleth map of Getis-Ord G* clusters reveals that year-over-year changes in plumbing insecurity are not randomly distributed across U.S. counties but are instead spatially patterned. Statistically significant hotspots—areas where plumbing access worsened—were most concentrated in New Jersey, Louisiana, and Michigan, while coldspots—areas of improvement—were primarily found in Virginia and Ohio. These patterns likely reflect regional differences in infrastructure funding, policy implementation, or socioeconomic vulnerability.</p>
+<p>To evaluate how spatial model parameters interacted with the data’s topology, a hyperparameter sweep was performed across three variables: contiguity type (Queen vs.&nbsp;Rook), snap distance, and z-score threshold. Among these, snap distance had the most substantial impact on the clustering results. A 20,000-meter threshold produced coherent clusters without overfitting, while higher distances led to overly broad neighborhood definitions and reduced spatial precision. The Queen contiguity setting—capturing both shared edges and corners—was used, but contiguity type had minimal influence on output quality. The z-score threshold of ±1.96 (p ≤ 0.05) effectively distinguished statistically significant clusters.</p>
+<p>These findings demonstrate that significant clusters of change in plumbing insecurity do exist and are geographically meaningful—but only when spatial model parameters are carefully tuned. The hyperparameter sweep, akin to methods used in machine learning, revealed that snap distance was the most influential factor in detecting these patterns. When set too high, the model effectively overfit, diluting meaningful local trends by merging unrelated counties into large, unrealistic neighborhoods. By selecting an optimal 20 km threshold, we improved model interpretability and spatial resolution without compromising statistical validity. This outcome highlights the value of treating spatial analysis with the same rigor applied in machine learning workflows—where thoughtful parameter tuning is essential to uncovering accurate and actionable insights.</p>
 
 
 </section>
