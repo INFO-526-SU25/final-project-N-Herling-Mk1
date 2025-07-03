@@ -21,18 +21,7 @@ execute:
 ---
 
 ## Abstract
-
-::: {.table-wrapper style="background:#f5f7fa; border:1px solid #007BFF; padding:10px;"}
-| Aspect                | Sentence Length (1-2 sentences) | Addressed |
-|-----------------------|---------------------------------|-----------|
-| What / Why importance | 1-2 sentences                   | Yes       |
-| How / Who it affects  | 1-2 sentences                   | Yes       |
-| Why important         | 1-2 sentences                   | Yes       |
-| This work does        | 1-2 sentences                   | Yes       |
-| Summary of results    | 1-2 sentences                   | No        |
-:::
-
-Plumbing insecurity—a key dimension of water insecurity—refers to households lacking complete indoor plumbing, which has direct implications for public health, hygiene, and infrastructure equity. While those who live in the developed world often take it for granted, Inadequate access to safe, indoor plumbing increases the risk of waterborne diseases, hampers hygiene practices, and disproportionately affects vulnerable populations in both high- and low-income countries. Monitoring changes in plumbing insecurity can help identify emerging public health risks, guide resource allocation, and inform equitable infrastructure development at local, national, and global levels. This project examines U.S. county-level plumbing insecurity using 2022–2023 ACS data, identifying counties with highest insecurity and assessing spatial changes. Using bar plots, choropleth maps, and spatial clustering techniques (Getis-Ord G), we visualize affected regions and detect geographic “hotspots” and “coldspots” of change. Our findings reveal persistent regional disparities and statistically significant patterns in plumbing access, emphasizing the need for spatially targeted policy interventions. . <br> <b>#ToDo --\> discuss results. Plumbing insecurity remains concentrated in Arizona and New Mexico, with Apache, McKinley, and Navajo counties consistently among the most affected. Alaska counties like Fairbanks North Star and Matanuska-Susitna also show notable insecurity, highlighting persistent infrastructural challenges in both the Southwest and remote regions.</b><br> <b>#ToDo --\> probably cut some categories down to 1 sentence (it's pretty lengthy)</b>
+Plumbing insecurity—a critical dimension of water insecurity—refers to households lacking complete indoor plumbing, with significant implications for public health, hygiene, and infrastructure equity. While often taken for granted in developed countries, inadequate access to safe indoor plumbing elevates the risk of waterborne diseases, impedes hygiene, and disproportionately affects vulnerable populations across income levels. Tracking plumbing insecurity helps identify emerging public health risks, guide resource allocation, and inform equitable infrastructure development. This study analyzes U.S. county-level plumbing insecurity using 2022–2023 ACS data, employing bar plots, choropleth maps, and spatial clustering (Getis-Ord G) to detect geographic hotspots and coldspots. Using a Queen contiguity method with a 20 km snap distance and a Z-score threshold of 1.96, we analyzed 673 counties for spatial clustering. Results identified hotspot clusters of worsening conditions primarily in New Jersey, Louisiana, and Michigan, while coldspot clusters showing improvement were most concentrated in Virginia and Ohio. Persistent regional disparities remain, with plumbing insecurity concentrated in Arizona and New Mexico—especially Apache, McKinley, and Navajo counties—as well as notable insecurity in Alaska’s Fairbanks North Star and Matanuska-Susitna counties, highlighting ongoing infrastructural challenges and the need for targeted policy interventions.
 
 ## Question 1:
 
@@ -618,6 +607,59 @@ print(g1)
 :::
 
 ### Discussion
+---
+title: "Analysis Summary"
+format: html
+---
+
+::: {.table-wrapper style="background:#f5f7fa; border:1px solid #007BFF; padding:10px; border-radius:8px; margin:25px;"}
+##### Table 1: Data Summary for machine learning parameters.
+| Category                  | Details                                    |
+|---------------------------|--------------------------------------------|
+| **Contiguity Method**     | Queen                                      |
+| **Snap Distance**         | 20000 meters                               |
+| **Z-Score Threshold**     | 1.96                                       |
+| **Total counties (continental US)** | 3122                           |
+| **Counties excluded (no neighbors)** | 50                            |
+| **Counties analyzed**     | 673                                        |
+:::
+
+::: {.table-wrapper style="background:#f5f7fa; border:1px solid #007BFF; padding:10px; border-radius:8px; margin:25px;"}
+##### Table 2: Hotspot Counties (Worsening) by State (Most counties first)
+
+| <span style="font-size:1.2em;">State</span>        | <span style="font-size:1.2em;">Number of Counties (n)</span>                      |
+|--------------|:------------------------------------------:|
+| New Jersey   | 3                                          |
+| Louisiana    | 2                                          |
+| Michigan     | 2                                          |
+| Delaware     | 2                                          |
+| Florida      | 1                                          |
+| Kansas       | 1                                          |
+| Missouri     | 1                                          |
+| Pennsylvania | 1                                          |
+| South Carolina | 1                                        |
+| Texas        | 1                                          |
+
+:::
+
+::: {.table-wrapper style="background:#f5f7fa; border:1px solid #007BFF; padding:10px; border-radius:8px; margin:25px;"}
+
+##### Table 3: Coldspot Counties (Improving) by State (Most counties first)
+
+| <span style="font-size:1.2em;">State</span>        | <span style="font-size:1.2em;">Number of Counties (n)</span>                      |
+|--------------|:------------------------------------------:|
+| Virginia     | 8                                          |
+| Ohio         | 4                                          |
+| Pennsylvania | 2                                          |
+| Florida      | 2                                          |
+| Louisiana    | 1                                          |
+| Texas        | 1                                          |
+| Illinois     | 1                                          |
+| Kentucky     | 1                                          |
+| New Mexico   | 1                                          |
+| South Carolina | 1                                        |
+| Washington   | 1                                          |
+:::
 
 ::: salmon-box
 <br><b>#ToDo</b><br>
